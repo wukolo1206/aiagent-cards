@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>第五單元：實戰二 —— 教材題本分析與類似題生成｜網頁圖卡</title>
+  <style>
+    :root {
+      --ink: #20314a;
+      --muted: #667085;
+      --paper: #fbf7ef;
+      --cream: #fffdf7;
+      --line: #ded4c4;
+      --blue: #245b83;
+      --green: #2f7d65;
+      --orange: #d07835;
+      --red: #b5534b;
+      --shadow: 0 18px 45px rgba(34, 43, 56, .16);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+    }
+
+    .deck-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .topbar,
+    .toolbar {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress {
+      min-width: 92px;
+      text-align: right;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .stage {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .card-slide {
+      width: min(1120px, 100%);
+      aspect-ratio: 16 / 9;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+    }
+
+    .card-slide.is-active {
+      display: grid;
+    }
+
+    .card-slide::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(32, 49, 74, .12);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: clamp(26px, 4vw, 54px);
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: clamp(18px, 4vw, 54px);
+      align-items: center;
+    }
+
+    .card-inner > div {
+      min-width: 0;
+    }
+
+    .card-inner.single {
+      grid-template-columns: 1fr;
+      place-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: clamp(13px, 1.35vw, 16px);
+      font-weight: 900;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.15;
+      letter-spacing: 0;
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: clamp(26px, 4vw, 42px);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3.2vw, 34px);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: #35465c;
+      font-size: clamp(15px, 1.8vw, 20px);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .body-text {
+      margin: 18px 0 0;
+      color: #40526a;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .note-list {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.45;
+      font-weight: 800;
+      color: #30445d;
+    }
+
+    .dot {
+      flex: 0 0 auto;
+      width: 12px;
+      height: 12px;
+      margin-top: .48em;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .visual {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+    }
+
+    .cover-image {
+      width: min(92%, 430px);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: 10px 10px 0 #e0b053;
+    }
+
+    .board,
+    .split-board,
+    .diagram-card,
+    .flow-board,
+    .matrix-board {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
+    }
+
+    .board {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .split-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .split-panel {
+      padding: 22px;
+      min-height: 310px;
+      display: grid;
+      align-content: center;
+      gap: 14px;
+    }
+
+    .split-panel:first-child {
+      background: #f2eee4;
+      border-right: 2px solid var(--ink);
+    }
+
+    .split-panel:last-child {
+      background: #eaf4ee;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .panel-big {
+      margin: 0;
+      font-size: clamp(38px, 5.2vw, 66px);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--blue);
+    }
+
+    .panel-caption {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .diagram-card {
+      padding: 24px;
+      min-height: 330px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .icon-row,
+    .tool-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tile-grid.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mini-tile, .tile {
+      min-height: 108px;
+      padding: 14px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f7f0de;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .mini-tile.green, .tile.green {
+      background: #dceee5;
+    }
+
+    .mini-tile.orange, .tile.orange {
+      background: #f5dfc9;
+    }
+
+    .mini-tile.red, .tile.red {
+      background: #f1d6d1;
+    }
+
+    .arrow-line {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .arrow-line::before,
+    .arrow-line::after {
+      content: "";
+      height: 2px;
+      background: var(--line);
+    }
+
+    .flow-board {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .flow-step {
+      min-height: 132px;
+      padding: 14px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #eef5f7;
+      text-align: center;
+    }
+
+    .flow-step-num {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--orange);
+    }
+
+    .flow-step-title {
+      font-weight: 900;
+      font-size: clamp(16px, 1.6vw, 20px);
+      color: var(--ink);
+    }
+
+    .flow-step-desc {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .loop-caption {
+      margin: 0;
+      padding: 12px 16px;
+      border: 2px dashed var(--orange);
+      border-radius: var(--radius);
+      background: #fff8e8;
+      text-align: center;
+      font-weight: 900;
+      color: var(--orange);
+    }
+
+    .matrix-board {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .matrix-cell {
+      padding: 14px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f7f0de;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .matrix-cell.good {
+      background: #dceee5;
+    }
+
+    .big-word {
+      font-size: clamp(74px, 11vw, 142px);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--blue);
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+    }
+
+    .big-symbol {
+      font-size: clamp(88px, 13vw, 160px);
+      font-weight: 900;
+      line-height: .9;
+      color: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .stamp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 7px 14px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+    }
+
+    .preset-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .preset-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .preset-name,
+    .preset-desc {
+      padding: 13px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      font-weight: 900;
+      line-height: 1.45;
+      background: #f7f0de;
+    }
+
+    .preset-desc {
+      font-weight: 750;
+      color: #40526a;
+    }
+
+    .preset-row.safe .preset-name, .preset-row.safe .preset-desc {
+      background: #dceee5;
+    }
+
+    .toolbar {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      min-height: 42px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+    }
+
+    .nav-button {
+      width: 50px;
+      font-size: 24px;
+    }
+
+    .print-button {
+      padding: 0 16px;
+      background: #dceee5;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chapter-select {
+      height: 42px;
+      padding: 0 12px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+      outline: none;
+    }
+    .chapter-select:focus {
+      background: #fffdf7;
+    }
+
+    @media (max-width: 780px) {
+      .deck-shell {
+        padding: 10px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .brand-subtitle,
+      .hint {
+        display: none;
+      }
+
+      .card-slide {
+        aspect-ratio: auto;
+        min-height: 74vh;
+      }
+
+      .card-inner,
+      .card-inner.single {
+        grid-template-columns: 1fr;
+        text-align: left;
+        padding: 28px;
+      }
+
+      .visual {
+        min-height: 210px;
+      }
+
+      .split-board,
+      .flow-steps,
+      .icon-row,
+      .tool-row,
+      .tile-grid,
+      .tile-grid.two,
+      .matrix-row,
+      .preset-row {
+        grid-template-columns: 1fr;
+      }
+
+      .split-panel:first-child {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .topbar,
+      .toolbar {
+        display: none;
+      }
+
+      .deck-shell {
+        display: block;
+        padding: 0;
+      }
+
+      .cards {
+        display: block;
+      }
+
+      .card-slide,
+      .card-slide.is-active {
+        display: grid;
+        width: 100%;
+        height: 100vh;
+        aspect-ratio: auto;
+        page-break-after: always;
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="deck-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">05</div>
+      <div>
+        <p class="brand-title">AI Agent Antigravity 研習圖卡</p>
+        <p class="brand-subtitle">第五章實戰二｜教材題本分析與類似題生成</p>
+      </div>
+    </div>
+    <div>
+      <select class="chapter-select" onchange="window.location.href=this.value;" aria-label="切換單元">
+        <option value="chapter01_cards.html">第一單元：運作原理</option>
+        <option value="chapter02_cards.html">第二單元：操作與介面</option>
+        <option value="chapter03_cards.html">第三單元：親師溝通體驗</option>
+        <option value="chapter04_cards.html">第四單元：成績登錄體驗</option>
+        <option selected value="chapter05_cards.html">第五單元：類似題生成體驗</option>
+        <option value="chapter06_cards.html">第六單元：GitHub 發布體驗</option>
+        <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
+        <option value="chapter08_cards.html">第八單元：Custom Skill 技能包</option>
+        <option value="chapter09_cards.html">第九單元：MCP 雲端工具串接</option>
+        <option value="chapter10_cards.html">第十單元：雲端Google簡報與表單</option>
+      </select>
+    </div>
+    <div class="progress" id="progress">1 / 13</div>
+  </header>
+
+  <section aria-label="圖卡播放區" class="stage">
+    <div class="cards">
+      <!-- Slide 1: Cover -->
+      <section class="card-slide is-active">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">第五單元</p>
+            <h1>第五單元：實戰二 —— 教材題本分析與類似題生成</h1>
+            <p class="lead">讀取國語教材與檢測題本 PDF ➔ 分析題型與能力目標 ➔ 生成不照抄的類似題，並延伸成互動小測驗網頁！</p>
+          </div>
+          <div class="visual">
+            <img alt="AI Agent 教材題本分析與類似題生成封面" class="cover-image" src="chapter05_cover.png"/>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: Goals -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">學習目標</p>
+            <h2>第五單元核心練習與體驗目標</h2>
+            <p class="lead">在此實戰中體驗 AI Agent 如何從既有教材與題本出發，協助老師快速完成可用的練習題：</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row safe">
+                <div class="preset-name">1. 本機 PDF 讀取</div>
+                <div class="preset-desc">讀取 cards/ch5出題 中的生字詞語教材與三年級國語檢測題本。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">2. 題型結構分析</div>
+                <div class="preset-desc">拆解字詞理解、句意判斷、閱讀理解與文意推論等能力目標。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">3. 類似題生成</div>
+                <div class="preset-desc">保留題型與能力，改寫文本、情境與選項，避免照抄原題。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">4. 互動測驗延伸</div>
+                <div class="preset-desc">將 Markdown 題卷與答案解析轉成零依賴 HTML 小測驗。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Pain Points -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">傳統痛點</p>
+            <h2>老師最常需要的不是從零命題</h2>
+            <p class="lead">多數時候，老師手上已有題本和教材，只是需要快速生出「能力相同、內容不同」的新題給學生練習。</p>
+          </div>
+          <div class="visual">
+            <div class="diagram-card">
+              <div class="mini-tile red">1. 翻 PDF 題本，手動判斷每題到底在考什麼能力</div>
+              <div class="arrow-line">手動拆題</div>
+              <div class="mini-tile red">2. 另外找文本、改寫題幹、設計選項與干擾答案</div>
+              <div class="arrow-line">手動整理</div>
+              <div class="mini-tile red">3. 再做學生版、教師版答案解析與課堂使用格式</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Target -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">任務目標</p>
+            <h2>由 Antigravity 實現教材到題卷的轉換</h2>
+            <p class="lead">只需下一句口語指令，AI 自主讀取 PDF、分析題型、生成類似題，並輸出學生版與教師版檔案。</p>
+          </div>
+          <div class="visual">
+            <div class="split-board">
+              <div class="split-panel">
+                <p class="panel-title">輸入教材食材</p>
+                <p class="panel-big">國語 PDF 題本</p>
+                <p class="panel-caption">包含三年級國語生字詞語解釋與縣市學習能力檢測題本。</p>
+              </div>
+              <div class="split-panel">
+                <p class="panel-title">自動出題成品</p>
+                <p class="panel-big">類似題 & 小測驗</p>
+                <p class="panel-caption">生成三年級國語類似題、答案解析，並延伸成互動小測驗 HTML。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Prep -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">準備工作</p>
+            <h2>本機資料夾的「食材」配置</h2>
+            <p class="lead">請確保專案目錄的 cards/ch5出題/ 資料夾下已放置以下檔案：</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="text-align: left; padding: 18px;">
+              <p><strong>📂 練習檔案路徑：<code>cards/ch5出題/</code></strong></p>
+              <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+                <thead>
+                  <tr style="background: #eaf4ee; border-bottom: 2px solid var(--ink);">
+                    <th style="padding: 8px; text-align: left; border: 1px solid var(--line);">檔案</th>
+                    <th style="padding: 8px; text-align: left; border: 1px solid var(--line);">用途</th>
+                    <th style="padding: 8px; text-align: left; border: 1px solid var(--line);">Agent 要做的事</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 8px; border: 1px solid var(--line);">01_國小國語3下各課生字詞語解釋.pdf</td>
+                    <td style="padding: 8px; border: 1px solid var(--line);">取得詞語、詞義與造句素材</td>
+                    <td style="padding: 8px; border: 1px solid var(--line);">挑選適合三年級的字詞情境</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; border: 1px solid var(--line);">115年縣市學習能力檢測題本三年級國語科題本.pdf</td>
+                    <td style="padding: 8px; border: 1px solid var(--line);">分析題型、難度與選項設計</td>
+                    <td style="padding: 8px; border: 1px solid var(--line);">生成同能力但不同內容的類似題</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Prompt -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">驅動指令</p>
+            <h2>驅動「教材題本分析與類似題生成」Prompt</h2>
+            <p class="lead">在對話框中發送以下指令，請 Agent 扮演國小國語命題與學習扶助專家：</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="font-size: 11.5px; line-height: 1.35; background: #faf8f2; text-align: left; padding: 12px; max-height: 330px; overflow-y: auto;">
+              <p><strong>💬 老師輸入指令：</strong></p>
+              <p>「請讀取專案目錄下的 <code>cards/ch5出題</code> 資料夾。你是一位熟悉國小國語命題、閱讀理解與學習扶助的教師命題專家。</p>
+              <p><strong>請幫我完成以下教材題本分析與類似題生成任務</strong>：<br/>
+                1. 讀取並分析資料夾中的兩份 PDF。<br/>
+                2. 整理三年級國語常見題型，例如字詞理解、語詞運用、句意判斷、段落理解與文意推論。<br/>
+                3. 不要照抄原題，請依照能力目標、題型結構與難度，設計不同文本但相同能力的類似題。<br/>
+                4. 產出 10 題選擇題與 2 題短答題，每題標示評量重點。<br/>
+                5. 另外產出教師版答案解析，包含正確答案、解析、學生可能錯因與補救教學建議。<br/>
+                6. 在專案目錄下產出 <code>三年級國語類似題.md</code> 與 <code>三年級國語類似題_答案解析.md</code>。」
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Flow -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">後台機制</p>
+            <h2>AI Agent 後台的 ReAct 協同流水線</h2>
+            <p class="lead">AI 大腦在此任務中會自主規劃、讀取教材、拆解題型並輸出可直接使用的題卷：</p>
+          </div>
+          <div class="visual">
+            <div class="board flow-board">
+              <div class="flow-steps">
+                <div class="flow-step">
+                  <div class="flow-step-num">01</div>
+                  <div class="flow-step-title">讀取教材</div>
+                  <div class="flow-step-desc">讀取 cards/ch5出題 中的兩份 PDF，抓出可命題的文本與語詞。</div>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-step-num">02</div>
+                  <div class="flow-step-title">題型分析</div>
+                  <div class="flow-step-desc">整理檢測題本中的題型、能力目標、選項設計與難度。</div>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-step-num">03</div>
+                  <div class="flow-step-title">生成類似題</div>
+                  <div class="flow-step-desc">保留原題能力與結構，改寫文本、情境與干擾選項。</div>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-step-num">04</div>
+                  <div class="flow-step-title">輸出與延伸</div>
+                  <div class="flow-step-desc">產出學生題卷、教師答案解析，進階再製作互動 HTML 小測驗。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Step 1 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">後台第一步</p>
+            <h2>1. 讀取 PDF 並建立題型地圖</h2>
+            <p class="lead">Agent 先把教材與題本當成命題依據，而不是憑空想題目：</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="font-family: monospace; font-size: 13px; text-align: left; padding: 18px;">
+              <p style="color: var(--blue); margin: 0;"># Agent 讀取本機 PDF：</p>
+              <p style="margin: 4px 0 12px;">read_pdf("cards/ch5出題/01_國小國語3下各課生字詞語解釋.pdf")</p>
+              <p style="margin: 4px 0 12px;">read_pdf("cards/ch5出題/115年縣市學習能力檢測題本三年級國語科題本.pdf")</p>
+              <p style="color: var(--blue); margin: 0;"># Agent 建立題型地圖：</p>
+              <p style="margin: 4px 0 0;">題型 = 字詞理解 / 句意判斷 / 文意推論 / 閱讀理解 / 短答表達</p>
+              <p style="color: var(--green); margin-top: 12px; font-weight: bold; font-family: sans-serif;">🌟 重點是先讀教材，再出題；不是讓 AI 憑空編一張考卷。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Step 2 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">後台第二步</p>
+            <h2>2. 抓住「類似題」真正該像的地方</h2>
+            <p class="lead">類似題不是改名字或換幾個字，而是保留能力目標與題型骨架：</p>
+          </div>
+          <div class="visual">
+            <div class="split-board">
+              <div class="split-panel">
+                <p class="panel-title" style="color: var(--red);">表面改寫 ❌</p>
+                <p style="font-size: 13px; font-family: monospace;">把小明改成小華，選項照搬，文本仍然相同。</p>
+                <p class="panel-caption">這只是換皮，容易侵犯原題，也無法真正檢查同一項能力。</p>
+              </div>
+              <div class="split-panel">
+                <p class="panel-title" style="color: var(--green);">結構生成 🟢</p>
+                <p style="font-size: 13px; font-family: monospace;">能力目標相同，文本、語境、選項與答案全部重寫。</p>
+                <p class="panel-caption">這才是適合練習、補救教學與形成性評量的類似題。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Step 3 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">後台第三步</p>
+            <h2>3. 輸出學生版與教師版兩份檔案</h2>
+            <p class="lead">Agent 不只在聊天室回答，而是直接把可使用的題卷檔案生到專案資料夾：</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row safe">
+                <div class="preset-name">學生版題卷</div>
+                <div class="preset-desc">產出 <code>三年級國語類似題.md</code>，包含 10 題選擇題與 2 題短答題。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">評量重點</div>
+                <div class="preset-desc">每題標示字詞理解、句意判斷、文意推論等能力目標。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">教師版解析</div>
+                <div class="preset-desc">產出 <code>三年級國語類似題_答案解析.md</code>，附答案、解析與錯因。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">補救建議</div>
+                <div class="preset-desc">每題附一句可直接拿去課堂使用的補救教學建議。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 11: Step 4 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">後台第四步</p>
+            <h2>4. 延伸成互動小測驗網頁</h2>
+            <p class="lead">進階挑戰讓 Agent 把剛才的題卷與答案解析，轉成學生可以直接操作的 HTML 小測驗：</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="text-align: left; padding: 18px;">
+              <p><strong>🧠 題卷 ➔ 作答 ➔ 回饋的互動流程：</strong></p>
+              <p style="font-size: 14.5px; color: #40526a; line-height: 1.55;">
+                • <strong>【逐題作答】</strong>：每次顯示一題，學生選完答案後按下檢查答案。<br/>
+                • <strong>【即時回饋】</strong>：答對顯示鼓勵與解析，答錯提供線索提示，不直接給壓力。<br/>
+                • <strong>【完成總結】</strong>：最後顯示總分、答對題數，以及建議複習的題型。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 12: Verification -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">成果驗證</p>
+            <h2>打開題卷、答案解析與互動網頁</h2>
+            <p class="lead">AI 完成後，在專案目錄下直接產出可供老師檢查與學生使用的成品：</p>
+          </div>
+          <div class="visual">
+            <div class="split-board">
+              <div class="split-panel">
+                <p class="panel-title">三年級國語類似題.md</p>
+                <p class="panel-big">學生可用 📄</p>
+                <p class="panel-caption">包含 10 題選擇題、2 題短答題與每題評量重點。</p>
+              </div>
+              <div class="split-panel" style="background: #fffdf7;">
+                <p class="panel-title">三年級國語互動小測驗.html</p>
+                <p class="panel-big">雙擊即用 🖱️</p>
+                <p class="panel-caption">不需伺服器，直接開啟即可逐題作答、檢查答案並看總分建議。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 13: Discussion -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">研習討論</p>
+            <h2>從「幫我想幾題」走向真正的教材轉化</h2>
+            <p class="lead">傳統 ChatGPT 可以憑空出題，但本地端 Agent 更適合把老師手上的教材與題本轉成可使用的練習材料。</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="text-align: left; padding: 22px;">
+              <p style="font-weight: 800; font-size: 17px; margin-top: 0;">🤔 研習反思討論：</p>
+              <p style="color: #40526a; line-height: 1.55;">
+                1. **能力目標才是核心**：類似題最重要的不是題目看起來像，而是考的能力真的一致。<br/><br/>
+                2. **老師仍是最後把關者**：AI 可以快速做初稿，但答案正確性、語文難度與學生適切性仍需老師檢核。<br/><br/>
+                3. **互動網頁是延伸價值**：同一份題卷可以變成紙本練習，也可以變成形成性評量的小測驗。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <nav aria-label="圖卡控制列" class="toolbar">
+    <button aria-label="上一張" class="nav-button" id="prev" type="button">‹</button>
+    <button aria-label="下一張" class="nav-button" id="next" type="button">›</button>
+    <button class="print-button" id="print" type="button">列印圖卡</button>
+    <span class="hint">鍵盤左右鍵可切換；列印時可另存 PDF 或逐頁截圖。</span>
+  </nav>
+</main>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.card-slide'));
+    var progress = document.getElementById('progress');
+    var current = 0;
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle('is-active', i === current);
+      });
+      progress.textContent = String(current + 1) + ' / ' + String(slides.length);
+    }
+
+    document.getElementById('prev').addEventListener('click', function () {
+      showSlide(current - 1);
+    });
+
+    document.getElementById('next').addEventListener('click', function () {
+      showSlide(current + 1);
+    });
+
+    document.getElementById('print').addEventListener('click', function () {
+      window.print();
+    });
+
+    window.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowLeft') {
+        showSlide(current - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        showSlide(current + 1);
+      }
+    });
+  }());
+</script>
+</body>
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>第十單元：實戰七 —— 雲端 Google 簡報與表單自動化生成｜網頁圖卡</title>
+  <style>
+    :root {
+      --ink: #20314a;
+      --muted: #667085;
+      --paper: #fbf7ef;
+      --cream: #fffdf7;
+      --line: #ded4c4;
+      --blue: #245b83;
+      --green: #2f7d65;
+      --orange: #d07835;
+      --red: #b5534b;
+      --shadow: 0 18px 45px rgba(34, 43, 56, .16);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+    }
+
+    .deck-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .topbar,
+    .toolbar {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #10b981;
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress {
+      min-width: 92px;
+      text-align: right;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .chapter-select {
+      min-width: 230px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      padding: 9px 12px;
+      font-weight: 800;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+      cursor: pointer;
+    }
+
+    .stage {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .card-slide {
+      width: min(1120px, 100%);
+      aspect-ratio: 16 / 9;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+    }
+
+    .card-slide.is-active { display: grid; }
+
+    .card-slide::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(32, 49, 74, .12);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: clamp(26px, 4vw, 54px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: clamp(18px, 4vw, 54px);
+      align-items: center;
+    }
+
+    .card-inner > div { min-width: 0; }
+
+    .card-inner.single {
+      grid-template-columns: 1fr;
+      place-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: clamp(13px, 1.35vw, 16px);
+      font-weight: 900;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.15;
+      letter-spacing: 0;
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: clamp(26px, 4vw, 42px);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3.2vw, 34px);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: #35465c;
+      font-size: clamp(15px, 1.8vw, 20px);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .body-text {
+      margin: 18px 0 0;
+      color: #40526a;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .visual {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+    }
+
+    .board,
+    .split-board,
+    .diagram-card,
+    .flow-board {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
+    }
+
+    .board {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .split-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .split-panel {
+      padding: 22px;
+      min-height: 230px;
+      display: grid;
+      align-content: center;
+      gap: 10px;
+      border-right: 2px solid var(--ink);
+      background: #f5fbf7;
+    }
+
+    .split-panel:last-child {
+      border-right: 0;
+      background: #fff7ed;
+    }
+
+    .panel-title {
+      margin: 0;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: clamp(13px, 1.35vw, 16px);
+    }
+
+    .panel-big {
+      margin: 0;
+      font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 900;
+      font-family: "Noto Serif TC", serif;
+    }
+
+    .panel-caption {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(12px, 1.25vw, 15px);
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .diagram-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .diagram-box {
+      border: 2px dashed var(--line);
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+      background: #faf8f5;
+    }
+
+    .diagram-box-title {
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--blue);
+      font-size: clamp(14px, 1.5vw, 17px);
+    }
+
+    .diagram-box-desc {
+      font-size: clamp(12px, 1.25vw, 14px);
+      color: var(--muted);
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .diagram-arrow {
+      text-align: center;
+      font-size: 20px;
+      color: var(--orange);
+      font-weight: 900;
+      margin: -6px 0;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 100%;
+    }
+
+    .flow-step {
+      padding: 20px 16px;
+      border-right: 2px solid var(--ink);
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .flow-step:last-child { border-right: 0; }
+    .flow-step-num { font-size: 22px; font-weight: 900; color: var(--orange); }
+    .flow-step-title { font-weight: 900; font-size: 16px; }
+    .flow-step-desc { font-size: 13px; color: var(--muted); line-height: 1.45; font-weight: 700; }
+
+    .preset-table {
+      display: grid;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .preset-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      border-bottom: 2px solid var(--ink);
+      align-items: center;
+    }
+
+    .preset-row:last-child { border-bottom: 0; }
+    .preset-row.safe { background: #f0fdf4; }
+    
+    .preset-name {
+      padding: 18px 14px;
+      font-weight: 900;
+      border-right: 2px solid var(--ink);
+      font-size: 14px;
+    }
+
+    .preset-desc {
+      padding: 18px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-table th, 
+    .compare-table td {
+      border: 1px solid var(--ink);
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .compare-table th {
+      background: #f5fbf7;
+      color: var(--blue);
+    }
+
+    .compare-table td:first-child {
+      background: #fafafa;
+      font-weight: 900;
+    }
+
+    .nav-button,
+    .print-button {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-button:hover,
+    .print-button:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .nav-button:active,
+    .print-button:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .nav-button:disabled {
+      opacity: .4;
+      pointer-events: none;
+      transform: none;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .nav-button {
+      width: 52px;
+      height: 52px;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+    }
+
+    .print-button {
+      font-size: 15px;
+      min-width: 110px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    @media (max-width: 820px) {
+      .deck-shell { padding: 12px; }
+      .topbar, .toolbar { flex-wrap: wrap; }
+      .chapter-select { width: 100%; }
+      .card-slide {
+        aspect-ratio: auto;
+        min-height: 680px;
+      }
+      .card-inner {
+        grid-template-columns: 1fr;
+        align-content: center;
+      }
+      .split-board,
+      .flow-steps {
+        grid-template-columns: 1fr;
+      }
+      .split-panel {
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+      }
+      .split-panel:last-child { border-bottom: 0; }
+      .hint { width: 100%; margin-left: 0; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar, .toolbar { display: none; }
+      .deck-shell { display: block; padding: 0; }
+      .cards { display: block; }
+      .card-slide {
+        display: grid !important;
+        width: 100%;
+        page-break-after: always;
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="deck-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">10</div>
+      <div>
+        <p class="brand-title">AI Agent Antigravity 研習圖卡</p>
+        <p class="brand-subtitle">第十單元實戰七｜雲端大聯動 —— 雲端 Google 簡報與表單自動化生成</p>
+      </div>
+    </div>
+    <div>
+      <select aria-label="切換單元" class="chapter-select" onchange="window.location.href=this.value;">
+        <option value="chapter01_cards.html">第一單元：運作原理</option>
+        <option value="chapter02_cards.html">第二單元：操作與介面</option>
+        <option value="chapter03_cards.html">第三單元：親師溝通體驗</option>
+        <option value="chapter04_cards.html">第四單元：成績登錄體驗</option>
+        <option value="chapter05_cards.html">第五單元：類似題生成體驗</option>
+        <option value="chapter06_cards.html">第六單元：GitHub 發布體驗</option>
+        <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
+        <option value="chapter08_cards.html">第八單元：Custom Skill 技能包</option>
+        <option value="chapter09_cards.html">第九單元：MCP 雲端工具串接</option>
+        <option selected value="chapter10_cards.html">第十單元：雲端Google簡報與表單</option>
+      </select>
+    </div>
+  </header>
+
+  <section class="stage">
+    <div class="cards">
+      <!-- Slide 1: Cover -->
+      <section class="card-slide">
+        <div class="card-inner single">
+          <div>
+            <p class="eyebrow">實戰七・雲端聯動</p>
+            <h1>Google 簡報與表單自動化生成</h1>
+            <p class="lead">在本單元中，我們將學習如何驅動 Google Slides API 與 Google Forms API，一鍵在雲端繪製簡報，並建立具有班級名單下拉選單的分頁成績表單！</p>
+            <p class="progress" id="progress">1 / 10</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: Pain Point -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">行政痛點</p>
+            <h2>繁瑣的授課簡報與手動輸入座號名冊？</h2>
+            <p class="lead">每次開學都要手動輸入全班座號姓名到 Google 表單？學生輸入座號時常有錯字漏打，導致後續匯入 Excel 對齊極度頭痛？</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">傳統做法</div>
+                <div class="preset-desc">手動新增簡報，一頁頁調整文字配色；手動建表單，一筆筆貼上 20 位學生名單，耗時且容易打錯。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">API 自動化</div>
+                <div class="preset-desc">命令 AI Agent，一秒自動在雲端產生美觀簡報，並自動拉出 DROP_DOWN 下拉選單匯入完整座號名冊。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: GCP Setup -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">準備工作</p>
+            <h2>GCP 安全對接通行證 credentials.json</h2>
+            <p class="lead">要讓本地程式與雲端 API 通訊，我們需要到 Google Cloud Platform (GCP) 申請免費金鑰。</p>
+          </div>
+          <div class="visual">
+            <div class="board">
+              <p class="body-text"><strong>1. 開啟 GCP 服務：</strong>在 GCP 控制台啟用 Drive, Slides, Forms, Sheets API。</p>
+              <p class="body-text"><strong>2. 配置 OAuth 同意畫面：</strong>設定外部應用，新增您個人的測試 Google Email。</p>
+              <p class="body-text"><strong>3. 下載金鑰 JSON：</strong>建立電腦版應用程式憑證，存為 <code>credentials.json</code> 並放在指定目錄。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Authentication Flow -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">初次授權</p>
+            <h2>首次登入拉起瀏覽器與產生 token.json</h2>
+            <p class="lead">第一次執行程式時，會自動開啟瀏覽器要求您登入 Google 帳號進行安全性授權同意。</p>
+          </div>
+          <div class="visual">
+            <div class="diagram-card" style="padding: 16px; gap: 10px;">
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">1. 瀏覽器安全核准</div>
+                <div class="diagram-box-desc">點擊「進階 ➔ 前往（不安全）」，勾選所有要授予的 API 權限。</div>
+              </div>
+              <div class="diagram-arrow" style="margin: -4px 0;">↓ 同意確認</div>
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">2. 本地產生 token.json</div>
+                <div class="diagram-box-desc">完成後，本地目錄自動產生 <code>token.json</code>，以後執行便不需再登入！</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Practice 1 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">實作一</p>
+            <h2>一鍵建立雲端 Google 簡報</h2>
+            <p class="lead">複製指令給 Antigravity，大腦自動編寫 Python 程式並調用 Slides API 於雲端完成多頁簡報。</p>
+          </div>
+          <div class="visual">
+            <div class="board">
+              <p class="body-text"><strong>- API 連線：</strong>使用 <code>build('slides', 'v1')</code> 建立服務實體。</p>
+              <p class="body-text"><strong>- 批量指令：</strong>發送 <code>batchUpdate</code> 請求，一併新增投影片與卡片文字。</p>
+              <p class="body-text"><strong>- 成果輸出：</strong>程式執行完畢後，在控制台直接提供簡報的<b>線上編輯網址</b>！</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Practice 2 -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">實作二</p>
+            <h2>一鍵生成班級下拉選單登錄表單</h2>
+            <p class="lead">利用 Forms API 自動建表單，設計 DROP_DOWN 匯入 18 位學生的座號名冊，並將表單進行分頁。</p>
+          </div>
+          <div class="visual">
+            <div class="split-board">
+              <div class="split-panel">
+                <p class="panel-title">分頁與選單</p>
+                <p class="panel-big">DROP_DOWN 學生清單</p>
+                <p class="panel-caption">將座號與虛擬名字匯入下拉選單。在 API 使用 <code>pageBreakItem</code> 把表單拆成三頁（基本資料、國語、數學），填答更流暢！</p>
+              </div>
+              <div class="split-panel">
+                <p class="panel-title">成果回報</p>
+                <p class="panel-big">表單後台與填答連結</p>
+                <p class="panel-caption">執行成功後，AI Agent 主動回報表單名稱、後台編輯網址以及提供給學生填寫的前台網址，行政效率提升 90%！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Safety & Human-in-the-loop -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">安全機制</p>
+            <h2>人機協同核准與 token 本地安全機制</h2>
+            <p class="lead">Google API 串接極為嚴格，程式採用了一次驗證、本地存儲、且必須經老師點擊核准的安全設計。</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">token.json 留在本機</div>
+                <div class="preset-desc">產生出來的通行憑證僅存放在您的本機上，不需要把 Google 密碼或 API Key 洩漏給外部網站。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">核准按鈕防線</div>
+                <div class="preset-desc">AI 特助在背景寫的 Python 程式碼，必須經過您親自確認並點擊「核准（Approve）」後才會在電腦執行。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Why Chatbots Fail -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">降維打擊</p>
+            <h2>為什麼網頁版聊天室無法幫您建雲端簡報？</h2>
+            <p class="lead">一般網頁版 ChatGPT 或 Gemini 缺乏本機命令執行權限與 API 通訊套件，無法在您的電腦啟動 OAuth 同意網頁。</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">傳統網頁 Chatbox</div>
+                <div class="preset-desc">只能給您簡報的大綱文字。您必須自己開啟 Slides 網頁，一字一字複製貼上，點擊幾十次排版。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">本地端 Agent</div>
+                <div class="preset-desc">大腦直接與本機系統對話，利用本機 <code>credentials.json</code> 完成授權，自主執行代碼打通 API，省下 95% 時間！</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Pitfalls -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">避坑指南</p>
+            <h2>雲端自動化開發最常見的兩大巨坑</h2>
+            <p class="lead">在研習或實作時，如果遇到 API 阻礙，請參考以下除錯心法，一秒自救：</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">1. 憑證無效 (invalid_grant)</div>
+                <div class="preset-desc">顯示權限不足。解法：刪除目錄下的 <code>token.json</code> 檔，重啟程式重新勾選所有需要的 API 權限即可。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">2. Port 8080 佔用衝突</div>
+                <div class="preset-desc">Windows 系統 8080 常被其他服務佔用。解法：在 Python 驗證處，將 port 改為 0，讓系統自動分配隨機埠口。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Summary -->
+      <section class="card-slide">
+        <div class="card-inner single">
+          <div>
+            <p class="eyebrow">單元結語</p>
+            <h1>雲端自動化，智慧學校的行政革命</h1>
+            <p class="lead">本單元向老師們展示了本地 AI Agent 串接 Google Workspace REST API 的完整雲端實戰。從建立雲端簡報到一鍵產出班級名單下拉選單表單，徹底顛覆傳統手動行政，釋放備課時間！</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <nav aria-label="圖卡控制列" class="toolbar">
+    <button aria-label="上一張" class="nav-button" id="prev" type="button">‹</button>
+    <button aria-label="下一張" class="nav-button" id="next" type="button">›</button>
+    <button class="print-button" id="print" type="button">列印圖卡</button>
+    <span class="hint">鍵盤左右鍵可切換；列印時可另存 PDF 或逐頁截圖。</span>
+  </nav>
+</main>
+
+<script>
+  (function () {
+    const slides = Array.from(document.querySelectorAll('.card-slide'));
+    const progress = document.getElementById('progress');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const printBtn = document.getElementById('print');
+    let index = 0;
+
+    function render() {
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+      progress.textContent = String(index + 1) + ' / ' + String(slides.length);
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+    }
+
+    function go(delta) {
+      index = Math.min(slides.length - 1, Math.max(0, index + delta));
+      render();
+    }
+
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    printBtn.addEventListener('click', () => window.print());
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') go(-1);
+      if (event.key === 'ArrowRight') go(1);
+    });
+
+    render();
+  }());
+</script>
+</body>
+</html>

@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>第四單元：實戰一 —— 學生習作成績自動登錄與行政系統合併｜網頁圖卡</title>
+<style>
+    :root {
+      --ink: #20314a;
+      --muted: #667085;
+      --paper: #fbf7ef;
+      --cream: #fffdf7;
+      --line: #ded4c4;
+      --blue: #245b83;
+      --green: #2f7d65;
+      --orange: #d07835;
+      --red: #b5534b;
+      --shadow: 0 18px 45px rgba(34, 43, 56, .16);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+    }
+
+    .deck-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .topbar,
+    .toolbar {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress {
+      min-width: 92px;
+      text-align: right;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .stage {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .card-slide {
+      width: min(1120px, 100%);
+      aspect-ratio: 16 / 9;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+    }
+
+    .card-slide.is-active {
+      display: grid;
+    }
+
+    .card-slide::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(32, 49, 74, .12);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: clamp(26px, 4vw, 54px);
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: clamp(18px, 4vw, 54px);
+      align-items: center;
+    }
+
+    .card-inner > div {
+      min-width: 0;
+    }
+
+    .card-inner.single {
+      grid-template-columns: 1fr;
+      place-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--orange);
+      font-size: clamp(13px, 1.35vw, 16px);
+      font-weight: 900;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      line-height: 1.15;
+      letter-spacing: 0;
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: clamp(26px, 4vw, 42px);
+    }
+
+    h2 {
+      font-size: clamp(22px, 3.2vw, 34px);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: #35465c;
+      font-size: clamp(15px, 1.8vw, 20px);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .body-text {
+      margin: 18px 0 0;
+      color: #40526a;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.75;
+      font-weight: 600;
+    }
+
+    .note-list {
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .note-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: clamp(14px, 1.4vw, 18px);
+      line-height: 1.45;
+      font-weight: 800;
+      color: #30445d;
+    }
+
+    .dot {
+      flex: 0 0 auto;
+      width: 12px;
+      height: 12px;
+      margin-top: .48em;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .visual {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+    }
+
+    .cover-image {
+      width: min(92%, 430px);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      box-shadow: 10px 10px 0 #e0b053;
+    }
+
+    .board,
+    .split-board,
+    .diagram-card,
+    .flow-board,
+    .matrix-board {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
+    }
+
+    .board {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .split-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .split-panel {
+      padding: 22px;
+      min-height: 310px;
+      display: grid;
+      align-content: center;
+      gap: 14px;
+    }
+
+    .split-panel:first-child {
+      background: #f2eee4;
+      border-right: 2px solid var(--ink);
+    }
+
+    .split-panel:last-child {
+      background: #eaf4ee;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .panel-big {
+      margin: 0;
+      font-size: clamp(38px, 5.2vw, 66px);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--blue);
+    }
+
+    .panel-caption {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .diagram-card {
+      padding: 24px;
+      min-height: 330px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .icon-row,
+    .tool-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tile-grid.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mini-tile, .tile {
+      min-height: 108px;
+      padding: 14px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f7f0de;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .mini-tile.green, .tile.green {
+      background: #dceee5;
+    }
+
+    .mini-tile.orange, .tile.orange {
+      background: #f5dfc9;
+    }
+
+    .mini-tile.red, .tile.red {
+      background: #f1d6d1;
+    }
+
+    .arrow-line {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .arrow-line::before,
+    .arrow-line::after {
+      content: "";
+      height: 2px;
+      background: var(--line);
+    }
+
+    .flow-board {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .flow-step {
+      min-height: 132px;
+      padding: 14px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #eef5f7;
+      text-align: center;
+    }
+
+    .flow-step strong {
+      font-size: clamp(18px, 1.85vw, 25px);
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .loop-caption {
+      margin: 0;
+      padding: 12px 16px;
+      border: 2px dashed var(--orange);
+      border-radius: var(--radius);
+      background: #fff8e8;
+      text-align: center;
+      font-weight: 900;
+      color: var(--orange);
+    }
+
+    .matrix-board {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .matrix-cell {
+      padding: 14px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f7f0de;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .matrix-cell.good {
+      background: #dceee5;
+    }
+
+    .big-word {
+      font-size: clamp(74px, 11vw, 142px);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--blue);
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+    }
+
+    .big-symbol {
+      font-size: clamp(88px, 13vw, 160px);
+      font-weight: 900;
+      line-height: .9;
+      color: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .stamp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 7px 14px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+    }
+
+    .preset-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .preset-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .preset-name,
+    .preset-desc {
+      padding: 13px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      font-weight: 900;
+      line-height: 1.45;
+      background: #f7f0de;
+    }
+
+    .preset-desc {
+      font-weight: 750;
+      color: #40526a;
+    }
+
+    .preset-row.safe .preset-name, .preset-row.safe .preset-desc {
+      background: #dceee5;
+    }
+
+    .toolbar {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      min-height: 42px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+    }
+
+    .nav-button {
+      width: 50px;
+      font-size: 24px;
+    }
+
+    .print-button {
+      padding: 0 16px;
+      background: #dceee5;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chapter-select {
+      height: 42px;
+      padding: 0 12px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 rgba(32, 49, 74, .18);
+      outline: none;
+    }
+    .chapter-select:focus {
+      background: #fffdf7;
+    }
+
+    @media (max-width: 780px) {
+      .deck-shell {
+        padding: 10px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .brand-subtitle,
+      .hint {
+        display: none;
+      }
+
+      .card-slide {
+        aspect-ratio: auto;
+        min-height: 74vh;
+      }
+
+      .card-inner,
+      .card-inner.single {
+        grid-template-columns: 1fr;
+        text-align: left;
+        padding: 28px;
+      }
+
+      .visual {
+        min-height: 210px;
+      }
+
+      .split-board,
+      .flow-steps,
+      .icon-row,
+      .tool-row,
+      .tile-grid,
+      .tile-grid.two,
+      .matrix-row,
+      .preset-row {
+        grid-template-columns: 1fr;
+      }
+
+      .split-panel:first-child {
+        border-right: 0;
+        border-bottom: 2px solid var(--ink);
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .topbar,
+      .toolbar {
+        display: none;
+      }
+
+      .deck-shell {
+        display: block;
+        padding: 0;
+      }
+
+      .cards {
+        display: block;
+      }
+
+      .card-slide,
+      .card-slide.is-active {
+        display: grid;
+        width: 100%;
+        height: 100vh;
+        aspect-ratio: auto;
+        page-break-after: always;
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="deck-shell">
+<header class="topbar">
+<div class="brand">
+<div class="brand-mark">04</div>
+<div>
+<p class="brand-title">AI Agent Antigravity 研習圖卡</p>
+<p class="brand-subtitle">第四章實戰一｜成績登錄行政系統合併</p>
+</div>
+</div>
+<div>
+<select class="chapter-select" onchange="window.location.href=this.value;" aria-label="切換單元">
+        <option value="chapter01_cards.html">第一單元：運作原理</option>
+        <option value="chapter02_cards.html">第二單元：操作與介面</option>
+        <option value="chapter03_cards.html">第三單元：親師溝通體驗</option>
+        <option selected value="chapter04_cards.html">第四單元：成績登錄體驗</option>
+        <option value="chapter05_cards.html">第五單元：類似題生成體驗</option>
+        <option value="chapter06_cards.html">第六單元：GitHub 發布體驗</option>
+        <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
+        <option value="chapter08_cards.html">第八單元：Custom Skill 技能包</option>
+        <option value="chapter09_cards.html">第九單元：MCP 雲端工具串接</option>
+        <option value="chapter10_cards.html">第十單元：雲端Google簡報與表單</option>
+      </select>
+</div>
+<div class="progress" id="progress">1 / 13</div>
+</header>
+<section aria-label="圖卡播放區" class="stage">
+<div class="cards"><!-- Slide 1 --><section class="card-slide is-active">
+<div class="card-inner">
+<div>
+<p class="eyebrow">第四單元</p>
+<h1>第四單元：實戰一 —— 學生習作成績自動登錄與行政系統合併</h1>
+<p class="lead">讀取 Excel 成績回覆檔，自動對齊座號與姓名，填入行政系統空白模版中，生成 XLSX 實體檔案！</p>
+</div>
+<div class="visual">
+<img alt="AI Agent 成績登錄封面" class="cover-image" src="chapter04_cover.png"/>
+</div>
+</div>
+</section><!-- Slide 2 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">學習目標</p>
+<h2>第四單元核心練習與體驗目標</h2>
+<p class="lead">老師將在此實戰中體驗 AI Agent 在試算表合併中的核心能力：</p>
+</div>
+<div class="visual">
+<div class="board preset-table">
+<div class="preset-row safe">
+<div class="preset-name">1. 多檔案讀寫</div>
+<div class="preset-desc">主動呼叫 view_file 同時讀取表單回覆檔與空白模板檔。</div>
+</div>
+<div class="preset-row">
+<div class="preset-name">2. 自動對齊與合併</div>
+<div class="preset-desc">大腦寫 Python 自動解析字串對齊座號，填入國語和數學的指定欄位。</div>
+</div>
+<div class="preset-row safe">
+<div class="preset-name">3. 去識別化保護</div>
+<div class="preset-desc">學習在合併時落實學生隱私防線，去識別化真實姓名（如中間字變○）。</div>
+</div>
+<div class="preset-row">
+<div class="preset-name">4. 自動自我糾錯</div>
+<div class="preset-desc">自動解決 pandas dtype 寫入 int 的 TypeError 問題，無痛跑通。</div>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 3 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">傳統痛點</p>
+<h2>手動登記並核對學生成績，需要幾步驟？</h2>
+<p class="lead">以往老師需要對照表單回覆，在 15 位學生中手動輸入並核對 270 個儲存格，過程痛苦、耗時且易錯。</p>
+</div>
+<div class="visual">
+<div class="diagram-card">
+<div class="mini-tile red">1. 對照表單回覆成績與學生姓名</div>
+<div class="arrow-line">手動對齊</div>
+<div class="mini-tile red">2. 打開國語/數學成績匯出入檔</div>
+<div class="arrow-line">手動登錄</div>
+<div class="mini-tile red">3. 一格一格輸入並核對 270 次</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 4 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">任務目標</p>
+<h2>由 Antigravity 一鍵自動化合併與登錄</h2>
+<p class="lead">只需下一句口語指令，AI 就會自動對齊並填妥所有成績，留下未交學生空白，直接供行政系統匯入！</p>
+</div>
+<div class="visual">
+<div class="split-board">
+<div class="split-panel">
+<p class="panel-title">輸入成績食材</p>
+<p class="panel-big">表單回覆與空白模板</p>
+<p class="panel-caption">回覆 XLSX 數據與國語/數學的空白成績模板。</p>
+</div>
+<div class="split-panel">
+<p class="panel-title">自動出菜成品</p>
+<p class="panel-big">已填寫的匯出入檔</p>
+<p class="panel-caption">產生三年2班國語/數學平時成績已填寫的實體檔案。</p>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 5 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">準備工作</p>
+<h2>本機資料夾的「食材」配置</h2>
+<p class="lead">請先確保 cards/ch4成績/ 資料夾下有這三個檔案：</p>
+</div>
+<div class="visual">
+<div class="board" style="text-align: left; padding: 18px;">
+<p><strong>1. 學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx</strong><br/><small>（內含 15 位填表學生的成績，姓名為虛擬真實姓名，如 01 賈伯斯）</small></p>
+<p><strong>2. 三年2班國語_平時成績匯出入檔_空白.xlsx</strong><br/><small>（空白的國語成績模板，前5列為元數據）</small></p>
+<p><strong>3. 三年2班數學_平時成績匯出入檔_空白.xlsx</strong><br/><small>（空白的數學成績模板）</small></p>
+</div>
+</div>
+</div>
+</section><!-- Slide 6 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">驅動指令</p>
+<h2>對話框輸入「終極人話指令」</h2>
+<p class="lead">請利用 @ 符號精準提及檔案，並給予清楚指示：</p>
+</div>
+<div class="visual">
+<div class="board" style="font-size: 13.5px; line-height: 1.4; background: #faf8f2; text-align: left; padding: 15px;">
+<p><strong>💬 老師輸入指令：</strong></p>
+<p>「請讀取專案目錄下 <strong>@學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx</strong>、<strong>@三年2班國語_平時成績匯出入檔_空白.xlsx</strong> 和 <strong>@三年2班數學_平時成績匯出入檔_空白.xlsx</strong>。</p>
+<p>請將回覆檔中的學生成績對齊座號與姓名。在填寫到空白模版時，請自主用 Python 將學生真實姓名進行去識別化（將姓名中間字變更為「○」，如「賈伯斯」轉換為「賈○斯」），以落實學生隱私防護，將結果另存為新檔：<br/>
+                - <code>三年2班國語_平時成績匯出入檔_已填寫.xlsx</code><br/>
+                - <code>三年2班數學_平時成績匯出入檔_已填寫.xlsx</code></p>
+<p>沒有填表成績的學生（例如 10 貝多芬、11 莫札特、15 莎士比亞）其成績保持空白，但姓名同樣需去識別化，並確保前 5 列的元數據格式完全保留。」</p>
+</div>
+</div>
+</div>
+</section><!-- Slide 7 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">後台機制</p>
+<h2>AI Agent 後台的 ReAct 自主執行流</h2>
+<p class="lead">AI 大腦在此任務中會主動規劃、呼叫工具、觀察結果並進行反思除錯：</p>
+</div>
+<div class="visual">
+<div class="board flow-board">
+<div class="flow-steps">
+<div class="flow-step">
+<div class="flow-step-num">01</div>
+<div class="flow-step-title">大腦思考規劃</div>
+<div class="flow-step-desc">拆解任務：需讀取三個檔案，並用 Python 進行資料合併。</div>
+</div>
+<div class="flow-step">
+<div class="flow-step-num">02</div>
+<div class="flow-step-title">呼叫讀檔工具</div>
+<div class="flow-step-desc">自動執行 view_file 讀取回覆檔與兩份模板檔。</div>
+</div>
+<div class="flow-step">
+<div class="flow-step-num">03</div>
+<div class="flow-step-title">自動寫碼與執行</div>
+<div class="flow-step-desc">寫 Python 合併程式碼，並跑 run_command 執行寫入。</div>
+</div>
+<div class="flow-step">
+<div class="flow-step-num">04</div>
+<div class="flow-step-title">自我反思與糾錯</div>
+<div class="flow-step-desc">如果發生 dtype 'str' 限制報錯，AI 自主反思並修改 code 重跑。</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 8 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">後台第一步</p>
+<h2>1. 大腦思考與讀取檔案</h2>
+<p class="lead">主廚先查看冰箱食材，大腦主動呼叫 view_file 讀取三個 Excel 檔的結構：</p>
+</div>
+<div class="visual">
+<div class="board" style="font-family: monospace; font-size: 13.5px; text-align: left; padding: 18px;">
+<p style="color: var(--blue);"># Agent 自動呼叫 Tool Use：</p>
+<p>view_file(AbsolutePath=".../學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx")</p>
+<p>view_file(AbsolutePath=".../三年2班國語_平時成績匯出入檔_空白.xlsx")</p>
+<p>view_file(AbsolutePath=".../三年2班數學_平時成績匯出入檔_空白.xlsx")</p>
+</div>
+</div>
+</div>
+</section><!-- Slide 9 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">後台第二步</p>
+<h2>2. 大腦規劃資料比對與轉換</h2>
+<p class="lead">AI 大腦思考如何使用 Python 比對姓名/座號，並映射回覆成績到模板欄位：</p>
+</div>
+<div class="visual">
+<div class="board preset-table">
+<div class="preset-row safe">
+<div class="preset-name">座號抽取</div>
+<div class="preset-desc">從「01 賈伯斯」中，以 <code>student_info[:2]</code> 抽取出座號 01。</div>
+</div>
+<div class="preset-row">
+<div class="preset-name">隱私去識別化</div>
+<div class="preset-desc">利用 Python 將姓名中間字更換為「○」（如「賈伯斯」轉換為「賈○斯」）。</div>
+</div>
+<div class="preset-row safe">
+<div class="preset-name">模板匹配</div>
+<div class="preset-desc">在空白模板的第 6 列起，比對座號與姓名，匹配出對應行。</div>
+</div>
+<div class="preset-row">
+<div class="preset-name">欄位對齊</div>
+<div class="preset-desc">將國語 9 課/數學 9 單元的成績，依序填入模板的第 3 到 11 欄。</div>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 10 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">後台第三步</p>
+<h2>3. 自動編程與背景執行</h2>
+<p class="lead">AI 自動寫 Python 並跑 <code>run_command</code>，在此之前會彈出人機協同核准框：</p>
+</div>
+<div class="visual">
+<div class="board" style="font-family: monospace; font-size: 13px; text-align: left; padding: 18px;">
+<p style="color: var(--blue);"># Agent 自動寫出的 Python 迴圈與儲存程式碼：</p>
+<p>for idx, row in df_resp.iterrows():</p>
+<p>    seat_num = row['請選擇您的座號與姓名'][:2]</p>
+<p>    # 去識別化 (例如將姓名賈伯斯轉換為賈○斯)</p>
+<p>    masked_name = mask_name(row['姓名'])</p>
+<p>    match_row = find_row_in_template(seat_num, masked_name)</p>
+<p>    df_template.iloc[match_row, 3:12] = row[grades_cols]</p>
+<p>df_template.to_excel('..._已填寫.xlsx', index=False, header=False)</p>
+<p style="color: var(--green); margin-top: 10px;">🌟 老師只需點擊彈出的「核准 (Approve)」按鈕即可背景執行！</p>
+</div>
+</div>
+</div>
+</section><!-- Slide 11 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">後台第四步</p>
+<h2>4. 自動自我反思與糾錯</h2>
+<p class="lead">執行遇到 pandas 資料類型衝突時，AI 大腦立刻看懂報錯並重寫 code 解決：</p>
+</div>
+<div class="visual">
+<div class="split-board">
+<div class="split-panel">
+<p class="panel-title" style="color: var(--red);">第一次報錯 ❌</p>
+<p style="font-size: 13px; font-family: monospace;">TypeError: Invalid value '100' for dtype 'str'</p>
+<p class="panel-caption">因為空白列被推斷為字串，寫入整數時被 pandas 拒絕。</p>
+</div>
+<div class="split-panel">
+<p class="panel-title" style="color: var(--green);">AI 反思與修正 🟢</p>
+<p style="font-size: 13px; font-family: monospace;">df = df.astype(object)</p>
+<p class="panel-caption">大腦立刻反思並加入此行，將欄位轉為通用 object 類型，重跑成功！</p>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Slide 12 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">成果驗證</p>
+<h2>雙擊打開已填妥的 XLSX 成果檔案</h2>
+<p class="lead">AI 完美完成出菜，15 位學生成績已自動填妥，格式完好無損！</p>
+</div>
+<div class="visual">
+<div class="board">
+<p style="color: var(--green); font-size: 28px; font-weight: 900; margin: 0 0 10px;">100% 自動登記完成！</p>
+<p style="text-align: left; font-size: 15px; color: #40526a;">
+                  • <strong>姓名座號精確對齊</strong>：自動映射填入，無任何看錯行打錯字風險。<br/>
+                  • <strong>未交名單保持空白</strong>：10 貝○芬、11 莫○特、15 莎○比亞 維持空白，利於追蹤催交。<br/>
+                  • <strong>行政對接無阻礙</strong>：保留了原始元數據前5列，直接拿去學務系統一鍵匯入！
+                </p>
+</div>
+</div>
+</div>
+</section><!-- Slide 13 --><section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">研習討論</p>
+<h2>一秒完成一整年的登記成績體力活</h2>
+<p class="lead">以前需要手動對齊並填寫 270 次，現在只需 10 秒鐘 100% 正確。</p>
+</div>
+<div class="visual">
+<div class="board" style="text-align: left; padding: 22px;">
+<p style="font-weight: 800; font-size: 17px; margin-top: 0;">🤔 研習反思討論：</p>
+<p style="color: #40526a; line-height: 1.5;">
+                  1. **Agent 自主性的震撼**：AI 不僅僅寫出 Python 程式碼叫老師自己跑，而是在後台自己建立檔案、自己糾錯、直接把已填寫好的實體 Excel 呈獻在您面前。<br/><br/>
+                  2. **行政與備課革命**：將這套思維套用到考卷細目表、課堂表現統計、社群經費登帳，能為老師省下無數繁瑣重複的體力勞動！
+                </p>
+</div>
+</div>
+</div>
+</section></div>
+</section>
+<nav aria-label="圖卡控制列" class="toolbar">
+<button aria-label="上一張" class="nav-button" id="prev" type="button">‹</button>
+<button aria-label="下一張" class="nav-button" id="next" type="button">›</button>
+<button class="print-button" id="print" type="button">列印圖卡</button>
+<span class="hint">鍵盤左右鍵可切換；列印時可另存 PDF 或逐頁截圖。</span>
+</nav>
+</main>
+<script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.card-slide'));
+      var progress = document.getElementById('progress');
+      var current = 0;
+
+      function showSlide(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle('is-active', i === current);
+        });
+        progress.textContent = String(current + 1) + ' / ' + String(slides.length);
+      }
+
+      document.getElementById('prev').addEventListener('click', function () {
+        showSlide(current - 1);
+      });
+
+      document.getElementById('next').addEventListener('click', function () {
+        showSlide(current + 1);
+      });
+
+      document.getElementById('print').addEventListener('click', function () {
+        window.print();
+      });
+
+      window.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowLeft') {
+          showSlide(current - 1);
+        }
+        if (event.key === 'ArrowRight') {
+          showSlide(current + 1);
+        }
+      });
+    }());
+  </script>
+</body>
+</html>

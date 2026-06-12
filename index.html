@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent 研習互動圖卡線上目錄</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      --glass-bg: rgba(30, 41, 59, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-hover: rgba(255, 255, 255, 0.18);
+      
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
+      --accent-teal: #14b8a6;
+      --accent-orange: #f97316;
+      
+      --gradient-accent: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+      --gradient-hover: linear-gradient(90deg, #2563eb 0%, #9333ea 100%);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --font-display: 'Outfit', 'Noto Sans TC', sans-serif;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      font-family: var(--font-display);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .glow-container {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .glow-ball-1 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(0,0,0,0) 70%);
+      top: -100px;
+      right: -100px;
+      filter: blur(50px);
+    }
+
+    .glow-ball-2 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(20, 184, 166, 0.12) 0%, rgba(0,0,0,0) 70%);
+      bottom: -200px;
+      left: -200px;
+      filter: blur(50px);
+    }
+
+    header {
+      padding: 4rem 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-logo {
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 400;
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 2.25rem 2rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-accent);
+      transition: var(--transition-smooth);
+      opacity: 0.6;
+    }
+
+    .card:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-num {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #3b82f6;
+      font-family: var(--font-display);
+    }
+
+    .card-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+    .badge-teal { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.25); }
+    .badge-orange { background: rgba(249, 115, 22, 0.15); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.25); }
+    .badge-red { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.25); }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      line-height: 1.35;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.925rem;
+      margin-bottom: 1.75rem;
+      flex-grow: 1;
+    }
+
+    .card-btn {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .card:hover .card-btn {
+      background: var(--gradient-accent);
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 4rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 5rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-container">
+    <div class="glow-ball-1"></div>
+    <div class="glow-ball-2"></div>
+  </div>
+
+  <header>
+    <div class="header-logo">Antigravity Interactive</div>
+    <h1>AI Agent 研習互動圖卡目錄</h1>
+    <p class="subtitle">專為 115 典範社群教師研習設計。點擊下方各單元的卡片，即可線上瀏覽對應的互動圖卡投影片教材，享受流暢的響應式數位學習體驗！</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">01</span>
+          <span class="card-badge badge-blue">第一單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">AI Agent 運作原理</h2>
+          <p class="card-desc">探索 AI Agent 核心概念：大腦、規劃、記憶與工具呼叫，了解從「聊天對話」到「動手執行」的革命。</p>
+        </div>
+        <a href="chapter01_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">02</span>
+          <span class="card-badge badge-blue">第二單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">操作介面與安全指南</h2>
+          <p class="card-desc">熟悉 Antigravity 軟體操作介面，解密本地端程式碼安全沙盒與人機審查核准（Approve）機制。</p>
+        </div>
+        <a href="chapter02_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">03</span>
+          <span class="card-badge badge-teal">第三單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">溫慢親師溝通體驗</h2>
+          <p class="card-desc">實戰初階體驗：輸入日常學生狀況，讓 Agent 以同理心專家面具轉化，自動在本地生成 Word 親師草稿。</p>
+        </div>
+        <a href="chapter03_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">04</span>
+          <span class="card-badge badge-teal">第四單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">成績登錄與行政合併</h2>
+          <p class="card-desc">實戰一：自動讀取 Excel 表單學生成績，對齊座號姓名並登錄至學務系統空白模版中，生成登錄成品檔。</p>
+        </div>
+        <a href="chapter04_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">05</span>
+          <span class="card-badge badge-orange">第五單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">題本分析與類似題生成</h2>
+          <p class="card-desc">實戰二：讀取學習扶助國語科檢測 PDF 題本，分析學生的核心錯因，並針對弱點批量生成客製化類似題卷。</p>
+        </div>
+        <a href="chapter05_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">06</span>
+          <span class="card-badge badge-orange">第六單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">互動試題與 GitHub 發布</h2>
+          <p class="card-desc">實戰三：將類似題一鍵轉換為互動小測驗網頁，並命令 Agent 自動初始化 Git、將其發布部署至 GitHub Pages。</p>
+        </div>
+        <a href="chapter06_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">07</span>
+          <span class="card-badge badge-red">第七單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">Google 表單自動化出題</h2>
+          <p class="card-desc">實戰四：讀取課文，自主設計 5 題測驗。呼叫 Google Forms API 自動在雲端建立帶有配分與選項隨機的測驗表單。</p>
+        </div>
+        <a href="chapter07_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">08</span>
+          <span class="card-badge badge-red">第八單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">Custom Skill 技能包</h2>
+          <p class="card-desc">實戰五：將專業排版手冊或教材命題原則封裝為技能包，不佔用大腦，用到時自動載入（如呼叫 @doc_expert）。</p>
+        </div>
+        <a href="chapter08_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">09</span>
+          <span class="card-badge badge-red">第九單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">MCP 雲端工具串接</h2>
+          <p class="card-desc">實戰六：開啟大腦通用 USB 萬能接孔。大腦自主連動 Google Sheets 與自動傳送完成通知 Webhook 至手機！</p>
+        </div>
+        <a href="chapter09_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 10 -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="card-num">10</span>
+          <span class="card-badge badge-teal">第十單元</span>
+        </div>
+        <div>
+          <h2 class="card-title">雲端簡報與表單自動化</h2>
+          <p class="card-desc">實戰七：解密 credentials.json 金鑰申請與 OAuth 驗證，直接呼叫雲端 API 自動化建置 Google 簡報與表單名單。</p>
+        </div>
+        <a href="chapter10_cards.html" class="card-btn">
+          開啟單元圖卡
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>115 典範社群-AIAgent教師研習教案專案 © 2026. 建立於 Antigravity 本地自動化環境.</p>
+  </footer>
+</body>
+</html>
