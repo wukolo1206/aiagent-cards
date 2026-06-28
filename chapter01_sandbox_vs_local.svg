@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">雲端沙盒與本地端 Agent 對照圖</title>
+  <desc id="desc">左側是只能複製貼上的雲端聊天沙盒，右側是能讀寫本機檔案並經教師核准的本地端 Agent。</desc>
+  <defs>
+    <style>
+      .bg{fill:#fffdf7}.ink{fill:#20314a}.muted{fill:#667085}.line{stroke:#20314a;stroke-width:5;stroke-linejoin:round}.soft{stroke:#ded4c4;stroke-width:4}.cloud{fill:#f1d6d1}.local{fill:#dceee5}.panel{fill:#fff;stroke:#20314a;stroke-width:5;rx:18}.screen{fill:#f7f0de;stroke:#20314a;stroke-width:4;rx:14}.accent{fill:#f1d48d}.blue{fill:#245b83}.green{fill:#2f7d65}.red{fill:#b5534b}.orange{fill:#d07835}text{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}.title{font-size:34px;font-weight:900}.label{font-size:25px;font-weight:900}.small{font-size:20px;font-weight:800}.tiny{font-size:17px;font-weight:700}.code{font-family:Consolas,monospace;font-size:17px;font-weight:700}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="900" height="560"/>
+  <rect x="28" y="24" width="844" height="512" fill="none" stroke="#20314a" stroke-width="4" opacity=".18"/>
+  <text class="title ink" x="450" y="70" text-anchor="middle">同樣是 AI，能碰到的世界不同</text>
+  <g transform="translate(58 112)">
+    <rect class="panel" width="360" height="360"/>
+    <rect class="cloud" x="24" y="24" width="312" height="64" rx="14" stroke="#20314a" stroke-width="4"/>
+    <text class="label ink" x="180" y="66" text-anchor="middle">雲端聊天沙盒</text>
+    <rect class="screen" x="42" y="116" width="276" height="134"/>
+    <circle class="red" cx="68" cy="142" r="9"/>
+    <circle class="accent" cx="96" cy="142" r="9"/>
+    <circle class="green" cx="124" cy="142" r="9"/>
+    <text class="code muted" x="66" y="183">請幫我整理成表格</text>
+    <path class="soft" d="M68 210h200M68 235h168"/>
+    <g transform="translate(60 286)">
+      <rect x="0" y="0" width="110" height="42" rx="10" fill="#fff" stroke="#20314a" stroke-width="4"/>
+      <text class="tiny ink" x="55" y="28" text-anchor="middle">複製</text>
+      <rect x="132" y="0" width="110" height="42" rx="10" fill="#fff" stroke="#20314a" stroke-width="4"/>
+      <text class="tiny ink" x="187" y="28" text-anchor="middle">貼上</text>
+    </g>
+  </g>
+  <path d="M430 292h40" stroke="#20314a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M462 268l35 24-35 24" fill="none" stroke="#20314a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(482 112)">
+    <rect class="panel" width="360" height="360"/>
+    <rect class="local" x="24" y="24" width="312" height="64" rx="14" stroke="#20314a" stroke-width="4"/>
+    <text class="label ink" x="180" y="66" text-anchor="middle">本地端 Agent</text>
+    <g transform="translate(38 112)">
+      <rect class="screen" x="0" y="0" width="132" height="116"/>
+      <text class="small blue" x="66" y="45" text-anchor="middle">讀檔</text>
+      <text class="tiny muted" x="66" y="76" text-anchor="middle">Word / Excel</text>
+      <rect class="screen" x="152" y="0" width="132" height="116"/>
+      <text class="small green" x="218" y="45" text-anchor="middle">寫檔</text>
+      <text class="tiny muted" x="218" y="76" text-anchor="middle">輸出成果</text>
+    </g>
+    <g transform="translate(48 264)">
+      <rect x="0" y="0" width="264" height="52" rx="12" fill="#f1d48d" stroke="#20314a" stroke-width="4"/>
+      <text class="small ink" x="132" y="34" text-anchor="middle">教師核准後執行</text>
+    </g>
+  </g>
+</svg>

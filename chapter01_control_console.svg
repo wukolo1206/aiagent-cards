@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Agent 控制台把口語指令變成檔案成果</title>
+  <desc id="desc">畫面示意一個桌面 Agent 控制台，左邊輸入口語指令，右邊任務流程依序讀檔、執行、產出 Word。</desc>
+  <defs>
+    <style>
+      .bg{fill:#fffdf7}.ink{fill:#20314a}.muted{fill:#667085}.panel{fill:#fff;stroke:#20314a;stroke-width:5;rx:18}.cream{fill:#f7f0de}.green{fill:#dceee5}.orange{fill:#f5dfc9}.yellow{fill:#f1d48d}.blue{fill:#eef5f7}.line{stroke:#20314a;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}text{font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif}.title{font-size:32px;font-weight:900}.label{font-size:23px;font-weight:900}.small{font-size:18px;font-weight:800}.tiny{font-size:15px;font-weight:700}.mono{font-family:Consolas,monospace;font-size:16px;font-weight:700}
+    </style>
+  </defs>
+  <rect class="bg" width="900" height="560"/>
+  <text class="title ink" x="450" y="58" text-anchor="middle">控制台：把一句話拆成可執行任務</text>
+  <rect class="panel" x="56" y="92" width="788" height="404"/>
+  <rect x="56" y="92" width="788" height="54" rx="18" fill="#f1d48d" stroke="#20314a" stroke-width="5"/>
+  <circle cx="88" cy="119" r="8" fill="#b5534b"/>
+  <circle cx="116" cy="119" r="8" fill="#d07835"/>
+  <circle cx="144" cy="119" r="8" fill="#2f7d65"/>
+  <text class="small ink" x="450" y="127" text-anchor="middle">Agent Desktop Workbench</text>
+  <g transform="translate(84 178)">
+    <rect x="0" y="0" width="270" height="254" rx="16" fill="#f7f0de" stroke="#20314a" stroke-width="4"/>
+    <text class="label ink" x="28" y="42">老師口語指令</text>
+    <rect x="28" y="68" width="214" height="92" rx="12" fill="#fff" stroke="#20314a" stroke-width="4"/>
+    <text class="tiny muted" x="48" y="101">「幫我把課文出成</text>
+    <text class="tiny muted" x="48" y="130">三題選擇題 Word 考卷」</text>
+    <rect x="28" y="184" width="214" height="44" rx="11" fill="#dceee5" stroke="#20314a" stroke-width="4"/>
+    <text class="small ink" x="135" y="213" text-anchor="middle">送出任務</text>
+  </g>
+  <path class="line" d="M382 305h70"/>
+  <path class="line" d="M434 282l30 23-30 23"/>
+  <g transform="translate(488 178)">
+    <rect x="0" y="0" width="300" height="254" rx="16" fill="#eef5f7" stroke="#20314a" stroke-width="4"/>
+    <text class="label ink" x="28" y="42">Agent 任務面板</text>
+    <g transform="translate(28 68)">
+      <rect class="cream" x="0" y="0" width="244" height="42" rx="10" stroke="#20314a" stroke-width="3"/>
+      <text class="small ink" x="18" y="28">1. 讀取課文檔案</text>
+      <rect class="orange" x="0" y="55" width="244" height="42" rx="10" stroke="#20314a" stroke-width="3"/>
+      <text class="small ink" x="18" y="83">2. 執行題目生成</text>
+      <rect class="green" x="0" y="110" width="244" height="42" rx="10" stroke="#20314a" stroke-width="3"/>
+      <text class="small ink" x="18" y="138">3. 儲存 Word 考卷</text>
+    </g>
+    <path d="M236 188h32v38h-64v-66h32z" fill="#fff" stroke="#20314a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M236 160v28h32" fill="none" stroke="#20314a" stroke-width="4" stroke-linejoin="round"/>
+    <text class="mono ink" x="236" y="216" text-anchor="middle">.docx</text>
+  </g>
+</svg>
