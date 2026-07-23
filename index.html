@@ -725,12 +725,7 @@
             複製下方終極 Prompt 發送給 <strong>Antigravity (AI Agent)</strong>。您將親眼見證 Agent 自主讀取上述 Excel 表格，分析並以溫和助理語氣轉化，自動在後台寫程式跑出實體 <strong>`期末溫馨催繳通知信.docx`</strong>！
           </div>
           
-          <div class="code-container prompt-content" id="prompt-zero-content">請幫我讀取專案目錄下的 `cards/ch3催繳/期末未交表單名冊.xlsx`。你是一位溫柔貼心、擅長人際溝通的學校教務處助理 Agent。請針對名單中每一位尚未繳交表單的老師，個別寫一段溫暖且極具行政禮儀的提醒通知（用於 LINE 或簡訊），提醒語氣要體貼老師們期末閱卷與行政忙碌，多用禮貌用語。
-
-請在同目錄下直接為我生成一個排版美觀的 `期末溫馨催繳通知信.docx`。
-檔案內容必須包含：
-1. 『📢 期末行政溫馨提醒』（簡單說明本檔案的用途）
-2. 為每位老師撰寫一個獨立區塊（包含老師姓名、分機、缺交項目、截止日期、以及一段客氣體貼的提醒私訊草稿，請用標題區分每位老師）。</div>
+          <div class="code-container prompt-content" id="prompt-zero-content">請讀取 `cards/ch3催繳/期末未交表單名冊.xlsx`，幫我找出尚未繳交表單的老師，幫每一位寫一封溫馨體貼的催繳通知信，並輸出成 Word 檔案。</div>
           
           <button class="action-btn" id="btn-copy-zero" onclick="copyContent('prompt-zero-content', '體驗 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -823,17 +818,7 @@
             複製下方終極 Prompt 並發送給 <strong>Antigravity (AI Agent)</strong>。Agent 將在背景寫 Python 使用正則比對座號、處理資料型態，直接在後台產生填妥的實體 Excel 成績檔，以供行政系統匯入！
           </div>
           
-          <div class="code-container prompt-content" id="prompt-one-content">請讀取專案目錄下 `cards/ch4成績/學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx`、`cards/ch4成績/三年2班國語_平時成績匯出入檔_空白.xlsx` 和 `cards/ch4成績/三年2班數學_平時成績匯出入檔_空白.xlsx`。
-你是一位擁有 20 年教學經驗 of 國小資深班導師兼 Python 自動化辦公特助。
-
-請幫我自主執行以下批量自動化任務：
-1. 讀取並分析『回覆.xlsx』中所有學生的習作成績（共 15 位學生）。
-2. 將這些成績自動對齊姓名與座號（『回覆.xlsx』的座號在姓名欄位的前兩碼，如 01, 02...），在填入時請自主使用 Python 將姓名進行去識別化（除首尾字外，中間字變更為「○」，如「賈伯斯」轉換成「賈○斯」、「比爾蓋茲」轉換成「比○○茲」），以落實學生隱私防護，再寫入『國語_空白.xlsx』與『數學_空白.xlsx』的對應評分欄位中。
-3. 沒有填寫表單回覆的學生（例如 10 貝多芬、11 莫札特、15 莎士比亞），其評分欄位請保持空白。
-4. 自主編寫 Python 程式碼，並在背景直接執行它，將填寫完成的結果另存為兩個新檔案，存放在 `cards/ch4成績/` 資料夾下：
-   - `三年2班國語_平時成績匯出入檔_已填寫.xlsx`
-   - `三年2班數學_平時成績匯出入檔_已填寫.xlsx`
-5. 確保模板前 5 列的元數據結構、格式以及所有座號姓名順序完全保留，絕不損壞。</div>
+          <div class="code-container prompt-content" id="prompt-one-content">請幫我讀取 `cards/ch4成績/` 資料夾裡的學生習作成績表，自動將成績對齊座號填入國語與數學的空白匯入檔中。填入時請幫我將學生姓名中間字用『○』遮罩去識別化保護隱私，最後儲存為已填寫的 Excel 檔案。</div>
           
           <button class="action-btn" id="btn-copy-one" onclick="copyContent('prompt-one-content', '實戰一 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -907,29 +892,7 @@
             複製下方 Prompt 並發送。Agent 會讀取 PDF、整理題型與評量重點，產出學生版題卷與教師版答案解析。
           </div>
           
-          <div class="code-container prompt-content" id="prompt-two-content">請讀取專案目錄下的 `cards/ch5出題` 資料夾。你是一位熟悉國小國語命題、閱讀理解與學習扶助的教師命題專家。
-
-請幫我完成以下任務：
-
-1. 讀取並分析資料夾中的兩份 PDF：
-   - `01_國小國語3下各課生字詞語解釋.pdf`
-   - `115年縣市學習能力檢測題本三年級國語科題本.pdf`
-2. 先整理題本中常見的三年級國語題型，例如：字詞理解、語詞運用、句意判斷、標點語氣、段落理解、文意推論、圖表或生活情境閱讀。
-3. 請不要照抄原題。請依照原題本的能力目標、題型結構與難度，重新設計一份「不同文本、相同能力」的類似題練習卷。
-4. 練習卷請包含：
-   - 10 題選擇題
-   - 2 題短答題
-   - 題目前方標示評量重點
-   - 題目難度以國小三年級學生可理解為準
-5. 請另外產出教師版答案解析，內容包含：
-   - 正確答案
-   - 為什麼選這個答案
-   - 學生可能會選錯的原因
-   - 一句補救教學建議
-6. 請在專案目錄下產出兩個 Markdown 檔案：
-   - `三年級國語類似題.md`
-   - `三年級國語類似題_答案解析.md`
-7. 完成後請回報你如何從 PDF 中判斷題型、如何避免照抄、以及這份題目適合用在哪一種課堂情境。</div>
+          <div class="code-container prompt-content" id="prompt-two-content">請讀取 `cards/ch5出題/` 資料夾裡的試題 PDF，分析裡面的知識點，幫我出 5 題同等難度的類似題練習卷，並附上給老師看的解答與詳細解析。</div>
           
           <button class="action-btn" id="btn-copy-two" onclick="copyContent('prompt-two-content', '實戰二 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -996,17 +959,7 @@
             複製下方 Prompt 並發送給 <strong>Antigravity (AI Coding Agent)</strong>。Agent 會把類似題題卷轉成可直接雙擊開啟的互動小測驗 HTML。
           </div>
           
-          <div class="code-container prompt-content" id="prompt-four-content">請根據剛才產出的 `三年級國語類似題.md` 與 `三年級國語類似題_答案解析.md`，幫我製作一個單一檔案、零外部依賴的互動小測驗網頁，命名為 `三年級國語互動小測驗.html`。
-
-網頁需求如下：
-
-1. 適合國小三年級學生使用，畫面溫暖、清楚、不要像考試壓力太重。
-2. 每次顯示一題，學生選完答案後可以按「檢查答案」。
-3. 答對時顯示鼓勵語與簡短解析。
-4. 答錯時不要只說錯，請給一個提示，引導學生回到題目線索。
-5. 題目完成後顯示總分、答對題數與建議複習的題型。
-6. 所有 CSS 與 JavaScript 都寫在同一個 HTML 檔案中，不要引用外部套件。
-7. 請在完成後提醒我直接用瀏覽器開啟 `三年級國語互動小測驗.html` 測試。</div>
+          <div class="code-container prompt-content" id="prompt-four-content">請幫我將剛剛出好的類似題做成一個學生可以線上點擊作答的互動網頁（HTML），讓學生點擊答案後能即時顯示答對或答錯。</div>
           
           <button class="action-btn" id="btn-copy-four" onclick="copyContent('prompt-four-content', '實戰二進階 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -1112,29 +1065,7 @@
             複製下方 Prompt 並發送給 <strong>Antigravity</strong>。請把 GitHub repository 網址替換成自己的網址；若需要登入或 Token，請依畫面授權，不要把 Token 存進檔案。
           </div>
           
-          <div class="code-container prompt-content" id="prompt-three-content">請協助我從零開始完成 GitHub 發布。你是一位熟悉教師數位教材發布、GitHub Pages 與前端網頁部署的 AI Agent。
-
-請先檢查專案根目錄是否已有以下三個實戰二產物：
-- `三年級國語互動小測驗.html`
-- `三年級國語類似題.md`
-- `三年級國語類似題_答案解析.md`
-
-接著請幫我執行以下任務：
-
-1. 建立發布資料夾：`publish/grade3-chinese-quiz/`。
-2. 將 `三年級國語互動小測驗.html` 複製到發布資料夾，並重新命名為 `index.html`，讓 GitHub Pages 可以直接開啟首頁。
-3. 將 `三年級國語類似題.md` 與 `三年級國語類似題_答案解析.md` 也複製進發布資料夾，作為教師備查資料。
-4. 在發布資料夾中撰寫一份 `README.md`，用老師看得懂的方式說明用途、學生如何使用、老師如何後續更新題目。
-5. 進入 `publish/grade3-chinese-quiz/` 資料夾，使用本機 Git 完成：
-   - `git init`
-   - `git add .`
-   - `git commit -m "publish grade 3 chinese quiz"`
-   - `git branch -M main`
-6. 請將本機 repo 連接到我的 GitHub repository：
-   - `https://github.com/您的帳號/grade3-chinese-quiz.git`
-7. 請執行 `git push -u origin main`，把互動試題發布資料夾推送到 GitHub。
-8. 若推送時需要登入、Token 或瀏覽器授權，請暫停並用白話告訴我現在要做什麼，不要把 Token 寫進任何檔案。
-9. 完成後，請用老師能理解的方式說明如何到 GitHub Pages 開啟網站，並推估最後網址會長什麼樣子。</div>
+          <div class="code-container prompt-content" id="prompt-three-content">請幫我將剛產出的互動測驗網頁，自動發布到 GitHub Pages，並回傳學生可以公開存取的線上測試網址。</div>
           
           <button class="action-btn" id="btn-copy-three" onclick="copyContent('prompt-three-content', '實戰三 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -1191,17 +1122,7 @@
             複製下方終極 Prompt 並發送給 <strong>Antigravity (AI Agent)</strong>。您將親眼見證 Agent 自主命題，自動在後台寫 Python 登入 OAuth 授權並連動 Google Forms API 建立測驗！
           </div>
           
-          <div class="code-container prompt-content" id="prompt-five-content">請幫我讀取專案目錄下的 `cards/ch7表單/課本教材.txt`。你是一位專業的命題與數位教學特助 Agent。
-
-請幫我自主執行以下步驟：
-1. 讀取並解析 `cards/ch7表單/課本教材.txt` 的課文內容，為國小三年級學生設計 5 題單選題（每題有 A、B、C、D 四個選項，並標記正確答案，每題配分 20 分）。
-2. 撰寫 Python 程式碼，使用 `google-api-python-client` 庫串接 Google Forms API：
-   - 讀取 `cards/ch7表單/credentials.json` 啟動本地端 OAuth 授權流程（若 `token.json` 不存在則開瀏覽器讓使用者登入驗證，並將其存在同目錄下）。
-   - **新建 Google 表單**：表單標題為「三年級自然：水的變化與循環測驗」。
-   - **設定為測驗模式 (Quiz)**：呼叫 `batchUpdate` 將 `quizSettings.isQuiz` 設定為 `True`。
-   - **寫入題目與分數**：新增 5 題選擇題，並在每個問題的 `grading` 物件中設定分數 (20 分) 及正確答案選項。
-   - **設定隨機排序**：設定選項為隨機排序（利用 choiceQuestion 中的 `shuffle` 欄位為 True）。
-3. 程式執行成功後，回報給我產出的表單名稱、表單的 **編輯網址** 與 **學生填寫網址**。</div>
+          <div class="code-container prompt-content" id="prompt-five-content">請讀取 `cards/ch7表單/課本教材.txt` 的課文，幫我設計 5 題國小自然科選擇題，並直接在我的 Google 雲端建立一份自動計分的 Google 表單測驗（請在授權時使用 port=0 避開埠口衝突）。</div>
           
           <button class="action-btn" id="btn-copy-five" onclick="copyContent('prompt-five-content', '實戰四 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -1248,8 +1169,7 @@
           <div class="desc-box">
             複製下方 Prompt 並發送給 <strong>Antigravity</strong>。親眼見證 Agent 自主加載技能包、讀取手冊、撰寫程式產出排版完美的 Word 草稿！
           </div>
-          <div class="code-container prompt-content" id="prompt-six-content">請讀取當前資料夾，並載入 **@doc_expert** 這個 Skill。
-請根據這個技能包裡的排版規範，讀取 `cards/ch3聯絡簿/學生狀況.txt`，並在專案目錄下生成一個 `溫暖聯絡簿_Skill版.docx`。標題與段落格式請務必完全遵循 `SKILL.md` 的要求！</div>
+          <div class="code-container prompt-content" id="prompt-six-content">請載入 `@doc_expert` 技能包，依照規範幫我讀取 `cards/ch3催繳/期末未交表單名冊.xlsx` 並排版生成一份完美的 `溫暖催繳信_Skill版.docx`。</div>
           
           <button class="action-btn" id="btn-copy-six" onclick="copyContent('prompt-six-content', '實戰五 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -1300,8 +1220,7 @@
           <div class="desc-box">
             複製下方 Prompt 發送給 <strong>Antigravity</strong>，體驗大腦在完成任務後，自主使用 Webhook 外肢工具，發送訊息至手機！
           </div>
-          <div class="code-container prompt-content" id="prompt-seven-content">請讀取當前資料夾，並載入 **google-chat-webhook** 的 MCP 工具。
-請分析專案目錄下的學生成績，在分析完成後，自動呼叫 Webhook 發送一則通知，文字為：『三年2班的學習扶助類似題已完成生成與部署！』</div>
+          <div class="code-container prompt-content" id="prompt-seven-content">請讀取當前資料夾並載入 `google-chat-webhook` MCP 工具。在分析完成學生成績後，自動呼叫 Webhook 發送通知到我的手機：『三年2班的學習扶助類似題已完成生成與部署！』</div>
           
           <button class="action-btn" id="btn-copy-seven" onclick="copyContent('prompt-seven-content', '實戰六 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
@@ -1333,12 +1252,7 @@
           <div class="desc-box">
             複製下方 Prompt，讓 Agent 自動在您的 Google 雲端硬碟中繪製一份三頁、深藍底、包含圓角卡片與精美排版的大綱簡報。
           </div>
-          <div class="code-container prompt-content" id="prompt-eight-slides-content">我想在雲端建立一份 Google 簡報，名稱為『AI Agent 教師行政減量體驗簡報』。
-簡報規劃為三頁：
-1. 第一頁是封面，套用深藍背景、金色標題字卡（AI Agent 領航 中小學教師的備課行政革命）、白字副標題。
-2. 第二頁是概念介紹，套用淺藍綠背景、深藍標題（二、什麼是 AI Agent 智慧代理？），並條列白話比喻與 ReAct 四大運作要點。
-3. 第三頁是安全防線，套用淺綠色背景、深綠標題（三、老師必須掌握的安全防線），並條列 Token 預算、安全 Approve 與資料去敏感化等要點。
-請幫我撰寫 python 腳本並執行，（授權時為避免 Windows 上 8080 埠口衝突，請於程式碼中使用 flow.run_local_server(port=0) 進行驗證），最後直接在控制台輸出線上編輯連結。</div>
+          <div class="code-container prompt-content" id="prompt-eight-slides-content">請幫我在 Google 雲端建立一份美觀的三頁 AI Agent 研習大綱簡報（套用深藍與綠色卡片視覺風格），並在試算表中建立班級成績的分析圓餅圖儀表板（請在授權時使用 port=0）。</div>
           
           <button class="action-btn" id="btn-copy-eight-slides" onclick="copyContent('prompt-eight-slides-content', '實戰七 簡報 Prompt', this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
