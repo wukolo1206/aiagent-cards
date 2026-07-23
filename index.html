@@ -3,23 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Agent 研習互動圖卡線上目錄</title>
+  <title>Antigravity 領航：AI Agent 備課實戰 Prompt 複製工具</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #20314a;
-      --muted: #667085;
-      --paper: #fbf7ef;
-      --cream: #fffdf7;
-      --line: #ded4c4;
-      --blue: #245b83;
-      --green: #2f7d65;
-      --orange: #d07835;
-      --red: #b5534b;
-      --shadow: 0 18px 45px rgba(34, 43, 56, .16);
-      --radius: 8px;
+      --bg-gradient: linear-gradient(135deg, #0d111d 0%, #151926 50%, #0d0f19 100%);
+      --glass-bg: rgba(22, 28, 45, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-hover: rgba(255, 255, 255, 0.16);
+      
+      --accent-blue: #3b82f6;
+      --accent-purple: #a855f7;
+      --accent-teal: #14b8a6;
+      --accent-orange: #f97316;
+      
+      --gradient-accent: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+      --gradient-hover: linear-gradient(90deg, #2563eb 0%, #9333ea 100%);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --font-display: 'Outfit', 'Noto Sans TC', sans-serif;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      --glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
+      --glow-purple: 0 0 20px rgba(168, 85, 247, 0.3);
     }
 
     * {
@@ -29,355 +40,1499 @@
     }
 
     body {
-      margin: 0;
+      background: var(--bg-gradient);
+      font-family: var(--font-display);
+      color: var(--text-primary);
       min-height: 100vh;
-      color: var(--ink);
-      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-      background:
-        linear-gradient(90deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
-        var(--paper);
-      background-size: 28px 28px;
+      overflow-x: hidden;
       line-height: 1.6;
     }
 
+    /* Ambient Glow Backgrounds */
+    .glow-container {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .glow-ball-1 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0,0,0,0) 70%);
+      top: -100px;
+      right: -100px;
+      filter: blur(40px);
+    }
+
+    .glow-ball-2 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0,0,0,0) 70%);
+      bottom: -200px;
+      left: -200px;
+      filter: blur(50px);
+    }
+
     header {
-      padding: 4.5rem 2rem 2.5rem;
+      padding: 3rem 2rem 1.5rem;
       text-align: center;
       position: relative;
-      max-width: 860px;
-      margin: 0 auto;
     }
 
     .header-logo {
       font-size: 0.875rem;
-      font-weight: 900;
+      font-weight: 800;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--orange);
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 0.75rem;
       display: inline-block;
     }
 
     h1 {
-      font-size: clamp(2rem, 4.2vw, 3rem);
+      font-size: 2.5rem;
       font-weight: 900;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.25rem;
-      color: var(--ink);
-      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
-      color: #35465c;
-      max-width: 720px;
+      color: var(--text-secondary);
+      max-width: 650px;
       margin: 0 auto;
-      font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-      font-weight: 700;
-      line-height: 1.6;
+      font-size: 1.05rem;
+      font-weight: 400;
     }
 
     main {
-      max-width: 1180px;
+      max-width: 1400px;
       margin: 0 auto 5rem;
-      padding: 0 18px;
+      padding: 0 1.5rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--cream);
-      border: 2px solid var(--ink);
-      border-radius: var(--radius);
-      padding: 2.25rem 2rem;
-      box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Tabs Navigation */
+    .tabs-wrapper {
       position: relative;
-      overflow: hidden;
+      margin-bottom: 2.5rem;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 290px;
+      justify-content: center;
     }
 
-    .card:hover {
-      transform: translate(-4px, -4px);
-      box-shadow: 12px 12px 0 var(--ink);
+    .tabs-nav {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.35rem;
+      border-radius: 9999px;
+      display: flex;
+      gap: 0.25rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .card-meta {
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      outline: none;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+      background: var(--gradient-accent);
+      box-shadow: var(--glow-blue);
+    }
+
+    .tab-badge {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .tab-btn.active .tab-badge {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Tab Content Grid */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .content-header {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
-    .card-num {
-      font-size: 1.85rem;
-      font-weight: 900;
-      color: var(--blue);
-      font-family: 'Outfit', sans-serif;
+    .content-header-info h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .card-badge {
-      font-size: 0.725rem;
-      padding: 0.25rem 0.65rem;
-      border: 2px solid var(--ink);
+    .content-header-info p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .difficulty-badge {
+      padding: 0.35rem 0.85rem;
       border-radius: 6px;
-      font-weight: 900;
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
     }
 
-    .badge-blue { background: #e0f2fe; color: var(--blue); }
-    .badge-teal { background: #ccfbf1; color: var(--green); }
-    .badge-orange { background: #ffedd5; color: var(--orange); }
-    .badge-red { background: #fee2e2; color: var(--red); }
+    .difficulty-badge.easy { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.3); }
+    .difficulty-badge.medium { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+    .difficulty-badge.hard { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .difficulty-badge.crown { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: transparent;
+      transition: var(--transition-smooth);
+    }
+
+    .glass-card:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-card.accent-card::before {
+      background: var(--gradient-accent);
+    }
 
     .card-title {
-      font-size: 1.28rem;
-      font-weight: 900;
-      margin-bottom: 0.75rem;
-      color: var(--ink);
-      line-height: 1.35;
-      font-family: "Noto Serif TC", serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-primary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 0.75rem;
     }
 
-    .card-desc {
-      color: #40526a;
+    .card-title span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Text areas and Code Display */
+    .code-container {
+      position: relative;
+      background: rgba(10, 12, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      font-family: 'Courier New', Courier, monospace;
       font-size: 0.925rem;
-      margin-bottom: 1.85rem;
-      flex-grow: 1;
-      font-weight: 600;
-      line-height: 1.55;
+      color: #e2e8f0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 480px;
+      overflow-y: auto;
     }
 
-    .card-btn {
+    .prompt-content {
+      line-height: 1.6;
+    }
+
+    /* Buttons with Micro-animations */
+    .action-btn {
       width: 100%;
-      background: #ffffff;
-      border: 2px solid var(--ink);
-      color: var(--ink);
+      background: var(--gradient-accent);
+      border: none;
+      color: var(--text-primary);
       font-family: var(--font-display);
-      font-size: 0.95rem;
-      font-weight: 900;
-      padding: 0.875rem 1.5rem;
-      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition-smooth);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      box-shadow: 4px 4px 0 var(--ink);
+      gap: 0.65rem;
+      box-shadow: var(--glow-blue);
+      position: relative;
+      overflow: hidden;
     }
 
-    .card-btn:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 var(--ink);
-      background: var(--cream);
+    .action-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.5s ease-out;
+      pointer-events: none;
     }
 
-    .card-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0 var(--ink);
+    .action-btn:active::after {
+      transform: translate(-50%, -50%) scale(1);
+      transition: 0s;
     }
 
+    .action-btn:hover {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0 0 25px rgba(168, 85, 247, 0.3);
+      transform: scale(1.01);
+    }
+
+    .action-btn.secondary-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      box-shadow: none;
+    }
+
+    .action-btn.secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+      border-color: var(--glass-border-hover);
+      box-shadow: none;
+      transform: translateY(-1px);
+    }
+
+    .action-btn.success {
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    /* Mock Spreadsheet Table Styling */
+    .spreadsheet-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 1.25rem;
+      background: rgba(10, 12, 20, 0.4);
+    }
+
+    .sheet-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sheet-tab-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-right: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-primary);
+    }
+
+    .code-hl {
+      color: #93c5fd;
+    }
+
+    /* Clipboard Copy Feedback Toast System */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toast {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.15);
+      border-left: 4px solid #10b981;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      backdrop-filter: blur(8px);
+      transform: translateY(50px);
+      opacity: 0;
+      animation: toastIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes toastIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .toast.hide {
+      animation: toastOut 0.3s ease forwards;
+    }
+
+    @keyframes toastOut {
+      to {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Footer styles */
     footer {
       text-align: center;
-      padding: 4rem 0;
-      color: var(--muted);
+      padding: 3rem 0;
+      color: var(--text-muted);
       font-size: 0.85rem;
-      border-top: 1px solid var(--line);
-      margin-top: 5rem;
-      font-weight: 700;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    footer a:hover {
+      color: var(--text-primary);
+      text-decoration: underline;
+    }
+
+    .step-badge {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+      color: var(--text-primary);
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-right: 0.5rem;
+    }
+
+    .desc-box {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      border-left: 3px solid var(--accent-blue);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .desc-box strong {
+      color: var(--text-primary);
+    }
+
+    .flex-buttons {
+      display: flex;
+      gap: 1rem;
     }
 
     @media (max-width: 640px) {
-      .grid {
-        grid-template-columns: 1fr;
+      .flex-buttons {
+        flex-direction: column;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      .tab-btn {
+        width: 100%;
+        border-radius: 8px;
+        justify-content: center;
+      }
+      .tabs-nav {
+        border-radius: 16px;
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- Ambient Glow -->
+  <div class="glow-container">
+    <div class="glow-ball-1"></div>
+    <div class="glow-ball-2"></div>
+  </div>
+
   <header>
-    <div class="header-logo">Antigravity Interactive</div>
-    <h1>AI Agent 研習互動圖卡線上目錄</h1>
-    <p class="subtitle">專為 115 典範社群教師研習設計。點擊下方各單元的卡片，即可線上瀏覽對應的互動圖卡投影片教材，享受流暢的響應式數位學習體驗！</p>
+    <div class="header-logo">Antigravity Workshop Tool</div>
+    <h1>AI Agent 備課實戰 Prompt 複製工具</h1>
+    <p class="subtitle">專為社群中小學教師研習設計。免去繁瑣的複製排版，一鍵獲取模擬檔案與終極 ReAct 自動化指令，在電腦中親眼見證 Agent 自主行政與備課革命！</p>
   </header>
 
   <main>
-    <div class="grid">
-      <!-- Card 1 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">01</span>
-          <span class="card-badge badge-blue">第一單元</span>
+    <!-- Tab Navigation -->
+    <div class="tabs-wrapper">
+      <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-zero')">
+          <span class="tab-badge" style="color: #2dd4bf;">初階</span> 期末表單催繳
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-one')">
+          <span class="tab-badge" style="color: #2dd4bf;">實戰一</span> 成績行政合併
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-two')">
+          <span class="tab-badge" style="color: #fb923c;">實戰二</span> 教材出類似題
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-four')">
+          <span class="tab-badge" style="color: #a855f7;">實戰二進階</span> 互動小測驗
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-three')">
+          <span class="tab-badge" style="color: #f87171;">實戰三</span> GitHub 發布
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-five')">
+          <span class="tab-badge" style="color: #f87171;">實戰四</span> Google表單自動出題
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-eight')">
+          <span class="tab-badge" style="color: #f87171;">實戰五</span> 雲端簡報與圖表大聯動
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-six')">
+          <span class="tab-badge" style="color: #f87171;">實戰六</span> Custom Skill 技能包
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-seven')">
+          <span class="tab-badge" style="color: #f87171;">實戰七</span> MCP 雲端工具串接
+        </button>
+      </nav>
+    </div>
+
+<!-- ==========================================
+         TAB: ZERO (初階體驗：期末表單溫馨催繳 Agent)
+         ========================================== -->
+    <div id="tab-zero" class="tab-content active">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟢 初階體驗 —— 期末表單溫馨催繳 Agent (Excel ➔ Word 實戰)</h2>
+          <p>體驗焦點：體驗 Agent 自主讀取本機 Excel 名冊 ➔ 自動分析 10 位教師的欠交資料 ➔ 撰寫溫馨催繳信並自動產生 Word 排版檔的強大實力！</p>
         </div>
-        <div>
-          <h2 class="card-title">AI Agent 運作原理</h2>
-          <p class="card-desc">探索 AI Agent 核心概念：大腦、規劃、記憶與工具呼叫，了解從「聊天對話」到「動手執行」的革命。</p>
-        </div>
-        <a href="chapter01_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+        <span class="difficulty-badge easy">難易度：極易</span>
       </div>
 
-      <!-- Card 2 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">02</span>
-          <span class="card-badge badge-blue">第二單元</span>
+      <div class="grid-container">
+        <!-- Left Column: File preparation -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：已在 cards/ch3催繳/ 資料夾中載入的練習檔</span>
+            <span class="tab-badge">ch3催繳/期末未交表單名冊.xlsx</span>
+          </div>
+          <div class="desc-box">
+            本單元練習檔案已在專案的 <strong>`cards/ch3催繳/期末未交表單名冊.xlsx`</strong> 中準備妥當。以下為該模擬催繳名冊的數據預覽：
+          </div>
+
+          <div class="spreadsheet-container">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator"></span> Sheet1 (期末催繳名冊)
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px;">序號</th>
+                  <th style="width: 80px;">處室/班級</th>
+                  <th style="width: 80px;">教師姓名</th>
+                  <th style="width: 200px;">尚未繳交之期末表單項目</th>
+                  <th>截止日</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>三年1班</td>
+                  <td><strong>王大明</strong></td>
+                  <td>學生期末評語表、學籍卡確認表</td>
+                  <td>6月25日</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>四年3班</td>
+                  <td><strong>李美美</strong></td>
+                  <td>特教學生個別化教育計畫(IEP)簽名頁</td>
+                  <td>6月26日</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>體育組</td>
+                  <td><strong>張大華</strong></td>
+                  <td>體育器材室期末盤點表</td>
+                  <td>6月24日</td>
+                </tr>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...等共 10 筆數據</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="flex-buttons">
+            <button class="action-btn secondary-btn" onclick="copyTableAsCSV('tab-zero', '期末催繳名冊')">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              複製催繳名冊 CSV
+            </button>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">操作介面與安全指南</h2>
-          <p class="card-desc">熟悉 Antigravity 軟體操作介面，解密本地端程式碼安全沙盒與人機審查核准（Approve）機制。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 終極 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方終極 Prompt 發送給 <strong>Antigravity (AI Agent)</strong>。您將親眼見證 Agent 自主讀取上述 Excel 表格，分析並以溫和助理語氣轉化，自動在後台寫程式跑出實體 <strong>`期末溫馨催繳通知信.docx`</strong>！
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-zero-content">請幫我讀取專案目錄下的 `cards/ch3催繳/期末未交表單名冊.xlsx`。你是一位溫柔貼心、擅長人際溝通的學校教務處助理 Agent。請針對名單中每一位尚未繳交表單的老師，個別寫一段溫暖且極具行政禮儀的提醒通知（用於 LINE 或簡訊），提醒語氣要體貼老師們期末閱卷與行政忙碌，多用禮貌用語。
+
+請在同目錄下直接為我生成一個排版美觀的 `期末溫馨催繳通知信.docx`。
+檔案內容必須包含：
+1. 『📢 期末行政溫馨提醒』（簡單說明本檔案的用途）
+2. 為每位老師撰寫一個獨立區塊（包含老師姓名、分機、缺交項目、截止日期、以及一段客氣體貼的提醒私訊草稿，請用標題區分每位老師）。</div>
+          
+          <button class="action-btn" id="btn-copy-zero" onclick="copyContent('prompt-zero-content', '體驗 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter02_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+    
+        <!-- ==========================================
+         TAB: ONE (實戰一：學生習作成績自動登錄與行政系統一鍵合併)
+         ========================================== -->
+    <div id="tab-one" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟢 實戰一：學生習作成績自動登錄與行政系統一鍵合併</h2>
+          <p>體驗焦點：一鍵合併！自動讀取 Excel 成績表單回覆檔 ➔ 自動對齊 15 位學生的座號與姓名 ➔ 將成績安全寫入國語與數學空白匯入模版，產生實體 XLSX 檔案！</p>
+        </div>
+        <span class="difficulty-badge easy">難易度：簡單</span>
       </div>
 
-      <!-- Card 3 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">03</span>
-          <span class="card-badge badge-teal">第三單元</span>
+      <div class="grid-container">
+        <!-- Left Column: Spreadsheet structure -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：已在 cards/ch4成績/ 資料夾中載入的練習檔</span>
+            <span class="tab-badge">ch4成績/</span>
+          </div>
+          <div class="desc-box">
+            本單元練習檔案已在專案的 <strong>`cards/ch4成績/`</strong> 資料夾中為您準備妥當。以下為 <strong>`學生習作成績登錄表 (回覆).xlsx`</strong> 表單回覆檔模擬數據：
+          </div>
+
+          <div class="spreadsheet-container">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator"></span> Sheet1 (表單回覆成績)
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 130px;">請選擇您的座號與姓名</th>
+                  <th style="width: 80px;">國語習作1</th>
+                  <th style="width: 80px;">國語習作2</th>
+                  <th style="width: 80px;">數學隨堂1</th>
+                  <th>...等各科 18 欄</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>01 賈伯斯</strong></td>
+                  <td>100</td>
+                  <td>95</td>
+                  <td>90</td>
+                  <td>...</td>
+                </tr>
+                <tr>
+                  <td><strong>02 泰勒絲</strong></td>
+                  <td>90</td>
+                  <td>85</td>
+                  <td>80</td>
+                  <td>...</td>
+                </tr>
+                <tr>
+                  <td><strong>03 比爾蓋茲</strong></td>
+                  <td>88</td>
+                  <td>92</td>
+                  <td>85</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex-buttons">
+            <button class="action-btn secondary-btn" onclick="copyTableAsCSV('tab-one', '表單回覆成績')">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              複製模擬回覆檔 CSV
+            </button>
+            <button class="action-btn secondary-btn" onclick="copyAutoCreatePrompt(1)">
+              🌟 請 Agent 重建此單元空白 Excel
+            </button>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">溫慢親師溝通體驗</h2>
-          <p class="card-desc">實戰初階體驗：輸入日常學生狀況，讓 Agent 以同理心專家面具轉化，自動在本地生成 Word 親師草稿。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 終極 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方終極 Prompt 並發送給 <strong>Antigravity (AI Agent)</strong>。Agent 將在背景寫 Python 使用正則比對座號、處理資料型態，直接在後台產生填妥的實體 Excel 成績檔，以供行政系統匯入！
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-one-content">請讀取專案目錄下 `cards/ch4成績/學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx`、`cards/ch4成績/三年2班國語_平時成績匯出入檔_空白.xlsx` 和 `cards/ch4成績/三年2班數學_平時成績匯出入檔_空白.xlsx`。
+你是一位擁有 20 年教學經驗 of 國小資深班導師兼 Python 自動化辦公特助。
+
+請幫我自主執行以下批量自動化任務：
+1. 讀取並分析『回覆.xlsx』中所有學生的習作成績（共 15 位學生）。
+2. 將這些成績自動對齊姓名與座號（『回覆.xlsx』的座號在姓名欄位的前兩碼，如 01, 02...），在填入時請自主使用 Python 將姓名進行去識別化（除首尾字外，中間字變更為「○」，如「賈伯斯」轉換成「賈○斯」、「比爾蓋茲」轉換成「比○○茲」），以落實學生隱私防護，再寫入『國語_空白.xlsx』與『數學_空白.xlsx』的對應評分欄位中。
+3. 沒有填寫表單回覆的學生（例如 10 貝多芬、11 莫札特、15 莎士比亞），其評分欄位請保持空白。
+4. 自主編寫 Python 程式碼，並在背景直接執行它，將填寫完成的結果另存為兩個新檔案，存放在 `cards/ch4成績/` 資料夾下：
+   - `三年2班國語_平時成績匯出入檔_已填寫.xlsx`
+   - `三年2班數學_平時成績匯出入檔_已填寫.xlsx`
+5. 確保模板前 5 列的元數據結構、格式以及所有座號姓名順序完全保留，絕不損壞。</div>
+          
+          <button class="action-btn" id="btn-copy-one" onclick="copyContent('prompt-one-content', '實戰一 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter03_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: TWO (實戰二：教材題本分析與類似題生成)
+         ========================================== -->
+    <div id="tab-two" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟡 實戰二：教材題本分析與類似題生成</h2>
+          <p>體驗焦點：讀取本機國語教材與檢測題本 PDF ➔ 分析題型與能力目標 ➔ 生成不照抄原題的類似題練習卷與教師版答案解析！</p>
+        </div>
+        <span class="difficulty-badge medium">難易度：中等</span>
       </div>
 
-      <!-- Card 4 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">04</span>
-          <span class="card-badge badge-teal">第四單元</span>
+      <div class="grid-container">
+        <!-- Left Column: Source files -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：已在 cards/ch5出題/ 資料夾中載入的教材</span>
+            <span class="tab-badge">cards/ch5出題/</span>
+          </div>
+          <div class="desc-box">
+            本單元的教材檔案已收納至 <strong>`cards/ch5出題/`</strong>，請讓 Agent 直接讀取這兩份 PDF，不必手動複製題目文字：
+          </div>
+
+          <div class="spreadsheet-container">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-purple);"></span> 教材來源
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 260px;">檔案名稱</th>
+                  <th>用途</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>01_國小國語3下各課生字詞語解釋.pdf</strong></td>
+                  <td>取得三年級下學期常見生字、語詞、詞義與造句素材。</td>
+                </tr>
+                <tr>
+                  <td><strong>115年縣市學習能力檢測題本三年級國語科題本.pdf</strong></td>
+                  <td>分析國語檢測題本的題型、難度、文本長度、選項設計與評量能力。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex-buttons">
+            <button class="action-btn secondary-btn" onclick="copyTableAsCSV('tab-two', '教材來源')">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              複製教材檔案清單
+            </button>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">成績登錄與行政合併</h2>
-          <p class="card-desc">實戰一：自動讀取 Excel 表單學生成績，對齊座號姓名並登錄至學務系統空白模版中，生成登錄成品檔。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 類似題生成 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt 並發送。Agent 會讀取 PDF、整理題型與評量重點，產出學生版題卷與教師版答案解析。
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-two-content">請讀取專案目錄下的 `cards/ch5出題` 資料夾。你是一位熟悉國小國語命題、閱讀理解與學習扶助的教師命題專家。
+
+請幫我完成以下任務：
+
+1. 讀取並分析資料夾中的兩份 PDF：
+   - `01_國小國語3下各課生字詞語解釋.pdf`
+   - `115年縣市學習能力檢測題本三年級國語科題本.pdf`
+2. 先整理題本中常見的三年級國語題型，例如：字詞理解、語詞運用、句意判斷、標點語氣、段落理解、文意推論、圖表或生活情境閱讀。
+3. 請不要照抄原題。請依照原題本的能力目標、題型結構與難度，重新設計一份「不同文本、相同能力」的類似題練習卷。
+4. 練習卷請包含：
+   - 10 題選擇題
+   - 2 題短答題
+   - 題目前方標示評量重點
+   - 題目難度以國小三年級學生可理解為準
+5. 請另外產出教師版答案解析，內容包含：
+   - 正確答案
+   - 為什麼選這個答案
+   - 學生可能會選錯的原因
+   - 一句補救教學建議
+6. 請在專案目錄下產出兩個 Markdown 檔案：
+   - `三年級國語類似題.md`
+   - `三年級國語類似題_答案解析.md`
+7. 完成後請回報你如何從 PDF 中判斷題型、如何避免照抄、以及這份題目適合用在哪一種課堂情境。</div>
+          
+          <button class="action-btn" id="btn-copy-two" onclick="copyContent('prompt-two-content', '實戰二 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter04_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: FOUR (實戰二進階：互動小測驗生成)
+         ========================================== -->
+    <div id="tab-four" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>👑 實戰二進階 —— 類似題互動小測驗一體化生成</h2>
+          <p>體驗焦點：<strong>把紙本題卷變成可操作網頁！</strong> 請 AI Coding Agent 讀取剛產出的題卷與答案解析，直接生成單一 HTML 檔，讓學生逐題作答、即時看回饋與總分建議。</p>
+        </div>
+        <span class="difficulty-badge crown">難易度：極具挑戰</span>
       </div>
 
-      <!-- Card 5 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">05</span>
-          <span class="card-badge badge-orange">第五單元</span>
+      <div class="grid-container">
+        <!-- Left Column: Source file prep -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：沿用實戰二產出的題卷與答案解析</span>
+            <span class="tab-badge">類似題 Markdown</span>
+          </div>
+          <div class="desc-box">
+            本延伸練習會直接沿用實戰二產出的兩個 Markdown 檔案，您無需重新整理題目：
+          </div>
+
+          <div class="spreadsheet-container">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-purple);"></span> 前置成品
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 230px;">檔案名稱</th>
+                  <th>用途</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>三年級國語類似題.md</strong></td>
+                  <td>學生版題卷，包含選擇題、短答題與評量重點。</td>
+                </tr>
+                <tr>
+                  <td><strong>三年級國語類似題_答案解析.md</strong></td>
+                  <td>教師版答案、解析、常見錯因與補救教學建議。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">題本分析與類似題生成</h2>
-          <p class="card-desc">實戰二：讀取學習扶助國語科檢測 PDF 題本，分析學生的核心錯因，並針對弱點批量生成客製化類似題卷。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 互動網頁生成 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt 並發送給 <strong>Antigravity (AI Coding Agent)</strong>。Agent 會把類似題題卷轉成可直接雙擊開啟的互動小測驗 HTML。
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-four-content">請根據剛才產出的 `三年級國語類似題.md` 與 `三年級國語類似題_答案解析.md`，幫我製作一個單一檔案、零外部依賴的互動小測驗網頁，命名為 `三年級國語互動小測驗.html`。
+
+網頁需求如下：
+
+1. 適合國小三年級學生使用，畫面溫暖、清楚、不要像考試壓力太重。
+2. 每次顯示一題，學生選完答案後可以按「檢查答案」。
+3. 答對時顯示鼓勵語與簡短解析。
+4. 答錯時不要只說錯，請給一個提示，引導學生回到題目線索。
+5. 題目完成後顯示總分、答對題數與建議複習的題型。
+6. 所有 CSS 與 JavaScript 都寫在同一個 HTML 檔案中，不要引用外部套件。
+7. 請在完成後提醒我直接用瀏覽器開啟 `三年級國語互動小測驗.html` 測試。</div>
+          
+          <button class="action-btn" id="btn-copy-four" onclick="copyContent('prompt-four-content', '實戰二進階 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter05_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: THREE (實戰三：從互動試題到 GitHub 發布)
+         ========================================== -->
+    <div id="tab-three" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟡 實戰三：從互動試題到 GitHub 發布</h2>
+          <p>體驗焦點：先理解 GitHub 是什麼，再讓 Agent 整理實戰二互動小測驗、初始化 Git、推送到 GitHub，最後用 GitHub Pages 產生學生可點開的網址。</p>
+        </div>
+        <span class="difficulty-badge medium">難易度：中等</span>
       </div>
 
-      <!-- Card 6 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">06</span>
-          <span class="card-badge badge-orange">第六單元</span>
+      <div class="grid-container">
+        <!-- Left Column: GitHub concepts and source files -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：先理解 GitHub 與確認實戰二產物</span>
+          </div>
+          <div class="desc-box">
+            <strong>GitHub 白話版：</strong>它不僅是網路上的作品資料夾，更像線上教材備份庫，能儲存歷史版本並一鍵發布網頁；Repository 是一個教材專案資料夾；GitHub Pages 可以把 HTML 小測驗變成學生可點開的網址。
+          </div>
+
+          <div class="spreadsheet-container" style="margin-bottom: 1rem;">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-blue);"></span> 需要先準備好的檔案
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 230px;">檔案</th>
+                  <th>用途</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>三年級國語互動小測驗.html</strong></td>
+                  <td>要發布成網站首頁的學生作答網頁。</td>
+                </tr>
+                <tr>
+                  <td><strong>三年級國語類似題.md</strong></td>
+                  <td>學生版題卷，作為發布資料夾中的備查資料。</td>
+                </tr>
+                <tr>
+                  <td><strong>三年級國語類似題_答案解析.md</strong></td>
+                  <td>教師版答案解析，提供老師後續更新與檢核。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="spreadsheet-container" style="margin-bottom: 1rem;">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-purple);"></span> 四個 GitHub 關鍵字
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 120px;">名詞</th>
+                  <th>老師版解釋</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Repository</td>
+                  <td>一個網路教材資料夾。</td>
+                </tr>
+                <tr>
+                  <td>Commit</td>
+                  <td>幫這次教材更新存一個版本紀錄。</td>
+                </tr>
+                <tr>
+                  <td>Push</td>
+                  <td>把本機檔案送到 GitHub。</td>
+                </tr>
+                <tr>
+                  <td>Pages</td>
+                  <td>把 HTML 發布成學生可以開啟的網址。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="desc-box" style="margin-top: 1rem;">
+            請先到 GitHub 建立空的 Repository，例如 <strong>`grade3-chinese-quiz`</strong>，並複製 HTTPS 網址，等等貼進 Prompt 裡。
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">互動試題與 GitHub 發布</h2>
-          <p class="card-desc">實戰三：將類似題一鍵轉換為互動小測驗網頁，並命令 Agent 自動初始化 Git、將其發布部署至 GitHub Pages。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity GitHub 發布 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt 並發送給 <strong>Antigravity</strong>。請把 GitHub repository 網址替換成自己的網址；若需要登入或 Token，請依畫面授權，不要把 Token 存進檔案。
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-three-content">請協助我從零開始完成 GitHub 發布。你是一位熟悉教師數位教材發布、GitHub Pages 與前端網頁部署的 AI Agent。
+
+請先檢查專案根目錄是否已有以下三個實戰二產物：
+- `三年級國語互動小測驗.html`
+- `三年級國語類似題.md`
+- `三年級國語類似題_答案解析.md`
+
+接著請幫我執行以下任務：
+
+1. 建立發布資料夾：`publish/grade3-chinese-quiz/`。
+2. 將 `三年級國語互動小測驗.html` 複製到發布資料夾，並重新命名為 `index.html`，讓 GitHub Pages 可以直接開啟首頁。
+3. 將 `三年級國語類似題.md` 與 `三年級國語類似題_答案解析.md` 也複製進發布資料夾，作為教師備查資料。
+4. 在發布資料夾中撰寫一份 `README.md`，用老師看得懂的方式說明用途、學生如何使用、老師如何後續更新題目。
+5. 進入 `publish/grade3-chinese-quiz/` 資料夾，使用本機 Git 完成：
+   - `git init`
+   - `git add .`
+   - `git commit -m "publish grade 3 chinese quiz"`
+   - `git branch -M main`
+6. 請將本機 repo 連接到我的 GitHub repository：
+   - `https://github.com/您的帳號/grade3-chinese-quiz.git`
+7. 請執行 `git push -u origin main`，把互動試題發布資料夾推送到 GitHub。
+8. 若推送時需要登入、Token 或瀏覽器授權，請暫停並用白話告訴我現在要做什麼，不要把 Token 寫進任何檔案。
+9. 完成後，請用老師能理解的方式說明如何到 GitHub Pages 開啟網站，並推估最後網址會長什麼樣子。</div>
+          
+          <button class="action-btn" id="btn-copy-three" onclick="copyContent('prompt-three-content', '實戰三 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter06_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+    <!-- ==========================================
+         TAB: FIVE (實戰四：課本教材自動生成 Google 表單測驗)
+         ========================================== -->
+    <div id="tab-five" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🔴 實戰四：雲端命題助教 —— 課本教材自動生成 Google 表單測驗</h2>
+          <p>體驗焦點：讀取課文 ➔ 自主設計選擇題與正解 ➔ 寫 Python 調用 Google Forms API ➔ 建立包含配分、隨機選項與測驗模式的實體 Google 表單！</p>
+        </div>
+        <span class="difficulty-badge hard">難易度：挑戰</span>
       </div>
 
-      <!-- Card 7 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">07</span>
-          <span class="card-badge badge-red">第七單元</span>
+      <div class="grid-container">
+        <!-- Left Column: Source files -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：已在 cards/ch7表單/ 資料夾中載入的練習檔</span>
+            <span class="tab-badge">cards/ch7表單/</span>
+          </div>
+          <div class="desc-box">
+            本單元練習檔案已在專案的 <strong>`cards/ch7表單/`</strong> 資料夾中準備妥當。以下為 <strong>`課本教材.txt`</strong> 的教材內容預覽：
+          </div>
+
+          <div class="code-container" style="max-height: 250px; overflow-y: auto;" id="txt-four-教材">水的變化與循環：
+水在自然界中，會以不同的形態出現。當地面的水吸收太陽的熱量，會慢慢變成看不見的水蒸氣散播到空氣中，這個過程叫做『蒸發』。
+當空氣中的水蒸氣遇到冷空氣時，會凝結成小水滴或凝華成小冰晶，聚集成雲或霧。當雲中的水滴或冰晶變大、變重，受重力影響掉落下來，就形成了『降雨』或『降雪』。
+另外，水在溫度降到攝氏零度（0°C）以下時，會凝固成冰；而冰在受熱時，又會融化成水。這種在固態（冰）、液態（水）和氣態（水蒸氣）之間的不斷變化與移動，就構構成地球上永不停息的水循環。</div>
+
+          <div class="desc-box" style="margin-top: 1rem;">
+            <strong>提示：</strong>在執行前，請先按照教材指南將 Google 下載的 <strong>`credentials.json`</strong> 金鑰檔案放置於 `cards/ch7表單/` 資料夾下。
+          </div>
+
+          <div class="flex-buttons">
+            <button class="action-btn secondary-btn" onclick="copyAutoCreatePrompt(4)">
+              🌟 請 Agent 重建此單元練習檔
+            </button>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">Google 表單自動化出題</h2>
-          <p class="card-desc">實戰四：讀取課文，自主設計 5 題測驗。呼叫 Google Forms API 自動在雲端建立帶有配分與選項隨機的測驗表單。</p>
+
+        <!-- Right Column: Prompt Copy -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 終極 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方終極 Prompt 並發送給 <strong>Antigravity (AI Agent)</strong>。您將親眼見證 Agent 自主命題，自動在後台寫 Python 登入 OAuth 授權並連動 Google Forms API 建立測驗！
+          </div>
+          
+          <div class="code-container prompt-content" id="prompt-five-content">請幫我讀取專案目錄下的 `cards/ch7表單/課本教材.txt`。你是一位專業的命題與數位教學特助 Agent。
+
+請幫我自主執行以下步驟：
+1. 讀取並解析 `cards/ch7表單/課本教材.txt` 的課文內容，為國小三年級學生設計 5 題單選題（每題有 A、B、C、D 四個選項，並標記正確答案，每題配分 20 分）。
+2. 撰寫 Python 程式碼，使用 `google-api-python-client` 庫串接 Google Forms API：
+   - 讀取 `cards/ch7表單/credentials.json` 啟動本地端 OAuth 授權流程（若 `token.json` 不存在則開瀏覽器讓使用者登入驗證，並將其存在同目錄下）。
+   - **新建 Google 表單**：表單標題為「三年級自然：水的變化與循環測驗」。
+   - **設定為測驗模式 (Quiz)**：呼叫 `batchUpdate` 將 `quizSettings.isQuiz` 設定為 `True`。
+   - **寫入題目與分數**：新增 5 題選擇題，並在每個問題的 `grading` 物件中設定分數 (20 分) 及正確答案選項。
+   - **設定隨機排序**：設定選項為隨機排序（利用 choiceQuestion 中的 `shuffle` 欄位為 True）。
+3. 程式執行成功後，回報給我產出的表單名稱、表單的 **編輯網址** 與 **學生填寫網址**。</div>
+          
+          <button class="action-btn" id="btn-copy-five" onclick="copyContent('prompt-five-content', '實戰四 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter07_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: SIX (實戰五：Custom Skill 技能包)
+         ========================================== -->
+    <div id="tab-six" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🔴 實戰五：打造 AI 特務專屬技能包 —— Custom Skill 自訂與活用</h2>
+          <p>體驗焦點：載入專屬技能包 ➔ 讀取 Markdown 排版手冊 ➔ 自主編寫排版程式，變出標題深藍粗體、中文字縮排、頁碼等完美格式 Word！</p>
+        </div>
+        <span class="difficulty-badge hard">難易度：挑戰</span>
       </div>
 
-      <!-- Card 8 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">08</span>
-          <span class="card-badge badge-red">第八單元</span>
+      <div class="grid-container">
+        <!-- Left Column -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📁 步驟 1：建立你的 Custom Skill 手冊檔案</span>
+            <span class="tab-badge">SKILL.md 手冊</span>
+          </div>
+          <div class="desc-box">
+            請在專案目錄下新建資料夾 <strong>`.agents/skills/doc_expert/`</strong>，並在其中建立一個 <strong>`SKILL.md`</strong>，寫入排版指令（如：標題深藍色、中文縮排、頁碼等）。
+          </div>
+          <div class="flex-buttons">
+            <button class="action-btn secondary-btn" onclick="copyAutoCreatePrompt(5)">
+              🌟 請 Agent 自動安裝 GitHub PDF 技能包
+            </button>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">Custom Skill 技能包</h2>
-          <p class="card-desc">實戰五：將專業排版手冊或教材命題原則封裝為技能包，不佔用大腦，用到時自動載入（如呼叫 @doc_expert）。</p>
+
+        <!-- Right Column -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Antigravity 技能調用 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt 並發送給 <strong>Antigravity</strong>。親眼見證 Agent 自主加載技能包、讀取手冊、撰寫程式產出排版完美的 Word 草稿！
+          </div>
+          <div class="code-container prompt-content" id="prompt-six-content">請讀取當前資料夾，並載入 **@doc_expert** 這個 Skill。
+請根據這個技能包裡的排版規範，讀取 `cards/ch3聯絡簿/學生狀況.txt`，並在專案目錄下生成一個 `溫暖聯絡簿_Skill版.docx`。標題與段落格式請務必完全遵循 `SKILL.md` 的要求！</div>
+          
+          <button class="action-btn" id="btn-copy-six" onclick="copyContent('prompt-six-content', '實戰五 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter08_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: SEVEN (實戰六：MCP 雲端服務與工具串接)
+         ========================================== -->
+    <div id="tab-seven" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🔴 實戰七：開啟 AI 特務的萬能插頭 —— MCP 雲端服務與本機工具串接</h2>
+          <p>體驗焦點：了解通用外掛協定 MCP ➔ 註冊 config.json ➔ 呼叫 Google Chat Webhook 自主傳送完成通知到教師的手機群組！</p>
+        </div>
+        <span class="difficulty-badge hard">難易度：挑戰</span>
       </div>
 
-      <!-- Card 9 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">09</span>
-          <span class="card-badge badge-red">第九單元</span>
+      <div class="grid-container">
+        <!-- Left Column -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>⚙️ 步驟 1：註冊你的 MCP Server 設定檔</span>
+            <span class="tab-badge">config.json 設定</span>
+          </div>
+          <div class="desc-box">
+            在 Antigravity 軟體設定的 <strong>Developer Settings</strong> 中，註冊與啟動開源的 Google Sheets 或 Webhook 通知腳本。
+          </div>
+          <div class="spreadsheet-container">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-orange);"></span> Sheets MCP 設定範例
+            </div>
+            <pre style="padding: 1rem; color: #a5b4fc; font-family: monospace; font-size: 0.85rem; background: rgba(0,0,0,0.3); border-radius: 8px; overflow-x: auto;">"google-sheets": {
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-google-sheets"]
+}</pre>
+          </div>
         </div>
-        <div>
-          <h2 class="card-title">MCP 雲端工具串接</h2>
-          <p class="card-desc">實戰六：開啟大腦通用 USB 萬能接孔。大腦自主連動 Google Sheets 與自動傳送完成通知 Webhook 至手機！</p>
+
+        <!-- Right Column -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🎯 步驟 2：驅動 Webhook 自動通知 Prompt</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt 發送給 <strong>Antigravity</strong>，體驗大腦在完成任務後，自主使用 Webhook 外肢工具，發送訊息至手機！
+          </div>
+          <div class="code-container prompt-content" id="prompt-seven-content">請讀取當前資料夾，並載入 **google-chat-webhook** 的 MCP 工具。
+請分析專案目錄下的學生成績，在分析完成後，自動呼叫 Webhook 發送一則通知，文字為：『三年2班的學習扶助類似題已完成生成與部署！』</div>
+          
+          <button class="action-btn" id="btn-copy-seven" onclick="copyContent('prompt-seven-content', '實戰六 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            一鍵複製 終極 Prompt
+          </button>
         </div>
-        <a href="chapter09_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TAB: EIGHT (實戰七：雲端 Google 簡報與表單自動化)
+         ========================================== -->
+    <div id="tab-eight" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟢 實戰五：雲端大聯動 —— 雲端 Google 簡報與試算表圖表自動化生成</h2>
+          <p>體驗焦點：調用雲端 Google Slides API 繪製簡報 ➔ 呼叫 Forms API 建立下拉式名冊表單 ➔ 打破本機沙盒限制，對接雲端大廠 API！</p>
+        </div>
+        <span class="difficulty-badge hard">難易度：挑戰</span>
       </div>
 
-      <!-- Card 10 -->
-      <div class="card">
-        <div class="card-meta">
-          <span class="card-num">10</span>
-          <span class="card-badge badge-teal">第十單元</span>
+      <div class="grid-container">
+        <!-- Left Column -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📊 任務 1：一鍵生成雲端 Google 簡報 Prompt</span>
+            <span class="tab-badge" style="color: #fb923c;">簡報自動化</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt，讓 Agent 自動在您的 Google 雲端硬碟中繪製一份三頁、深藍底、包含圓角卡片與精美排版的大綱簡報。
+          </div>
+          <div class="code-container prompt-content" id="prompt-eight-slides-content">我想在雲端建立一份 Google 簡報，名稱為『AI Agent 教師行政減量體驗簡報』。
+簡報規劃為三頁：
+1. 第一頁是封面，套用深藍背景、金色標題字卡（AI Agent 領航 中小學教師的備課行政革命）、白字副標題。
+2. 第二頁是概念介紹，套用淺藍綠背景、深藍標題（二、什麼是 AI Agent 智慧代理？），並條列白話比喻與 ReAct 四大運作要點。
+3. 第三頁是安全防線，套用淺綠色背景、深綠標題（三、老師必須掌握的安全防線），並條列 Token 預算、安全 Approve 與資料去敏感化等要點。
+請幫我撰寫 python 腳本並執行，（授權時為避免 Windows 上 8080 埠口衝突，請於程式碼中使用 flow.run_local_server(port=0) 進行驗證），最後直接在控制台輸出線上編輯連結。</div>
+          
+          <button class="action-btn" id="btn-copy-eight-slides" onclick="copyContent('prompt-eight-slides-content', '實戰七 簡報 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            複製 簡報 Prompt
+          </button>
         </div>
-        <div>
-          <h2 class="card-title">雲端簡報與表單自動化</h2>
-          <p class="card-desc">實戰七：解密 credentials.json 金鑰申請與 OAuth 驗證，直接呼叫雲端 API 自動化建置 Google 簡報與表單名單。</p>
+
+        <!-- Right Column -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>📝 任務 2：一鍵生成「下拉名冊」成績表單 Prompt</span>
+            <span class="tab-badge" style="color: #a855f7;">表單自動化</span>
+          </div>
+          <div class="desc-box">
+            複製下方 Prompt，讓 Agent 自動將班級名冊匯入，生成包含座號姓名下拉選單、分頁填答的 Google 表單。
+          </div>
+          <div class="code-container prompt-content" id="prompt-eight-form-content">請幫我使用 Google Forms API 來建立一個學生作業成績登錄表。
+表單分成三頁：
+1. 第一頁是基本資料，姓名與座號請幫我整合成一個下拉式選單 (DROP_DOWN)，並匯入以下班級學生名冊：
+   01 賈伯斯   02 泰勒絲   03 比爾蓋茲   04 馬斯克   05 歐巴馬   06 梅西   08 愛因斯坦   09 畢卡索   10 貝多芬   11 莫札特   12 瑪丹娜   13 達文西   14 牛頓   15 莎士比亞   16 居禮夫人   17 哥倫布   18 湯姆克魯斯   19 麥可喬丹
+2. 第二頁（分頁線）是國語習作成績，包含國語習作第 1 ~ 12 課成績欄位。
+3. 第三頁（分頁線）是數學習作成績，包含數學習作第 1 ~ 9 單元成績欄位。
+請幫我撰寫對應的 python 腳本並在背景直接執行它，（授權時為避免 Windows 上 8080 埠口衝突，請於程式碼中使用 flow.run_local_server(port=0) 進行驗證），完成後回傳後台編輯連結與前台填答連結。</div>
+          
+          <button class="action-btn" id="btn-copy-eight-form" onclick="copyContent('prompt-eight-form-content', '實戰七 表單 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            複製 表單 Prompt
+          </button>
         </div>
-        <a href="chapter10_cards.html" class="card-btn">
-          開啟單元圖卡
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
       </div>
     </div>
   </main>
 
+  <!-- Clipboard Copy Toast System -->
+  <div class="toast-container" id="toast-container"></div>
+
   <footer>
     <p>115 典範社群-AIAgent教師研習教案專案 © 2026. 建立於 Antigravity 本地自動化環境.</p>
+    <p style="margin-top: 0.5rem;"><a href="file:///d:/備課ai/%E7%A0%94%E7%BF%92%E8%AC%9B%E7%BE%A9/%E7%A4%BE%E7%BE%A4_AIAgent%E7%A0%94%E7%BF%92/01_AI_Agent_Antigravity%E7%A0%94%E7%BF%92%E5%B0%88%E6%A1%88/README.md">返回專案 README 主頁</a> | <a href="file:///d:/備課ai/%E7%A0%94%E7%BF%92%E8%AC%9B%E7%BE%A9/%E7%A4%BE%E7%BE%A4_AIAgent%E7%A0%94%E7%BF%92/01_AI_Agent_Antigravity%E7%A0%94%E7%BF%92%E5%B0%88%E6%A1%88/01_研習講義與簡報大綱.md">閱讀單元一教材</a></p>
   </footer>
+
+  <script>
+    // Tab switching logic
+    function switchTab(tabId) {
+      // Deactivate all tabs
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Activate selected tab
+      document.getElementById(tabId).classList.add('active');
+      
+      // Highlight correct button
+      const indexMap = {
+        'tab-zero': 0,
+        'tab-one': 1,
+        'tab-two': 2,
+        'tab-four': 3,
+        'tab-three': 4,
+        'tab-five': 5,
+        'tab-eight': 6,
+        'tab-six': 7,
+        'tab-seven': 8
+      };
+      buttons[indexMap[tabId]].classList.add('active');
+    }
+
+    // Clipboard copy with premium Toast feedback
+    function copyContent(elementId, label, buttonElement = null) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      const text = element.innerText || element.textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        // Success Toast Notification
+        showToast(`📋 已將「${label}」複製到剪貼簿！`);
+
+        // Micro-animation feedback on the button if provided
+        if (buttonElement) {
+          const originalHTML = buttonElement.innerHTML;
+          buttonElement.classList.add('success');
+          buttonElement.innerHTML = `
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            複製成功！
+          `;
+          setTimeout(() => {
+            buttonElement.classList.remove('success');
+            buttonElement.innerHTML = originalHTML;
+          }, 2000);
+        }
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        showToast('❌ 複製失敗，請手動複製！');
+      });
+    }
+
+    // Copy table data as CSV format for convenience
+    function copyTableAsCSV(tabId, filename) {
+      const container = document.getElementById(tabId);
+      const table = container.querySelector('table');
+      if (!table) return;
+
+      let csv = [];
+      const rows = table.querySelectorAll('tr');
+      
+      for (let i = 0; i < rows.length; i++) {
+        let row = [], cols = rows[i].querySelectorAll('td, th');
+        
+        for (let j = 0; j < cols.length; j++) {
+          // Clean up whitespaces and bold tags text
+          let text = cols[j].innerText.trim().replace(/"/g, '""');
+          row.push('"' + text + '"');
+        }
+        csv.push(row.join(','));
+      }
+      
+      const csvContent = csv.join('\n');
+      navigator.clipboard.writeText(csvContent).then(() => {
+        showToast(`📊 已將「${filename}」的表格 CSV 格式複製到剪貼簿！`);
+      }).catch(() => {
+        showToast('❌ 複製失敗！');
+      });
+    }
+
+    // Helper command generator to let Agent create the files automatically!
+    function copyAutoCreatePrompt(stepIndex) {
+      let promptText = '';
+      if (stepIndex === 1) {
+        promptText = `請幫我自主撰寫 Python 程式碼，在 \`cards/ch4成績/\` 目錄下重新生成以下三個 Excel 模擬檔案（如果資料夾不存在，請一併建立）：
+1. \`學生習作成績登錄表（國習12課、數習9單元） (回覆).xlsx\`：欄位包含「請選擇您的座號與姓名」(包含座號和名字，姓名為虛擬真實姓名，例如 01 賈伯斯, 02 泰勒絲... 至座號 19 共有 18 位學生，其中座號 10, 11, 15 未填寫)，國語習作第1課至第9課、數學隨堂第1單元至第9單元等 18 個成績欄位，隨機寫入 70-100 分的成績。
+2. \`三年2班國語_平時成績匯出入檔_空白.xlsx\`：依照學務系統模板格式。前 5 列為元數據及表頭（第 1 列為班級科目元數據，第 5 列為欄位表頭：座號, 姓名, 國語1, 國語2, ..., 國語9, 平時成績等），第 6 行起為 18 位學生的座號與真實姓名，評分欄位皆為空白。
+3. \`三年2班數學_平時成績匯出入檔_空白.xlsx\`：格式同國語，但評分欄位為數學1至數學9。
+
+建立完成後，請向我回報。`;
+      } else if (stepIndex === 2) {
+        promptText = `本單元的教材 PDF 已放在 \`cards/ch5出題/\`，通常不需要重新建立檔案。
+
+請確認資料夾中有以下兩份 PDF：
+1. \`01_國小國語3下各課生字詞語解釋.pdf\`
+2. \`115年縣市學習能力檢測題本三年級國語科題本.pdf\`
+
+若檔案存在，請直接讀取它們並開始分析題型與生成類似題。`;
+      } else if (stepIndex === 3) {
+        promptText = `實戰三不需要建立 Excel 檔案。
+
+請先確認：
+1. GitHub 已建立空的 repository，例如 \`grade3-chinese-quiz\`。
+2. 已複製 repository 的 HTTPS 網址。
+3. 專案根目錄已有實戰二產出的 \`三年級國語互動小測驗.html\`。
+
+接著請直接使用實戰三的 GitHub 發布 Prompt，讓 Agent 整理發布資料夾、初始化 Git、push 到 GitHub，並協助開啟 GitHub Pages。`;
+      } else if (stepIndex === 4) {
+        promptText = `請幫我自主撰寫 Python 程式碼，在 \`cards/ch7表單/\` 目錄下重新生成以下檔案（如果資料夾不存在，請一併建立）：
+\`課本教材.txt\`：寫入以下內容：
+水的變化與循環：
+水在自然界中，會以不同的形態出現。當地面的水吸收太陽的熱量，會慢慢變成看不見的水蒸氣散播到空氣中，這個過程叫做『蒸發』。
+當空氣中的水蒸氣遇到冷空氣時，會凝結成小水滴或凝華成小冰晶，聚集成雲或霧。當雲中的水滴或冰晶變大、變重，受重力影響掉落下來，就形成了『降雨』或『降雪』。
+另外，水在溫度降到攝氏零度（0°C）以下時，會凝固成冰；而冰在受熱時，又會融化成水。這種在固態（冰）、液態（水）和氣態（水蒸氣）之間的不斷變化與移動，就構成了地球上永不停息的水循環。
+
+建立完成後，請向我回報。`;
+      } else if (stepIndex === 5) {
+        promptText = `這是 GitHub 上的官方 PDF 技能手冊 Raw 網址：
+https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md
+請幫我直接下載它，並在我的專案中建立 \`.agents/skills/pdf_expert_github/\` 目錄，將該手冊存檔為 \`SKILL.md\` 安裝進去。完成後向我回報。`;
+      }
+
+      navigator.clipboard.writeText(promptText).then(() => {
+        showToast(`✨ 已複製「讓 Agent 自動為您建 Excel 檔」的 Prompt！貼給 Agent 即可自動變出實體 Excel 檔案！`);
+      });
+    }
+
+    // Toast System controller
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      // Auto remove toast
+      setTimeout(() => {
+        toast.classList.add('hide');
+        toast.addEventListener('animationend', () => {
+          toast.remove();
+        });
+      }, 3500);
+    }
+  </script>
 </body>
 </html>

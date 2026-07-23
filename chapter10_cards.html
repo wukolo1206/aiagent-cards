@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>第十單元：實戰七 —— 雲端 Google 簡報與表單自動化生成｜網頁圖卡</title>
+  <title>第十單元：實戰七 —— 開啟 AI 特務的萬能插頭：MCP 服務串接｜網頁圖卡</title>
   <style>
     :root {
       --ink: #20314a;
@@ -65,7 +65,7 @@
       place-items: center;
       border: 2px solid var(--ink);
       border-radius: var(--radius);
-      background: #10b981;
+      background: #a855f7;
       color: #fff;
       font-weight: 900;
       box-shadow: 4px 4px 0 var(--ink);
@@ -472,7 +472,7 @@
       <div class="brand-mark">10</div>
       <div>
         <p class="brand-title">AI Agent Antigravity 研習圖卡</p>
-        <p class="brand-subtitle">第十單元實戰七｜雲端大聯動 —— 雲端 Google 簡報與表單自動化生成</p>
+        <p class="brand-subtitle">第九單元實戰六｜開啟 AI 特務的萬能插頭：MCP 雲端服務與本機工具串接</p>
       </div>
     </div>
     <div>
@@ -484,9 +484,9 @@
         <option value="chapter05_cards.html">第五單元：類似題生成體驗</option>
         <option value="chapter06_cards.html">第六單元：GitHub 發布體驗</option>
         <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
-        <option value="chapter08_cards.html">第八單元：Custom Skill 技能包</option>
-        <option value="chapter09_cards.html">第九單元：MCP 雲端工具串接</option>
-        <option selected value="chapter10_cards.html">第十單元：雲端Google簡報與表單</option>
+        <option value="chapter09_cards.html">第九單元：Custom Skill 技能包</option>
+        <option selected value="chapter10_cards.html">第十單元：MCP 雲端工具串接</option>
+        <option value="chapter08_cards.html">第八單元：雲端Google簡報與圖表</option>
       </select>
     </div>
   </header>
@@ -497,9 +497,9 @@
       <section class="card-slide">
         <div class="card-inner single">
           <div>
-            <p class="eyebrow">實戰七・雲端聯動</p>
-            <h1>Google 簡報與表單自動化生成</h1>
-            <p class="lead">在本單元中，我們將學習如何驅動 Google Slides API 與 Google Forms API，一鍵在雲端繪製簡報，並建立具有班級名單下拉選單的分頁成績表單！</p>
+            <p class="eyebrow">實戰六・萬能插頭</p>
+            <h1>MCP 雲端服務與工具串接</h1>
+            <p class="lead">在本單元中，我們將解密 MCP 通用連接埠協定，打破「本地與雲端」的軟體隔閡，讓 AI 特務能操作雲端 Google 試算表與自動傳送完工通知！</p>
             <p class="progress" id="progress">1 / 10</p>
           </div>
         </div>
@@ -510,48 +510,68 @@
         <div class="card-inner">
           <div>
             <p class="eyebrow">行政痛點</p>
-            <h2>繁瑣的授課簡報與手動輸入座號名冊？</h2>
-            <p class="lead">每次開學都要手動輸入全班座號姓名到 Google 表單？學生輸入座號時常有錯字漏打，導致後續匯入 Excel 對齊極度頭痛？</p>
+            <h2>AI 特務被關在沙盒中，無法讀取雲端資料？</h2>
+            <p class="lead">AI 大腦無法得知網路上公用的 Google 試算表內容，也沒辦法傳送 LINE 訊息通知您的手機，每次都得手動下載上傳？</p>
           </div>
           <div class="visual">
             <div class="board preset-table">
               <div class="preset-row">
-                <div class="preset-name">傳統做法</div>
-                <div class="preset-desc">手動新增簡報，一頁頁調整文字配色；手動建表單，一筆筆貼上 20 位學生名單，耗時且容易打錯。</div>
+                <div class="preset-name">傳統痛點</div>
+                <div class="preset-desc">AI 只能處理本地檔案。需要操作雲端資料時，老師必須先下載為 Excel，再丟給 AI 處理，完成後手動上傳。</div>
               </div>
               <div class="preset-row safe">
-                <div class="preset-name">API 自動化</div>
-                <div class="preset-desc">命令 AI Agent，一秒自動在雲端產生美觀簡報，並自動拉出 DROP_DOWN 下拉選單匯入完整座號名冊。</div>
+                <div class="preset-name">MCP 外掛</div>
+                <div class="preset-desc">為 AI 大腦裝上「USB通用插槽」，它就能直接寫入雲端 Sheets、直接發送 LINE/Google Chat 完工警報。</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 2.5: API & Keys Analogy -->
+      <!-- Slide 3: Principles -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">觀念解密</p>
-            <h2>什麼是 API？認識「金鑰三兄弟」</h2>
-            <p class="lead">瞭解 API 的「點餐窗口」白話比喻，以及 credentials.json 與 token.json 的授權分工關係。</p>
+            <p class="eyebrow">原理解密</p>
+            <h2>大腦、通用 USB 插槽與外掛手肢</h2>
+            <p class="lead">MCP 是由 Anthropic 提出的開源協定，它規範了 AI 大腦如何向外掛伺服器獲取「工具清單」並調用工具的機制。</p>
+          </div>
+          <div class="visual">
+            <div class="diagram-card" style="padding: 16px; gap: 10px;">
+              <div class="diagram-box" style="padding: 10px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">1. AI 大腦 (Model)</div>
+                <div class="diagram-box-desc">Gemini/Claude 主腦，本身沒有手腳，不知道如何操作雲端 API。</div>
+              </div>
+              <div class="diagram-arrow" style="margin: -2px 0;">↕ MCP 協定 (萬能插頭)</div>
+              <div class="diagram-box" style="padding: 10px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">2. MCP Server (工具外肢)</div>
+                <div class="diagram-box-desc">Sheets/Webhook 連接器，向 AI 宣告它擁有的工具（如：寫入雲端）。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3.5: MCP vs Google Cloud Credentials -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">觀念釐清</p>
+            <h2>有了 MCP，為什麼還是需要去 Google Cloud 設定？</h2>
+            <p class="lead">MCP 是「讀卡機」，而 Google Cloud 控制台核發的 credentials.json 是「感應門禁卡」，兩者必須搭配才能使用。</p>
           </div>
           <div class="visual">
             <div class="split-board">
               <div class="split-panel">
-                <p class="panel-title">🍽️ API 點餐窗口比喻</p>
+                <p class="panel-title">🔌 MCP 伺服器 (讀卡機)</p>
                 <p class="panel-caption">
-                  • <b>網頁介面 (UI)</b>：餐廳用餐區（人類看畫面）<br>
-                  • <b>Google 伺服器</b>：餐廳廚房（儲存簡報與表單）<br>
-                  • <b>API 窗口</b>：牆上點餐口（傳遞 JSON 資料紙條）
+                  幫 AI 裝上萬能轉接頭與工具清單，但本身並沒有登入您個人帳號的權限。
                 </p>
               </div>
               <div class="split-panel">
-                <p class="panel-title">🔑 授權「金鑰三兄弟」</p>
+                <p class="panel-title">💳 credentials.json (感應門禁卡)</p>
                 <p class="panel-caption">
-                  1. <b>credentials.json</b>：軟體身份證（證明程式合規）<br>
-                  2. <b>瀏覽器授權</b>：主人（您）親自簽名同意<br>
-                  3. <b>token.json</b>：正式感應鑰匙（不需重複登入）
+                  透過 Google Cloud Console 申請的許可證，感應通過後才能允許 MCP 讀寫您的雲端硬碟。
                 </p>
               </div>
             </div>
@@ -559,154 +579,155 @@
         </div>
       </section>
 
-      <!-- Slide 3: GCP Setup -->
+      <!-- Slide 4: Autonomy -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">準備工作</p>
-            <h2>GCP 安全對接通行證 credentials.json</h2>
-            <p class="lead">要讓本地程式與雲端 API 通訊，我們需要到 Google Cloud Platform (GCP) 申請免費金鑰。</p>
+            <p class="eyebrow">自主決策</p>
+            <h2>AI 是如何決定在何時使用什麼工具？</h2>
+            <p class="lead">AI 讀取 MCP 伺服器的說明書後，在對話思考 (Thought) 中，會根據您的指令自主判斷要調用哪個 API 與傳送哪些參數。</p>
           </div>
           <div class="visual">
             <div class="board">
-              <p class="body-text"><strong>1. 開啟 GCP 服務：</strong>在 GCP 控制台啟用 Drive, Slides, Forms, Sheets API。</p>
-              <p class="body-text"><strong>2. 配置 OAuth 同意畫面：</strong>設定外部應用，新增您個人的測試 Google Email。</p>
-              <p class="body-text"><strong>3. 下載金鑰 JSON：</strong>建立電腦版應用程式憑證，存為 <code>credentials.json</code> 並放在指定目錄。</p>
+              <p class="body-text"><strong>1. 讀取說明書：</strong>大腦載入 <code>read_spreadsheet</code>、<code>update_spreadsheet</code> 等工具宣告。</p>
+              <p class="body-text"><strong>2. 意圖對齊：</strong>使用者說：「請把新成績寫入雲端...」，AI 判斷這需要調用寫入工具。</p>
+              <p class="body-text"><strong>3. 自主參數填寫：</strong>AI 自主生成 API 請求：<code>update_spreadsheet_values(spreadsheetId='...', range='...', values=[...])</code>。</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 4: Authentication Flow -->
+      <!-- Slide 5: Comparison -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">初次授權</p>
-            <h2>首次登入拉起瀏覽器與產生 token.json</h2>
-            <p class="lead">第一次執行程式時，會自動開啟瀏覽器要求您登入 Google 帳號進行安全性授權同意。</p>
+            <p class="eyebrow">大對決</p>
+            <h2>MCP 工具連動 vs 傳統寫死 API 程式</h2>
+            <p class="lead">傳統寫死程式靈活性極低且開發繁瑣；MCP 的工具是「即插即用」，AI 自主決策，大大釋放了應用邊界。</p>
           </div>
           <div class="visual">
-            <div class="diagram-card" style="padding: 16px; gap: 10px;">
-              <div class="diagram-box" style="padding: 8px;">
-                <div class="diagram-box-title" style="margin-bottom: 2px;">1. 瀏覽器安全核准</div>
-                <div class="diagram-box-desc">點擊「進階 ➔ 前往（不安全）」，勾選所有要授予的 API 權限。</div>
+            <div class="board" style="padding: 10px;">
+              <table class="compare-table">
+                <thead>
+                  <tr>
+                    <th>比較維度</th>
+                    <th>傳統寫死 API (Hard-coded)</th>
+                    <th>MCP 服務連動 (Model Context)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>決策核心</td>
+                    <td>工程師（用 Code 寫死執行順序）</td>
+                    <td>AI 自身（根據 Tool 說明書自主決策）</td>
+                  </tr>
+                  <tr>
+                    <td>靈活彈性</td>
+                    <td>極低，API 規格一改程式就必須重寫</td>
+                    <td>極高，伺服器隨插即用，大腦自動適應</td>
+                  </tr>
+                  <tr>
+                    <td>安全防禦</td>
+                    <td>背景執行無感，容易有隱蔽漏洞</td>
+                    <td>每次呼叫必跳出 Approve 確認框供人類審核</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Recommended Servers -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">必裝推薦</p>
+            <h2>適合中小學教師的實用 MCP 工具包</h2>
+            <p class="lead">將這三個工具註冊到您的特務大腦中，打通最常碰到的行政與通訊限制：</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">google-sheets</div>
+                <div class="preset-desc">雲端 Sheets 編輯器。讓 AI 大腦直接取得雲端表格的讀寫權限，即時登錄成績與出勤。</div>
               </div>
-              <div class="diagram-arrow" style="margin: -4px 0;">↓ 同意確認</div>
-              <div class="diagram-box" style="padding: 8px;">
-                <div class="diagram-box-title" style="margin-bottom: 2px;">2. 本地產生 token.json</div>
-                <div class="diagram-box-desc">完成後，本地目錄自動產生 <code>token.json</code>，以後執行便不需再登入！</div>
+              <div class="preset-row">
+                <div class="preset-name">chat-webhook</div>
+                <div class="preset-desc">自動訊息警報。在 AI 跑完耗時的大批次行政任務後，自動發送完工通知到老師的手機上。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">filesystem</div>
+                <div class="preset-desc">安全沙盒防護。限制 AI 只能讀寫特定的安全專案資料夾，絕不能亂動 C 槽系統檔案。</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 5: Practice 1 -->
+      <!-- Slide 7: Practice 1 -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
             <p class="eyebrow">實作一</p>
-            <h2>一鍵建立雲端 Google 簡報</h2>
-            <p class="lead">複製指令給 Antigravity，大腦自動編寫 Python 程式並調用 Slides API 於雲端完成多頁簡報。</p>
+            <h2>解密 config.json 中的 MCP 註冊配置</h2>
+            <p class="lead">老師可以使用 Node.js 執行器直接啟用 Google 官方的試算表 MCP Server，不需安裝繁瑣的資料庫設定。</p>
           </div>
           <div class="visual">
             <div class="board">
-              <p class="body-text"><strong>- API 連線：</strong>使用 <code>build('slides', 'v1')</code> 建立服務實體。</p>
-              <p class="body-text"><strong>- 批量指令：</strong>發送 <code>batchUpdate</code> 請求，一併新增投影片與卡片文字。</p>
-              <p class="body-text"><strong>- 成果輸出：</strong>程式執行完畢後，在控制台直接提供簡報的<b>線上編輯網址</b>！</p>
+              <p class="body-text" style="font-family: monospace; font-size: 13px; background: #f4f6f8; padding: 12px; border-radius: 6px;">
+                "google-sheets": {<br>
+                &nbsp;&nbsp;"command": "npx",<br>
+                &nbsp;&nbsp;"args": ["-y", "@modelcontextprotocol/server-google-sheets"]<br>
+                }
+              </p>
+              <p class="body-text"><strong>說明：</strong><code>npx -y</code> 會自動從雲端套件庫安全下載並連線上網，大腦瞬間學會如何讀寫雲端 Google 試算表！</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 6: Practice 2 -->
+      <!-- Slide 8: Practice 2 -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
             <p class="eyebrow">實作二</p>
-            <h2>一鍵生成班級下拉選單登錄表單</h2>
-            <p class="lead">利用 Forms API 自動建表單，設計 DROP_DOWN 匯入 18 位學生的座號名冊，並將表單進行分頁。</p>
+            <h2>完工自動發送 Google Chat 訊息工作流</h2>
+            <p class="lead">在 Settings 中註冊完工 Webhook 通訊 MCP 腳本，隨後下達任務指令：</p>
           </div>
           <div class="visual">
-            <div class="split-board">
-              <div class="split-panel">
-                <p class="panel-title">分頁與選單</p>
-                <p class="panel-big">DROP_DOWN 學生清單</p>
-                <p class="panel-caption">將座號與虛擬名字匯入下拉選單。在 API 使用 <code>pageBreakItem</code> 把表單拆成三頁（基本資料、國語、數學），填答更流暢！</p>
+            <div class="diagram-card" style="padding: 16px; gap: 10px;">
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">1. 指令與工作</div>
+                <div class="diagram-box-desc">老師命令 AI 分析成績。AI 默默跑 Python 計算分析完成。</div>
               </div>
-              <div class="split-panel">
-                <p class="panel-title">成果回報</p>
-                <p class="panel-big">表單後台與填答連結</p>
-                <p class="panel-caption">執行成功後，AI Agent 主動回報表單名稱、後台編輯網址以及提供給學生填寫的前台網址，行政效率提升 90%！</p>
+              <div class="diagram-arrow" style="margin: -4px 0;">↓ AI 自主偵測工具</div>
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">2. 觸發 Webhook MCP</div>
+                <div class="diagram-box-desc">AI 呼叫 <code>send_chat_notification</code> 工具，手機群組瞬間彈出工作回報！</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 7: Safety & Human-in-the-loop -->
+      <!-- Slide 9: Limitations -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">安全機制</p>
-            <h2>人機協同核准與 token 本地安全機制</h2>
-            <p class="lead">Google API 串接極為嚴格，程式採用了一次驗證、本地存儲、且必須經老師點擊核准的安全設計。</p>
+            <p class="eyebrow">使用限制</p>
+            <h2>MCP 使用限制與安全把關機制</h2>
+            <p class="lead">享受自動化聯動的便利之餘，老師在實務上必須注意以下安全防禦限制：</p>
           </div>
           <div class="visual">
             <div class="board preset-table">
               <div class="preset-row">
-                <div class="preset-name">token.json 留在本機</div>
-                <div class="preset-desc">產生出來的通行憑證僅存放在您的本機上，不需要把 Google 密碼或 API Key 洩漏給外部網站。</div>
+                <div class="preset-name">Approve 安全鎖</div>
+                <div class="preset-desc">AI 每呼叫一次 MCP 工具（如寫入雲端或讀本機），都必須由老師點擊核准，防止惡意刪除。</div>
               </div>
-              <div class="preset-row safe">
-                <div class="preset-name">核准按鈕防線</div>
-                <div class="preset-desc">AI 特助在背景寫的 Python 程式碼，必須經過您親自確認並點擊「核准（Approve）」後才會在電腦執行。</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 8: Why Chatbots Fail -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">降維打擊</p>
-            <h2>為什麼網頁版聊天室無法幫您建雲端簡報？</h2>
-            <p class="lead">一般網頁版 ChatGPT 或 Gemini 缺乏本機命令執行權限與 API 通訊套件，無法在您的電腦啟動 OAuth 同意網頁。</p>
-          </div>
-          <div class="visual">
-            <div class="board preset-table">
               <div class="preset-row">
-                <div class="preset-name">傳統網頁 Chatbox</div>
-                <div class="preset-desc">只能給您簡報的大綱文字。您必須自己開啟 Slides 網頁，一字一字複製貼上，點擊幾十次排版。</div>
-              </div>
-              <div class="preset-row safe">
-                <div class="preset-name">本地端 Agent</div>
-                <div class="preset-desc">大腦直接與本機系統對話，利用本機 <code>credentials.json</code> 完成授權，自主執行代碼打通 API，省下 95% 時間！</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 9: Pitfalls -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">避坑指南</p>
-            <h2>雲端自動化開發最常見的兩大巨坑</h2>
-            <p class="lead">在研習或實作時，如果遇到 API 阻礙，請參考以下除錯心法，一秒自救：</p>
-          </div>
-          <div class="visual">
-            <div class="board preset-table">
-              <div class="preset-row">
-                <div class="preset-name">1. 憑證無效 (invalid_grant)</div>
-                <div class="preset-desc">顯示權限不足。解法：刪除目錄下的 <code>token.json</code> 檔，重啟程式重新勾選所有需要的 API 權限即可。</div>
-              </div>
-              <div class="preset-row safe">
-                <div class="preset-name">2. Port 8080 佔用衝突</div>
-                <div class="preset-desc">Windows 系統 8080 常被其他服務佔用。解法：在 Python 驗證處，將 port 改為 0，讓系統自動分配隨機埠口。</div>
+                <div class="preset-name">環境依賴限制</div>
+                <div class="preset-desc">多數 MCP 需要本機 Node.js 或 Python 的後台執行環境。學校學術網路 TANet 防火牆有時會阻擋 npm/npx 聯網安裝。</div>
               </div>
             </div>
           </div>
@@ -718,8 +739,8 @@
         <div class="card-inner single">
           <div>
             <p class="eyebrow">單元結語</p>
-            <h1>雲端自動化，智慧學校的行政革命</h1>
-            <p class="lead">本單元向老師們展示了本地 AI Agent 串接 Google Workspace REST API 的完整雲端實戰。從建立雲端簡報到一鍵產出班級名單下拉選單表單，徹底顛覆傳統手動行政，釋放備課時間！</p>
+            <h1>打通資訊邊界，AI 特務長出雙手</h1>
+            <p class="lead">本單元解密了 MCP 模型上下文協定的核心威力。藉由 MCP universal adapter（通用轉接頭），AI 成功打破系統高牆。未來，AI Agent 將成為串聯學校所有資訊行政服務的全新核心中樞！</p>
           </div>
         </div>
       </section>
