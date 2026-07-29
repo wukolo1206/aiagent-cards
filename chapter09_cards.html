@@ -686,7 +686,68 @@
         </div>
       </section>
 
-            <!-- Slide 6: One-Click Setup -->
+      <!-- Slide 6: Step-by-Step GitHub Skill Install & Usage -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">實戰下載與安裝</p>
+            <h2>3 步驟：從 GitHub 下載安裝與使用技能包</h2>
+            <p class="lead">不要手動新建資料夾！複製 GitHub Raw 網址丟給 AI Agent，大腦就會自動下載安裝，隨後打 <code>@技能名</code> 即可使用！</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="padding: 14px; text-align: left; gap: 10px;">
+              <div style="border-left: 4px solid var(--blue); padding-left: 10px;">
+                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--blue);">📍 步驟 1：複製官方 GitHub Raw 技能網址</p>
+                <p style="margin: 2px 0 0; font-size: 11px; word-break: break-all; color: var(--muted);">
+                  📄 <b>PDF 專家：</b> <code>https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md</code>
+                </p>
+              </div>
+              <div style="border-left: 4px solid var(--orange); padding-left: 10px;">
+                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--orange);">📍 步驟 2：貼上 Prompt 命令 AI 自動下載安裝</p>
+                <p style="margin: 2px 0 0; font-size: 11px; background: #fff5ed; padding: 6px; border-radius: 4px;">
+                  💬 <code>請幫我下載此 GitHub Raw 網址：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md 並在專案中建立 .agents/skills/pdf/ 目錄且存成 SKILL.md。</code>
+                </p>
+              </div>
+              <div style="border-left: 4px solid var(--green); padding-left: 10px;">
+                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--green);">📍 步驟 3：在對話框打 @技能名 開始使用！</p>
+                <p style="margin: 2px 0 0; font-size: 11px; background: #f0fdf4; padding: 6px; border-radius: 4px;">
+                  💬 <code>請載入 @pdf 技能，幫我讀取講義檔 AI_Agent教師研習簡報.pdf 並整理出重點摘要。</code>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Practice Example - PDF Parsing with @pdf -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">實戰演練</p>
+            <h2>範例實作：呼叫 @pdf 解析研習簡報</h2>
+            <p class="lead">安裝完 <code>pdf</code> 技能包後，立刻讓 AI Agent 幫您自動讀取本機講義並摘要重點！</p>
+          </div>
+          <div class="visual">
+            <div class="board" style="padding: 16px; text-align: left; gap: 12px; border-color: var(--blue);">
+              <div style="background: #f0fdf4; padding: 10px; border-radius: 6px; border-left: 4px solid var(--green);">
+                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--green);">💬 一鍵複製 Prompt (貼到對話框)：</p>
+                <p style="margin: 4px 0 0; font-size: 12px; font-family: monospace; color: var(--ink);">
+                  <code>請載入 @pdf 技能，幫我讀取本目錄下的 AI_Agent教師研習簡報.pdf，並提取出核心教學重點與章節大綱。</code>
+                </p>
+              </div>
+              <div style="background: #fcfbf9; padding: 10px; border-radius: 6px; border: 1px dashed var(--line);">
+                <p style="margin: 0; font-size: 12px; font-weight: 800; color: var(--blue);">🎉 執行成果觀察：</p>
+                <p style="margin: 4px 0 0; font-size: 12px; color: var(--muted); line-height: 1.5;">
+                  • <b>自主學習</b>：AI 自動調用 <code>view_file</code> 讀取 <code>.agents/skills/pdf/SKILL.md</code> 手冊。<br>
+                  • <b>精準解析</b>：運用 Python 程式庫精準解出 PDF 講義內文，列出全案大綱！
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: One-Click Setup -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
@@ -711,7 +772,7 @@
         </div>
       </section>
 
-      <!-- Slide 6: Practice 1 -->
+      <!-- Slide 9: Practice 1 -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
@@ -730,57 +791,6 @@
                 <p class="panel-title">🌟 有 Skill 實驗組</p>
                 <p class="panel-big">呼叫 @doc_expert</p>
                 <p class="panel-caption">對話提及載入 Skill，AI 自動遵循排版手冊寫代碼，雙擊開啟文件，排版格式一次完美到位！</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 7: Practice 2 -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">實作二</p>
-            <h2>複製並安裝「PDF 處理專家技能包」</h2>
-            <p class="lead">將共享庫中的 pdf 資料夾，複製存檔到您工作目錄的 <code>.agents/skills/pdf/</code> 中。</p>
-          </div>
-          <div class="visual">
-            <div class="board">
-              <p class="body-text"><strong>1. 安裝完成：</strong>確認 <code>.agents/skills/pdf/SKILL.md</code> 存在。</p>
-              <p class="body-text"><strong>2. 召喚 @pdf：</strong>在對話框輸入：「載入 @pdf，幫我讀取本目錄下的 <code>AI_Agent教師研習簡報.pdf</code>，轉化為摘要大綱。」</p>
-              <p class="body-text"><strong>3. 運作觀察：</strong>Agent 自動在背景閱讀 PDF 規範，呼叫 python 套件將 PDF 解析完成！</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 8: Step-by-Step GitHub Skill Install & Usage -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">實戰三・自動化安裝</p>
-            <h2>3 步驟：從 GitHub 下載安裝與使用技能包</h2>
-            <p class="lead">不要手動新建資料夾！複製 GitHub Raw 網址丟給 AI Agent，大腦就會自動下載安裝，隨後打 <code>@技能名</code> 即可使用！</p>
-          </div>
-          <div class="visual">
-            <div class="board" style="padding: 14px; text-align: left; gap: 10px;">
-              <div style="border-left: 4px solid var(--blue); padding-left: 10px;">
-                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--blue);">📍 步驟 1：複製官方 GitHub Raw 技能網址</p>
-                <p style="margin: 2px 0 0; font-size: 11px; word-break: break-all; color: var(--muted);">
-                  📄 <b>PDF 專家：</b> <code>https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md</code>
-                </p>
-              </div>
-              <div style="border-left: 4px solid var(--orange); padding-left: 10px;">
-                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--orange);">📍 步驟 2：貼上 Prompt 命令 AI 自動下載安裝</p>
-                <p style="margin: 2px 0 0; font-size: 11px; background: #fff5ed; padding: 6px; border-radius: 4px;">
-                  💬 <code>請幫我下載此 GitHub Raw 網址：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md 並在專案中建立 .agents/skills/pdf/ 目錄且存成 SKILL.md。</code>
-                </p>
-              </div>
-              <div style="border-left: 4px solid var(--green); padding-left: 10px;">
-                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--green);">📍 步驟 3：在對話框打 @技能名 開始使用！</p>
-                <p style="margin: 2px 0 0; font-size: 11px; background: #f0fdf4; padding: 6px; border-radius: 4px;">
-                  💬 <code>請載入 @pdf 技能，幫我讀取講義檔 AI_Agent教師研習簡報.pdf 並整理出重點摘要。</code>
-                </p>
               </div>
             </div>
           </div>
