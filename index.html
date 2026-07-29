@@ -1196,6 +1196,43 @@
             ⚠️ <strong>Anthropic 避坑提示：萬能 Skill 是個陷阱！</strong> 避免寫包辦全場的巨型萬能包（改 A 壞 B），應將巨型任務拆成單一職責的小 Skill（例如：<code>@pdf</code> + <code>@docx</code> 鏈式組合），兼具 Composable 組合彈性與高 Token 效率。
           </div>
 
+          <div class="spreadsheet-container" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-blue);"></span> 📊 觀念比較：Gems / GPTs vs. Agent Skill
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 110px;">比較維度</th>
+                  <th>Google Gems / Custom GPTs</th>
+                  <th>Custom Skill (自訂技能包) 🌟</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>形象定位</strong></td>
+                  <td>雲端客服角色面具</td>
+                  <td><b>本機特助 SOP + 工具箱</b></td>
+                </tr>
+                <tr>
+                  <td><strong>記憶載入</strong></td>
+                  <td>常駐硬讀，易稀釋注意力</td>
+                  <td><b>按需動態載入，0 佔用注意力</b></td>
+                </tr>
+                <tr>
+                  <td><strong>本機動手</strong></td>
+                  <td>❌ 無法存取本機硬碟/代碼</td>
+                  <td><b>100% 本機自動執行 Code 建檔</b></td>
+                </tr>
+                <tr style="background: rgba(16, 185, 129, 0.08);">
+                  <td><strong>組合與可攜</strong></td>
+                  <td>❌ 雲端平台綁定 / 無法組合</td>
+                  <td><b>Markdown 跨平台，可鏈式組合 Call</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <div class="flex-buttons">
             <button class="action-btn secondary-btn" onclick="copyAutoCreatePrompt(5)">
               🌟 請 Agent 自動安裝 GitHub PDF 技能包
