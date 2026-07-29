@@ -1163,6 +1163,39 @@
           <div class="desc-box">
             請在專案目錄下新建資料夾 <strong>`.agents/skills/doc_expert/`</strong>，並在其中建立一個 <strong>`SKILL.md`</strong>，寫入排版指令（如：標題深藍色、中文縮排、頁碼等）。
           </div>
+
+          <div class="spreadsheet-container" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+            <div class="sheet-title">
+              <span class="sheet-tab-indicator" style="background: var(--accent-purple);"></span> 💡 Anthropic 官方解密：Agent Skill 三層槓桿架構
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 140px;">Skill 層級</th>
+                  <th>核心功能</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. 描述</strong></td>
+                  <td><b>何時叫出它</b>：大腦自動觸發條件。</td>
+                </tr>
+                <tr>
+                  <td><strong>2. 指令</strong></td>
+                  <td><b>步驟怎麼做</b>：操作流程 SOP。</td>
+                </tr>
+                <tr style="background: rgba(16, 185, 129, 0.08);">
+                  <td><strong>3. 工具/腳本 🌟</strong></td>
+                  <td><b>附範本與確定性 Code</b>：槓桿核心！能用 Code 確定解決的，別讓 AI 用猜的。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="desc-box" style="margin-top: 0.75rem; margin-bottom: 0.75rem; border-left: 3px solid #f59e0b; background: rgba(245, 158, 11, 0.08);">
+            ⚠️ <strong>Anthropic 避坑提示：萬能 Skill 是個陷阱！</strong> 避免寫包辦全場的巨型萬能包（改 A 壞 B），應將巨型任務拆成單一職責的小 Skill（例如：<code>@pdf</code> + <code>@docx</code> 鏈式組合），兼具 Composable 組合彈性與高 Token 效率。
+          </div>
+
           <div class="flex-buttons">
             <button class="action-btn secondary-btn" onclick="copyAutoCreatePrompt(5)">
               🌟 請 Agent 自動安裝 GitHub PDF 技能包

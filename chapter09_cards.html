@@ -553,6 +553,58 @@
         </div>
       </section>
 
+      <!-- Slide 3.5: Three Layers of Skill -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">Anthropic 官方解密</p>
+            <h2>一個 Agent Skill 其實有哪「三層」？</h2>
+            <p class="lead">多數人只寫到第二層（指令 SOP），卻漏掉了真正的槓桿——第三層「工具與確定性腳本」！</p>
+          </div>
+          <div class="visual">
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">1. 描述</div>
+                <div class="preset-desc"><b>何時該叫出它</b>：SOP 封面適用情境，讓 AI 自動判斷何時動態觸發。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">2. 指令</div>
+                <div class="preset-desc"><b>步驟怎麼做</b>：SOP 內文操作規範，多數人止步於此。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">3. 工具與腳本 🌟</div>
+                <div class="preset-desc"><b>附範本與確定性 Code</b>：能用代碼確定解決的，就別讓 AI 每次重新猜測！</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3.6: Monolithic Trap vs Composable -->
+      <section class="card-slide">
+        <div class="card-inner">
+          <div>
+            <p class="eyebrow">Anthropic 避坑指南</p>
+            <h2>萬能 Skill 是個陷阱！拆成能組合的小 Skill</h2>
+            <p class="lead">工程師都把 Skill 拆成獨立的小模組。各司其職、互相串接，才不會「改一個，壞一片」！</p>
+          </div>
+          <div class="visual">
+            <div class="split-board">
+              <div class="split-panel" style="background: #fff5f5;">
+                <p class="panel-title" style="color: var(--red);">❌ 萬能包 (Monolithic)</p>
+                <p class="panel-big" style="color: var(--red);">全包在同一個 SOP</p>
+                <p class="panel-caption">抓資料 + 清洗 + 畫圖全塞在一起。手冊長度爆表、耗 Token，且維護困難（改 A 壞 B）。</p>
+              </div>
+              <div class="split-panel" style="background: #f0fdf4;">
+                <p class="panel-title" style="color: var(--green);">✔️ 模組化 (Composable) 🌟</p>
+                <p class="panel-big" style="color: var(--green);">拆成可組合小模組</p>
+                <p class="panel-caption">拆成 抓資料 / 清洗 / 畫圖表。各司其職，還能彈性互相 Call 串接（例如：<code>@pdf</code> + <code>@docx</code>）。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Slide 4: Comparison -->
       <section class="card-slide">
         <div class="card-inner">
