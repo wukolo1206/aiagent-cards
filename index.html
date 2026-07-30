@@ -1496,9 +1496,7 @@
 
 建立完成後，請向我回報。`;
       } else if (stepIndex === 5) {
-        promptText = `這是 GitHub 上的官方 PDF 技能手冊 Raw 網址：
-https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md
-請幫我直接下載它，並在我的專案中建立 \`.agents/skills/pdf_expert_github/\` 目錄，將該手冊存檔為 \`SKILL.md\` 安裝進去。完成後向我回報。`;
+        promptText = `請幫我下載安裝這個 GitHub Skill：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md`;
       }
 
       navigator.clipboard.writeText(promptText).then(() => {
