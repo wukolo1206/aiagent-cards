@@ -692,7 +692,7 @@
           <div>
             <p class="eyebrow">實戰下載與安裝</p>
             <h2>3 步驟：從 GitHub 下載安裝與使用技能包</h2>
-            <p class="lead">不要手動新建資料夾！複製 GitHub Raw 網址丟給 AI Agent，大腦就會自動下載安裝，隨後打 <code>@技能名</code> 即可使用！</p>
+            <p class="lead">複製 GitHub Raw 網址丟給 AI，並可指定安裝在「專案」或「全域」隨您調用！</p>
           </div>
           <div class="visual">
             <div class="board" style="padding: 14px; text-align: left; gap: 10px;">
@@ -703,9 +703,9 @@
                 </p>
               </div>
               <div style="border-left: 4px solid var(--orange); padding-left: 10px;">
-                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--orange);">📍 步驟 2：貼上 Prompt 命令 AI 自動下載安裝</p>
+                <p style="margin: 0; font-size: 13px; font-weight: 900; color: var(--orange);">📍 步驟 2：貼上 Prompt 命令 AI 安裝至當前專案</p>
                 <p style="margin: 2px 0 0; font-size: 11px; background: #fff5ed; padding: 6px; border-radius: 4px;">
-                  💬 <code>請幫我下載安裝這個 GitHub Skill：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md</code>
+                  💬 <code>請幫我將這個 GitHub Skill 下載安裝到我當前的專案中：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md</code>
                 </p>
               </div>
               <div style="border-left: 4px solid var(--green); padding-left: 10px;">
@@ -713,6 +713,9 @@
                 <p style="margin: 2px 0 0; font-size: 11px; background: #f0fdf4; padding: 6px; border-radius: 4px;">
                   💬 <code>請載入 @pdf 技能，幫我讀取講義檔 AI_Agent教師研習簡報.pdf 並整理出重點摘要。</code>
                 </p>
+              </div>
+              <div style="background: #f4f6f8; padding: 6px 10px; border-radius: 4px; font-size: 10px; color: var(--muted);">
+                💡 <b>範圍對比：</b> 安裝在當前專案（<code>.agents/skills/</code>）隨專案帶著走；若指令說「安裝成全域技能」，則所有專案皆可使用！
               </div>
             </div>
           </div>

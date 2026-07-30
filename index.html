@@ -1496,7 +1496,7 @@
 
 建立完成後，請向我回報。`;
       } else if (stepIndex === 5) {
-        promptText = `請幫我下載安裝這個 GitHub Skill：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md`;
+        promptText = `請幫我將這個 GitHub Skill 下載安裝到我當前的專案中：https://raw.githubusercontent.com/anthropics/skills/main/skills/pdf/SKILL.md`;
       }
 
       navigator.clipboard.writeText(promptText).then(() => {
