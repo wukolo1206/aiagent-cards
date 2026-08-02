@@ -1259,6 +1259,92 @@
           </button>
         </div>
       </div>
+
+      <!-- 研習講義補充包：AI 命題互動提問 Prompt 範例指南 (五大實戰關卡) -->
+      <div class="glass-card" style="margin-top: 1.5rem; grid-column: 1 / -1; background: rgba(13, 21, 37, 0.65); border: 1px solid rgba(168, 85, 247, 0.25);">
+        <div class="card-title" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <span style="font-size: 1.15rem; font-weight: 700; color: #f472b6;">💬 【研習講義補充包】AI 命題互動提問 Prompt 範例指南（五大實務關卡）</span>
+          <span class="tab-badge" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">出題 Skill 實戰指南</span>
+        </div>
+        <div class="desc-box" style="border-left: 3px solid #c084fc; background: rgba(168, 85, 247, 0.08); margin-bottom: 1.5rem;">
+          💡 <strong>研習導師貼心提醒：</strong>「告訴 AI『你要什麼』還不夠，重點是告訴 AI『在你動手做之前，先跟我確認什麼』！」以下提供五大研習實務練習關卡的 Prompt 提問範例與驗證點，歡迎一鍵複製練習！
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+          
+          <!-- 關卡 1 -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 700; color: #38bdf8; margin-bottom: 0.5rem;">📍 關卡 1：範本庫建置與 initial 檢索</div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">讓 AI 掃描 `考題參考/` 目錄，辨識可作為大題格式範本的 PDF/DOC 檔。</p>
+              <div class="code-container prompt-content" id="prompt-quiz-c1" style="font-size: 0.85rem; min-height: unset; margin-bottom: 0.75rem;">請檢查我專案資料夾下的 `考題參考/` 目錄，列出裡面有哪些試卷範本檔案以及各自的大題格式？</div>
+            </div>
+            <button class="action-btn" id="btn-copy-qc1" onclick="copyContent('prompt-quiz-c1', '關卡 1 Prompt', this)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; width: 100%; justify-content: center;">
+              📋 複製關卡 1 Prompt
+            </button>
+          </div>
+
+          <!-- 關卡 2 -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 700; color: #a78bfa; margin-bottom: 0.5rem;">📍 關卡 2：Skill 腳本初始化與規則設定</div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">引導 AI 將出題規範、審查機制與 Workflow 寫入 `SKILL.md` 指令檔。</p>
+              <div class="code-container prompt-content" id="prompt-quiz-c2" style="font-size: 0.82rem; min-height: unset; margin-bottom: 0.75rem;">請幫我建立一個國語科考題命題與測驗生成器的 Skill（存於 `SKILL.md`）。需求包含：
+1. 必須先自動檢索 `考題參考/` 範本並詢問我確認大題格式。
+2. 必須盤點當課目標生字語詞，並主動詢問我『總題數』與『命題偏好』。
+3. 選擇題答案 (A, B, C, D) 必須均勻分配（如 10 題採 3-3-2-2 分布）。
+4. 卷末必須顯示雙重品質審查標籤，並於結尾主動詢問是否匯出 Word 檔。</div>
+            </div>
+            <button class="action-btn" id="btn-copy-qc2" onclick="copyContent('prompt-quiz-c2', '關卡 2 Prompt', this)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; width: 100%; justify-content: center;">
+              📋 複製關卡 2 Prompt
+            </button>
+          </div>
+
+          <!-- 關卡 3 -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 700; color: #34d399; margin-bottom: 0.5rem;">📍 關卡 3：字音字形測驗（體驗兩階段互動）</div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">體驗兩階段互動：先發起需求 ➔ AI 反問 ➔ 回應參數與命題偏好。</p>
+              <div class="code-container prompt-content" id="prompt-quiz-c3" style="font-size: 0.82rem; min-height: unset; margin-bottom: 0.75rem;">【階段 1 需求】請幫我出第一課《窗口邊的臺灣欒樹》的字音字形測驗。
+【階段 2 回應】1. 我希望參考『115年縣市學習能力檢測題本四年級國語科題本.pdf』的【語文知識單選題】格式。 2. 請出 10 題單選題，命題重點請放在『形近字與易錯字辨析』。</div>
+            </div>
+            <button class="action-btn" id="btn-copy-qc3" onclick="copyContent('prompt-quiz-c3', '關卡 3 Prompt', this)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; width: 100%; justify-content: center;">
+              📋 複製關卡 3 Prompt
+            </button>
+          </div>
+
+          <!-- 關卡 4 -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 700; color: #fbbf24; margin-bottom: 0.5rem;">📍 關卡 4：延伸成語測驗（驗證答案平衡）</div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">測試成語測驗類別，並驗證選擇題答案是否達成 `A:3, B:3, C:2, D:2` 分布。</p>
+              <div class="code-container prompt-content" id="prompt-quiz-c4" style="font-size: 0.82rem; min-height: unset; margin-bottom: 0.75rem;">請幫我出第一課的延伸成語測驗。請參考檢測題本單選題格式，出 10 題單選題，重點放在『成語生活情境運用與文句填空』，並注意答案選項 (A, B, C, D) 要平均分布。</div>
+            </div>
+            <button class="action-btn" id="btn-copy-qc4" onclick="copyContent('prompt-quiz-c4', '關卡 4 Prompt', this)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; width: 100%; justify-content: center;">
+              📋 複製關卡 4 Prompt
+            </button>
+          </div>
+
+          <!-- 關卡 5 -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 700; color: #f87171; margin-bottom: 0.5rem;">📍 關卡 5：一鍵生成 Word 檔 (.docx) 與歸檔</div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">將線上試卷匯出為實體 `.docx` 檔案，並建立『第一課測驗Word檔』歸檔。</p>
+              <div class="code-container prompt-content" id="prompt-quiz-c5" style="font-size: 0.82rem; min-height: unset; margin-bottom: 0.75rem;">好，試卷內容沒問題，請幫我將剛剛產出的試卷匯出生成 Word 檔（.docx）。並在專案中新建名為『第一課測驗Word檔』的資料夾放進去。</div>
+            </div>
+            <button class="action-btn" id="btn-copy-qc5" onclick="copyContent('prompt-quiz-c5', '關卡 5 Prompt', this)" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; width: 100%; justify-content: center;">
+              📋 複製關卡 5 Prompt
+            </button>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 1.25rem; text-align: right;">
+          <a href="13_研習補充_AI命題互動提問Prompt範例指南.md" target="_blank" style="color: #c084fc; text-decoration: none; font-size: 0.9rem; font-weight: 600;">
+            📖 閱讀完整研習補充包 Markdown 指南 ➔
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- ==========================================
