@@ -230,6 +230,55 @@
       box-shadow: 10px 10px 0 #e0b053;
     }
 
+    .software-shot-card {
+      width: 100%;
+      min-height: 330px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
+    }
+
+    .software-shot {
+      display: block;
+      width: 100%;
+      height: clamp(190px, 25vw, 300px);
+      object-fit: contain;
+      border: 1px solid rgba(32, 49, 74, .18);
+      border-radius: 5px;
+      background: #f0f1f3;
+    }
+
+    .software-shot-label {
+      justify-self: start;
+      padding: 5px 9px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: #dceee5;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .software-shot-caption {
+      margin: 0;
+      color: #40526a;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .source-link {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
     .board {
       width: 100%;
       min-height: 330px;
@@ -512,10 +561,11 @@
               <p class="lead">左側看檔案，中間下指令，左下角調整安全與專案設定。</p>
             </div>
             <div class="visual">
-              <div class="board interface-map">
-                <div class="pane">專案檔案樹<br>File Explorer</div>
-                <div class="pane chat">AI 對話互動區<br>Chat & Thought</div>
-                <div class="pane settings">Settings → Projects<br>安全預設與文件政策</div>
+              <div class="software-shot-card">
+                <span class="software-shot-label">官方 Antigravity 2.0 UI 截圖</span>
+                <img class="software-shot" src="assets/antigravity-2-home.png" alt="官方 Antigravity 2.0 工作台介面">
+                <p class="software-shot-caption">實際畫面可看到 Project、提示輸入框、模型選擇，以及 Local 工作模式。</p>
+                <a class="source-link" href="https://antigravity.google/docs/overview" target="_blank" rel="noreferrer">來源：Google Antigravity 官方 Overview</a>
               </div>
             </div>
           </div>
@@ -548,13 +598,11 @@
               <p class="lead">這裡會呈現指令、思考歷程、工具呼叫，以及需要你確認的核准框。</p>
             </div>
             <div class="visual">
-              <div class="board">
-                <div class="tile-grid">
-                  <div class="tile">老師下指令</div>
-                  <div class="tile">Agent 思考</div>
-                  <div class="tile green">呼叫工具</div>
-                </div>
-                <div class="tile orange">需要時跳出 Approve / Deny</div>
+              <div class="software-shot-card">
+                <span class="software-shot-label">官方 Artifact 工作畫面</span>
+                <img class="software-shot" src="assets/antigravity-manager-walkthrough.png" alt="官方 Antigravity Agent Manager 與 Artifact 介面">
+                <p class="software-shot-caption">實際畫面呈現左側 Agent 對話、右側 Artifact 預覽，以及 Review 入口。</p>
+                <a class="source-link" href="https://antigravity.google/blog/introducing-google-antigravity" target="_blank" rel="noreferrer">來源：Google Antigravity 官方介紹</a>
               </div>
             </div>
           </div>
