@@ -242,6 +242,19 @@
       box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
     }
 
+    .software-shot-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .software-shot-card--compact {
+      min-height: 0;
+      padding: 10px;
+      gap: 8px;
+    }
+
     .software-shot {
       display: block;
       width: 100%;
@@ -250,6 +263,10 @@
       border: 1px solid rgba(32, 49, 74, .18);
       border-radius: 5px;
       background: #f0f1f3;
+    }
+
+    .software-shot--compact {
+      height: clamp(150px, 18vw, 205px);
     }
 
     .software-shot-label {
@@ -269,6 +286,20 @@
       font-size: 13px;
       line-height: 1.45;
       font-weight: 800;
+    }
+
+    .software-shot-card--compact .software-shot-label {
+      padding: 4px 7px;
+      font-size: 10px;
+    }
+
+    .software-shot-card--compact .software-shot-caption {
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .software-shot-card--compact .source-link {
+      font-size: 10px;
     }
 
     .source-link {
@@ -465,7 +496,8 @@
       .tile-grid,
       .tile-grid.two,
       .interface-map,
-      .preset-row {
+      .preset-row,
+      .software-shot-grid {
         grid-template-columns: 1fr;
       }
       .pane.settings { grid-column: auto; }
@@ -558,14 +590,22 @@
             <div>
               <p class="eyebrow">介面總覽</p>
               <h2>先看懂三大核心介面區</h2>
-              <p class="lead">左側看檔案，中間下指令，左下角調整安全與專案設定。</p>
+              <p class="lead">左側看檔案，中間下指令，左下角調整安全與專案設定；不同 Agent 的工作台也有相似核心。</p>
             </div>
             <div class="visual">
-              <div class="software-shot-card">
-                <span class="software-shot-label">官方 Antigravity 2.0 UI 截圖</span>
-                <img class="software-shot" src="assets/antigravity-2-home.png" alt="官方 Antigravity 2.0 工作台介面">
-                <p class="software-shot-caption">實際畫面可看到 Project、提示輸入框、模型選擇，以及 Local 工作模式。</p>
-                <a class="source-link" href="https://antigravity.google/docs/overview" target="_blank" rel="noreferrer">來源：Google Antigravity 官方 Overview</a>
+              <div class="software-shot-grid">
+                <div class="software-shot-card software-shot-card--compact">
+                  <span class="software-shot-label">官方 Antigravity 2.0 UI 截圖</span>
+                  <img class="software-shot software-shot--compact" src="assets/antigravity-2-home.png" alt="官方 Antigravity 2.0 工作台介面">
+                  <p class="software-shot-caption">可看到 Project、提示輸入框、模型選擇，以及 Local 工作模式。</p>
+                  <a class="source-link" href="https://antigravity.google/docs/overview" target="_blank" rel="noreferrer">來源：Google Antigravity 官方 Overview</a>
+                </div>
+                <div class="software-shot-card software-shot-card--compact">
+                  <span class="software-shot-label">官方 Codex UI 截圖</span>
+                  <img class="software-shot software-shot--compact" src="assets/codex-app-official.webp" alt="OpenAI Codex 官方工作台介面">
+                  <p class="software-shot-caption">Codex 以專案選擇、提示輸入框與送出按鈕啟動工作。</p>
+                  <a class="source-link" href="https://openai.com/codex/" target="_blank" rel="noreferrer">來源：OpenAI Codex 官方頁面</a>
+                </div>
               </div>
             </div>
           </div>
