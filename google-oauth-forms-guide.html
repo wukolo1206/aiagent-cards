@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="給研習教師的 Google OAuth 與 Google Forms API 本機操作手冊。">
+  <title>Google OAuth × Google Forms｜教師操作手冊</title>
+  <link rel="stylesheet" href="assets/oauth-guide/oauth-guide.css">
+  <script src="assets/oauth-guide/oauth-guide.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#guide-main">跳到目前步驟內容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-lockup">
+        <p class="eyebrow">WORKSHOP HANDBOOK · GOOGLE WORKSPACE</p>
+        <h1>Google OAuth × Google Forms｜教師操作手冊</h1>
+        <p class="lede">從雲端設定到本機驗證，帶著教師安全完成第一份 API 測試表單。</p>
+      </div>
+      <div class="header-tools" aria-label="手冊工具">
+        <div class="progress-wrap">
+          <label class="progress-label" for="progressBar">學習進度</label>
+          <progress id="progressBar" max="18" value="1">1 / 18</progress>
+          <span id="progressText" class="progress-value">1 / 18</span>
+        </div>
+        <button class="outline-button reset-button" type="button" id="resetProgress">從頭開始</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-step-picker">
+    <label for="stepSelect">目前步驟</label>
+    <select id="stepSelect" aria-label="選擇手冊步驟">
+      <option value="step-01">01 · 外掛、MCP 與 API 的差別</option>
+      <option value="step-02">02 · credentials.json 與 token.json 的角色</option>
+      <option value="step-03">03 · 建立或選取 Google Cloud 專案</option>
+      <option value="step-04">04 · 沒有空間時，重複使用舊專案</option>
+      <option value="step-05">05 · 啟用 Google Forms API</option>
+      <option value="step-06">06 · 確認憑證頁</option>
+      <option value="step-07">07 · 進入 Google Auth Platform</option>
+      <option value="step-08">08 · 建立品牌資料</option>
+      <option value="step-09">09 · 選擇外部測試對象</option>
+      <option value="step-10">10 · 填寫聯絡資訊與同意事項</option>
+      <option value="step-11">11 · 修正應用程式名稱錯誤</option>
+      <option value="step-12">12 · 確認 OAuth 總覽</option>
+      <option value="step-13">13 · 建立 OAuth 桌面版用戶端</option>
+      <option value="step-14">14 · 下載用戶端 JSON</option>
+      <option value="step-15">15 · 加入測試使用者</option>
+      <option value="step-16">16 · 啟用 Google Forms API</option>
+      <option value="step-17">17 · 執行本機授權並取得 token.json</option>
+      <option value="step-18">18 · 建立並驗證測試表單</option>
+    </select>
+  </div>
+
+  <div class="handbook-layout">
+    <aside class="chapter-rail" aria-label="章節與步驟導覽">
+      <div class="rail-intro">
+        <span class="rail-mark" aria-hidden="true">◎</span>
+        <div>
+          <p class="eyebrow">QUICK ROUTE</p>
+          <p class="rail-title">一步一步完成</p>
+        </div>
+      </div>
+      <nav class="rail-nav">
+        <div class="rail-group">
+          <p class="rail-chapter">01 <span>先搞懂授權</span></p>
+          <button class="rail-step" type="button" data-step-target="step-01"><span>01</span> 外掛、MCP 與 API</button>
+          <button class="rail-step" type="button" data-step-target="step-02"><span>02</span> 兩種 JSON 的角色</button>
+        </div>
+        <div class="rail-group">
+          <p class="rail-chapter">02 <span>Google Cloud 專案</span></p>
+          <button class="rail-step" type="button" data-step-target="step-03"><span>03</span> 選取專案</button>
+          <button class="rail-step" type="button" data-step-target="step-04"><span>04</span> 重複使用舊專案</button>
+          <button class="rail-step" type="button" data-step-target="step-05"><span>05</span> 啟用 Forms API</button>
+          <button class="rail-step" type="button" data-step-target="step-06"><span>06</span> 確認憑證頁</button>
+        </div>
+        <div class="rail-group">
+          <p class="rail-chapter">03 <span>Google Auth Platform</span></p>
+          <button class="rail-step" type="button" data-step-target="step-07"><span>07</span> 進入平台</button>
+          <button class="rail-step" type="button" data-step-target="step-08"><span>08</span> 品牌資料</button>
+          <button class="rail-step" type="button" data-step-target="step-09"><span>09</span> 外部測試</button>
+          <button class="rail-step" type="button" data-step-target="step-10"><span>10</span> 聯絡與同意</button>
+          <button class="rail-step" type="button" data-step-target="step-11"><span>11</span> 修正名稱錯誤</button>
+        </div>
+        <div class="rail-group">
+          <p class="rail-chapter">04 <span>OAuth 用戶端與 API</span></p>
+          <button class="rail-step" type="button" data-step-target="step-12"><span>12</span> OAuth 總覽</button>
+          <button class="rail-step" type="button" data-step-target="step-13"><span>13</span> 桌面版用戶端</button>
+          <button class="rail-step" type="button" data-step-target="step-14"><span>14</span> 下載 JSON</button>
+          <button class="rail-step" type="button" data-step-target="step-15"><span>15</span> 測試使用者</button>
+          <button class="rail-step" type="button" data-step-target="step-16"><span>16</span> 再確認 Forms API</button>
+        </div>
+        <div class="rail-group">
+          <p class="rail-chapter">05 <span>本機授權與成果驗證</span></p>
+          <button class="rail-step" type="button" data-step-target="step-17"><span>17</span> 本機授權</button>
+          <button class="rail-step" type="button" data-step-target="step-18"><span>18</span> 測試表單</button>
+        </div>
+      </nav>
+      <div class="rail-tip">
+        <span aria-hidden="true">↗</span>
+        <p>每一步的成功判斷都能作為你的停靠點；看見它，再往下走。</p>
+      </div>
+    </aside>
+
+    <main id="guide-main" class="guide-main" tabindex="-1">
+      <div class="mobile-status" role="status" aria-live="polite">
+        <span id="currentStepLabel">目前為第 1 步</span>
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>可使用左、右方向鍵移動</span>
+      </div>
+
+      <div class="intro-note">
+        <span class="note-number">00</span>
+        <div>
+          <p class="note-title">先記住這個安全邊界</p>
+          <p>本手冊只帶你完成設定與測試，不會替你執行 OAuth，也不會上傳任何資料。所有程式片段使用範例名稱與必要 scopes；實際操作時，請只在自己的專案資料夾保管檔案。</p>
+        </div>
+      </div>
+
+      <section id="step-01" class="step-section" data-step-section data-section="先搞懂授權" aria-labelledby="step-01-title">
+        <div class="step-kicker"><span class="step-number">01</span><span class="chapter-name">先搞懂授權</span></div>
+        <h2 id="step-01-title">外掛、MCP 與 API 的差別</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">先把三個常被混在一起的名詞拆開：外掛是產品功能，MCP 是工具連接方式，API 則是服務提供的程式介面。本手冊要做的是讓本機程式透過 Google API 工作。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：外掛、MCP 與 API 的關係示意截圖">
+            <img src="assets/oauth-guide/step-01-connector-mcp.webp" alt="外掛、MCP 與 API 三者關係的教學示意截圖，呈現工具、連接器與雲端服務之間的資料流向">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <div class="two-column">
+          <div>
+            <p class="list-label">操作清單</p>
+            <ul class="checklist">
+              <li>把 API 想成「服務可以接受的指令入口」。</li>
+              <li>把 OAuth 想成「使用者授權某個程式代表自己做事」。</li>
+              <li>把本機 Python 程式當成這次的呼叫者，不把權限交給不明網站。</li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <p class="card-label">教師口訣</p>
+            <p><strong>API 做事，OAuth 認人，MCP 接工具。</strong></p>
+          </div>
+        </div>
+        <div class="success-card" data-success="true" role="note">
+          <p class="card-label">成功判斷</p>
+          <p>你能說出這次流程不是「把帳號密碼交給程式」，而是由 Google 顯示授權畫面，讓你決定是否允許特定 scopes。</p>
+        </div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-02">下一步：看懂兩個 JSON <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-02" class="step-section" data-step-section data-section="先搞懂授權" aria-labelledby="step-02-title">
+        <div class="step-kicker"><span class="step-number">02</span><span class="chapter-name">先搞懂授權</span></div>
+        <h2 id="step-02-title">credentials.json 與 token.json 的角色</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">把「程式是誰」與「使用者已授權什麼」分開理解。credentials.json 是用戶端設定；token.json 是完成授權後可重用的權杖檔案，兩者都要視為敏感檔案。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：credentials.json 與 token.json 的檔案角色截圖">
+            <img src="assets/oauth-guide/step-02-credentials-file.webp" alt="本機專案資料夾中的 credentials.json 與 token.json 檔案角色教學截圖，顯示兩個檔案分別負責用戶端設定與授權權杖">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <div class="two-column definition-grid">
+          <div class="definition-card accent-coral"><p class="card-label">credentials.json</p><p>Google Cloud 下載的用戶端設定，描述應用程式如何發起登入流程；它不是老師的帳號密碼。</p></div>
+          <div class="definition-card accent-teal"><p class="card-label">token.json</p><p>完成同意後由本機流程保存的可重用授權結果。不要貼到聊天、教材或版本控制。</p></div>
+        </div>
+        <div class="warning-card"><p class="card-label">注意事項</p><p>只把 credentials.json 放進自己的專案資料夾，並將兩個 JSON 排除在公開分享之外；本手冊不會要求你貼出內容。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你能用一句話分辨：credentials.json 說明「程式是誰」，token.json 記錄「使用者授權後能重用的結果」。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-03">下一步：建立或選取專案 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-03" class="step-section" data-step-section data-section="Google Cloud 專案" aria-labelledby="step-03-title">
+        <div class="step-kicker"><span class="step-number">03</span><span class="chapter-name">Google Cloud 專案</span></div>
+        <h2 id="step-03-title">建立或選取 Google Cloud 專案</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">開啟 Google Cloud Console，先在上方專案選單確認工作範圍。專案是 API、OAuth 設定與用戶端憑證的共同容器。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Cloud 建立或選取專案頁面截圖">
+            <img src="assets/oauth-guide/step-03-new-project.webp" alt="Google Cloud Console 建立或選取專案的頁面截圖，顯示專案選單、專案名稱欄位與建立按鈕">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>使用自己的 Google 帳號開啟 Google Cloud Console。</li>
+          <li>點擊上方專案選擇器，選擇「新增專案」或既有的教學專案。</li>
+          <li>若建立新專案，使用容易辨識且不含個資的名稱，例如 <code>teacher-oauth-lab</code>。</li>
+          <li>確認右上角顯示的目前專案就是你要操作的專案。</li>
+        </ol>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>Cloud Console 上方的專案名稱已切換到你要使用的專案，且你知道後續 API 與 OAuth 設定都會落在這裡。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-04">下一步：沒有空間時怎麼辦 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-04" class="step-section" data-step-section data-section="Google Cloud 專案" aria-labelledby="step-04-title">
+        <div class="step-kicker"><span class="step-number">04</span><span class="chapter-name">Google Cloud 專案</span></div>
+        <h2 id="step-04-title">沒有空間時，重複使用舊專案</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">如果建立新專案時遇到配額或空間限制，不必反覆點擊建立。先找一個你有權限管理、用途相近的舊專案，再確認它沒有放著不認得的測試設定。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：重複使用舊 Google Cloud 專案的選擇頁面截圖">
+            <img src="assets/oauth-guide/step-04-reuse-project.webp" alt="Google Cloud 專案選擇器中的舊專案清單截圖，示範在無法建立新專案時選取既有專案">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>確認專案名稱與用途，避免誤選同事或其他課程的專案。</li>
+          <li>確認你是該專案的管理者或具備啟用 API、設定 OAuth 的權限。</li>
+          <li>若舊專案已有不熟悉的 OAuth 用戶端，先記錄現況再新增，不要刪除別人的設定。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">錯誤排除｜專案選錯</p><p>若後續找不到 API 或品牌資料，先回到專案選擇器檢查目前專案；許多「按鈕不存在」其實是工作範圍選錯。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你已選定一個可管理、用途清楚的 Cloud 專案，並且能在每個後續頁面辨認目前專案名稱。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-05">下一步：啟用 Google Forms API <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-05" class="step-section" data-step-section data-section="Google Cloud 專案" aria-labelledby="step-05-title">
+        <div class="step-kicker"><span class="step-number">05</span><span class="chapter-name">Google Cloud 專案</span></div>
+        <h2 id="step-05-title">啟用 Google Forms API</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">在目前專案中打開 API Library，搜尋 Google Forms API，進入服務詳細頁後按「啟用 API」。若畫面已顯示「停用 API」或狀態「已啟用」，代表這一步已完成；API 是專案級設定，若在錯的專案啟用，程式仍然會找不到它。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms API 啟用頁面截圖">
+            <img src="assets/oauth-guide/step-05-api-services.webp" alt="Google Cloud Google Forms API 服務詳細頁截圖，顯示 forms.googleapis.com 與已啟用狀態">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>進入「API 和服務」→「程式庫」。</li>
+          <li>搜尋 <strong>Google Forms API</strong>，開啟名稱完全相同的官方服務。</li>
+          <li>若按鈕顯示「啟用」，點擊一次並等待狀態完成；若已啟用，保留現況即可。</li>
+          <li>記下你目前仍在正確的 Cloud 專案中，接著再處理 OAuth。</li>
+        </ol>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>Google Forms API 服務頁面顯示已啟用，且上方專案名稱與步驟 03、04 相同。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-06">下一步：確認憑證入口 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-06" class="step-section" data-step-section data-section="Google Cloud 專案" aria-labelledby="step-06-title">
+        <div class="step-kicker"><span class="step-number">06</span><span class="chapter-name">Google Cloud 專案</span></div>
+        <h2 id="step-06-title">確認憑證頁</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">進入「API 和服務」→「憑證」，把這裡當成之後檢查用戶端的總入口。現在先確認頁面能開啟，不急著建立用戶端。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Cloud 憑證頁面截圖">
+            <img src="assets/oauth-guide/step-06-credentials-page.webp" alt="Google Cloud API 和服務中的憑證頁面截圖，顯示建立憑證與 OAuth 用戶端清單入口">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>確認頁面標題為「憑證」，不是 API Library 或配額頁。</li>
+          <li>找到「建立憑證」按鈕，稍後會從這裡建立 OAuth 用戶端。</li>
+          <li>若看不到按鈕，檢查帳號權限與目前選取的專案。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">注意事項</p><p>憑證頁可能列出其他用途的金鑰。不要刪除或下載不屬於這次練習的項目；本手冊只會新增一個桌面版 OAuth 用戶端。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你已能開啟正確的憑證頁，並知道下一段設定會從 Google Auth Platform 開始。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-07">下一步：進入 Google Auth Platform <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-07" class="step-section" data-step-section data-section="Google Auth Platform" aria-labelledby="step-07-title">
+        <div class="step-kicker"><span class="step-number">07</span><span class="chapter-name">Google Auth Platform</span></div>
+        <h2 id="step-07-title">進入 Google Auth Platform</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">Google 目前把 OAuth 同意畫面、品牌、受眾與用戶端整理在 Google Auth Platform。從 Cloud Console 的品牌或 OAuth 總覽入口進入即可。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：進入 Google Auth Platform 的入口截圖">
+            <img src="assets/oauth-guide/step-07-auth-platform-start.webp" alt="Google Cloud Console 進入 Google Auth Platform 的入口截圖，顯示品牌與 OAuth 設定導覽">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>確認仍在同一個 Cloud 專案。</li>
+          <li>從「API 和服務」或側邊導覽找到 Google Auth Platform。</li>
+          <li>若畫面顯示開始設定，按流程進入品牌資料；不要先建立不明用途的用戶端。</li>
+        </ol>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你已看到 Google Auth Platform 的導覽，並能找到品牌資料、受眾、資料存取權與用戶端等設定入口。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-08">下一步：建立品牌資料 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-08" class="step-section" data-step-section data-section="Google Auth Platform" aria-labelledby="step-08-title">
+        <div class="step-kicker"><span class="step-number">08</span><span class="chapter-name">Google Auth Platform</span></div>
+        <h2 id="step-08-title">建立品牌資料</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">品牌資料會出現在授權畫面，讓教師知道是哪個應用程式正在請求權限。名稱要清楚、可辨識，不要放帳號、專案編號或私人資訊。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 品牌資料表單截圖">
+            <img src="assets/oauth-guide/step-08-branding.webp" alt="Google Auth Platform 品牌資料表單截圖，顯示應用程式名稱、使用者支援電子郵件與應用程式標誌欄位">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>應用程式名稱使用像「教師 Forms 測試工具」這種用途清楚的名稱。</li>
+          <li>選擇你能收信的使用者支援聯絡資料。</li>
+          <li>若需要開發者聯絡資料，使用同一個可管理此專案的聯絡方式。</li>
+          <li>儲存後回到總覽，確認品牌狀態已完成。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">應用程式名稱規則</p><p>避免使用容易誤認為 Google 官方服務的名稱，也不要放入私人帳號、學校完整名冊或專案識別值。名稱應描述「這個測試工具做什麼」。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>品牌資料頁顯示已儲存，授權畫面將能清楚告訴使用者這是一個教師自己的測試工具。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-09">下一步：選擇外部測試 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-09" class="step-section" data-step-section data-section="Google Auth Platform" aria-labelledby="step-09-title">
+        <div class="step-kicker"><span class="step-number">09</span><span class="chapter-name">Google Auth Platform</span></div>
+        <h2 id="step-09-title">選擇外部測試對象</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">本機教學工具通常先使用「外部」測試，讓你可以用自己的 Google 帳號試跑 OAuth。外部不等於公開給所有人；測試階段仍由測試使用者名單控管。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 外部測試選項截圖">
+            <img src="assets/oauth-guide/step-09-audience.webp" alt="Google Auth Platform 受眾設定頁面截圖，顯示內部與外部測試對象選項">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>在受眾設定中選擇「外部」，適合個人或研習示範專案。</li>
+          <li>如果你的 Workspace 管理員要求只能內部使用，依學校政策選擇「內部」。</li>
+          <li>儲存後確認測試狀態仍是測試中，而不是立刻送出公開驗證。</li>
+        </ol>
+        <div class="warning-card"><p class="card-label">注意事項</p><p>測試模式會要求授權帳號先加入測試使用者。看到未驗證應用程式提示時，先確認這是你自己建立的工具，再依畫面流程繼續。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>受眾設定已儲存為適合本次教學的測試模式，並且你知道之後要把實際登入帳號加入測試使用者。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-10">下一步：填寫聯絡與同意事項 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-10" class="step-section" data-step-section data-section="Google Auth Platform" aria-labelledby="step-10-title">
+        <div class="step-kicker"><span class="step-number">10</span><span class="chapter-name">Google Auth Platform</span></div>
+        <h2 id="step-10-title">填寫聯絡資訊與同意事項</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">完成品牌資料的聯絡欄位與必要同意項目。這些資料是讓使用者知道如何聯絡開發者，也是 Google 顯示授權資訊的必要條件。</p>
+        <div class="image-grid two-images">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 聯絡資訊欄位截圖">
+            <img src="assets/oauth-guide/step-10-contact.webp" alt="Google Auth Platform 聯絡資訊設定截圖，顯示使用者支援電子郵件與開發者聯絡資料欄位">
+            <span class="zoom-hint">聯絡資訊 ↗</span>
+          </button>
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 同意事項截圖">
+            <img src="assets/oauth-guide/step-10-consent.webp" alt="Google Auth Platform 同意事項與服務條款確認截圖，顯示必要勾選欄位與儲存按鈕">
+            <span class="zoom-hint">同意事項 ↗</span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>填入能真正收到問題的使用者支援聯絡資料。</li>
+          <li>閱讀並勾選必要的服務條款與資料使用同意。</li>
+          <li>儲存後回到總覽，確認品牌與受眾區塊都沒有待處理警示。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">注意事項</p><p>不要把測試帳號清單、權杖內容或本機路徑填進品牌說明；這裡只需要公開給授權使用者看的聯絡與應用程式資訊。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>所有必要欄位都已儲存，總覽不再要求補填聯絡資訊或同意事項。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-11">下一步：處理名稱錯誤 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-11" class="step-section" data-step-section data-section="Google Auth Platform" aria-labelledby="step-11-title">
+        <div class="step-kicker"><span class="step-number">11</span><span class="chapter-name">Google Auth Platform</span></div>
+        <h2 id="step-11-title">修正應用程式名稱錯誤</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">若儲存品牌資料時出現名稱不符合規則的錯誤，先縮短並改成描述用途的名稱，再重新儲存。這是品牌驗證規則，不是 Python 或 API 錯誤。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：應用程式名稱錯誤提示截圖">
+            <img src="assets/oauth-guide/step-11-name-error.webp" alt="Google Auth Platform 應用程式名稱錯誤提示截圖，示範不符合命名規則時的紅色錯誤訊息">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <div class="two-column">
+          <div>
+            <p class="list-label">可採用的修正方向</p>
+            <ul class="checklist">
+              <li>使用「教師 Forms 測試工具」這類用途名稱。</li>
+              <li>拿掉可能讓人誤認官方服務的字樣。</li>
+              <li>不要放帳號、電話、專案識別值或權杖。</li>
+            </ul>
+          </div>
+          <div class="warning-card compact"><p class="card-label">若仍失敗</p><p>重新整理後再儲存一次；若欄位被鎖定，回到品牌資料編輯模式，不要重建整個專案。</p></div>
+        </div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>品牌資料可以儲存，且名稱在授權畫面上能讓教師一眼知道它是研習用測試工具。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-12">下一步：確認 OAuth 總覽 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-12" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-12-title">
+        <div class="step-kicker"><span class="step-number">12</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
+        <h2 id="step-12-title">確認 OAuth 總覽</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">回到 Google Auth Platform 的 OAuth 總覽，確認品牌、受眾與資料存取權已經有狀態。這個總覽是建立用戶端前的檢查站。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：OAuth 總覽頁面截圖">
+            <img src="assets/oauth-guide/step-12-oauth-overview.webp" alt="Google Auth Platform OAuth 總覽頁面截圖，顯示品牌、受眾、資料存取權與用戶端狀態">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>品牌資料顯示完成或已儲存。</li>
+          <li>受眾設定符合目前的測試方式。</li>
+          <li>資料存取權至少會包含 Google Forms API 需要的 scopes。</li>
+          <li>找到建立或管理用戶端的入口。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">Forms API / Scopes</p><p>API 啟用與 OAuth scopes 是兩件事：前者讓專案可以呼叫服務，後者決定授權畫面要請求哪些權限。兩邊都缺一不可。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>OAuth 總覽沒有未完成的品牌或受眾設定，你已準備好建立桌面版用戶端。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-13">下一步：建立桌面版用戶端 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-13" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-13-title">
+        <div class="step-kicker"><span class="step-number">13</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
+        <h2 id="step-13-title">建立 OAuth 桌面版用戶端</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">本機 Python 會在你的電腦上開啟瀏覽器完成授權，因此用戶端類型要選「桌面應用程式」。不要選 Web application，也不要自行填入不存在的 callback 網域。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：建立桌面版 OAuth 用戶端的選單截圖">
+            <img src="assets/oauth-guide/step-13-desktop-client.webp" alt="Google Auth Platform 建立 OAuth 用戶端的類型選單截圖，顯示桌面應用程式選項與建立按鈕">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>在用戶端區塊選擇「建立用戶端」。</li>
+          <li>應用程式類型選擇「桌面應用程式」。</li>
+          <li>名稱使用 <code>teacher-forms-desktop</code> 這類不含個資的識別名稱。</li>
+          <li>建立完成後，不要把用戶端設定畫面內容貼到公開地方。</li>
+        </ol>
+        <div class="warning-card"><p class="card-label">localhost callback</p><p>桌面流程會使用本機 callback。若授權後回不到程式，先確認瀏覽器與 Python 仍在同一台電腦，並讓授權流程自行選可用的本機連接埠。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>用戶端清單中出現一個類型為「桌面應用程式」的新項目，且名稱能辨識本次研習用途。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-14">下一步：下載用戶端 JSON <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-14" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-14-title">
+        <div class="step-kicker"><span class="step-number">14</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
+        <h2 id="step-14-title">下載用戶端 JSON</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">從桌面版用戶端的操作選單下載 JSON，接著把檔案改名為 credentials.json，放到稍後執行 Python 的專案資料夾根目錄。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：下載桌面版用戶端 JSON 的截圖">
+            <img src="assets/oauth-guide/step-14-download-client.webp" alt="Google Auth Platform 用戶端清單的下載 JSON 操作截圖，顯示桌面版用戶端的下載按鈕">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ul class="checklist">
+          <li>從剛建立的桌面版用戶端選擇下載 JSON。</li>
+          <li>將下載檔案放到你的專案資料夾，並命名為 <code>credentials.json</code>。</li>
+          <li>確認它與 <code>authorize.py</code>、<code>create_test_form.py</code> 在同一個資料夾。</li>
+          <li>把檔案加入版本控制忽略清單，不上傳到公開儲存庫。</li>
+        </ul>
+        <div class="warning-card"><p class="card-label">檔案位置</p><p>本機授權找不到檔案時，第一個檢查點就是執行位置：請在專案資料夾中執行程式，並確認檔名大小寫與副檔名正確。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>專案資料夾中有 credentials.json，且你沒有在教材、聊天或公開儲存庫中分享它的內容。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-15">下一步：加入測試使用者 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-15" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-15-title">
+        <div class="step-kicker"><span class="step-number">15</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
+        <h2 id="step-15-title">加入測試使用者</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">在 OAuth 受眾的測試使用者區塊加入你自己要用來登入的 Google 帳號。這個步驟只設定誰可以試跑，不會把帳號資料交給本機程式。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：加入 OAuth 測試使用者的截圖">
+            <img src="assets/oauth-guide/step-15-test-user.webp" alt="Google Auth Platform 測試使用者清單與新增欄位截圖，顯示加入測試帳號的操作入口">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <ol class="numbered-list">
+          <li>回到「受眾」或測試使用者設定。</li>
+          <li>按「新增使用者」，輸入你自己實際要登入的帳號。</li>
+          <li>儲存後確認帳號出現在清單中。</li>
+          <li>若有多位研習教師測試，每一位都要由專案管理者加入。</li>
+        </ol>
+        <div class="warning-card"><p class="card-label">測試使用者未加入</p><p>授權時若出現測試人員限制，先停止操作，回到這裡確認登入帳號拼寫與目前 Cloud 專案，不要用不明帳號繞過提示。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你預計用來授權的帳號已列在測試使用者清單中，且狀態仍為測試模式。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-16">下一步：確認 Forms API 與 scopes <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-16" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-16-title">
+        <div class="step-kicker"><span class="step-number">16</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
+        <h2 id="step-16-title">啟用 Google Forms API</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">在建立用戶端後再做一次 API 與 scopes 的對照確認，避免「OAuth 可以登入，但建立表單失敗」。Google Forms API 必須啟用，程式也必須請求對應範圍。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms API 最終確認截圖">
+            <img src="assets/oauth-guide/step-16-forms-api.webp" alt="Google Cloud Google Forms API 詳細資訊頁面截圖，顯示 API 已啟用以及服務使用狀態">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <div class="two-column">
+          <div>
+            <p class="list-label">本次程式會用到的範例 scopes</p>
+            <ul class="checklist">
+              <li><code>https://www.googleapis.com/auth/forms.body</code></li>
+              <li><code>https://www.googleapis.com/auth/drive.file</code></li>
+            </ul>
+          </div>
+          <div class="info-card"><p class="card-label">最小權限提醒</p><p>只請求測試流程需要的範圍；若日後增加功能，再重新評估 scopes，不要一次開滿所有雲端權限。</p></div>
+        </div>
+        <div class="warning-card"><p class="card-label">Forms API / Scopes</p><p>若出現 API disabled，回 API Library 啟用服務；若出現 insufficient permission，檢查程式 scopes 並刪除舊 token 後重新授權。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>Forms API 顯示已啟用，程式片段也只列出本次建立測試表單需要的 scopes。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-17">下一步：執行本機授權 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-17" class="step-section" data-step-section data-section="本機授權與成果驗證" aria-labelledby="step-17-title">
+        <div class="step-kicker"><span class="step-number">17</span><span class="chapter-name">本機授權與成果驗證</span></div>
+        <h2 id="step-17-title">執行本機授權並取得 token.json</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">把 credentials.json 放在專案資料夾，建立 authorize.py，再從同一個資料夾執行。程式只會開啟瀏覽器讓你登入與同意；本手冊不會替你執行 OAuth。</p>
+        <div class="image-grid two-images">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：本機 OAuth 帳號登入頁面截圖">
+            <img src="assets/oauth-guide/step-17-account.webp" alt="本機授權流程開啟瀏覽器後的 Google 帳號登入頁面截圖，顯示由使用者自行選擇授權帳號">
+            <span class="zoom-hint">登入畫面 ↗</span>
+          </button>
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：本機 OAuth 授權完成頁面截圖">
+            <img src="assets/oauth-guide/step-17-complete.webp" alt="本機 OAuth 授權完成後的瀏覽器回呼頁面截圖，顯示授權已完成並回到本機流程">
+            <span class="zoom-hint">完成回呼 ↗</span>
+          </button>
+        </div>
+        <div class="code-card">
+          <div class="code-card-head"><div><p class="card-label">authorize.py</p><p class="code-caption">只使用 placeholder 與必要 scopes 的安全範例</p></div><button class="copy-button" type="button" data-copy-target="authorize-code">複製程式片段</button></div>
+          <pre><code id="authorize-code">from pathlib import Path
+import json
+
+from google_auth_oauthlib.flow import InstalledAppFlow
+
+CREDENTIALS_PATH = Path("credentials.json")
+TOKEN_PATH = Path("token.json")
+SCOPES = [
+    "https://www.googleapis.com/auth/forms.body",
+    "https://www.googleapis.com/auth/drive.file",
+]
+
+client_config = json.loads(CREDENTIALS_PATH.read_text(encoding="utf-8"))
+flow = InstalledAppFlow.from_client_config(client_config, SCOPES)
+credentials = flow.run_local_server(port=0)
+TOKEN_PATH.write_text(credentials.to_json(), encoding="utf-8")
+print("授權完成：token.json 已寫入目前專案資料夾。")</code></pre>
+          <p class="copy-status" aria-live="polite" aria-hidden="true"></p>
+        </div>
+        <ol class="numbered-list">
+          <li>在專案資料夾安裝必要套件：<code>google-auth-oauthlib</code>。</li>
+          <li>將上方片段存成 <code>authorize.py</code>，在同一資料夾執行。</li>
+          <li>瀏覽器出現授權畫面時，登入已加入測試使用者的帳號。</li>
+          <li>同意後回到終端機，確認專案資料夾新增 <code>token.json</code>。</li>
+        </ol>
+        <div class="warning-card"><p class="card-label">檔案位置與 localhost callback</p><p>找不到 credentials.json 或 token.json 時，先用檔案總管確認目前資料夾；授權頁回不來時，確認本機瀏覽器沒有阻擋 localhost，並重新執行一次流程。</p></div>
+        <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你已在瀏覽器完成使用者授權，終端機顯示完成訊息，且 token.json 只存在自己的專案資料夾。</p></div>
+        <div class="step-actions"><button class="next-button" type="button" data-next="step-18">下一步：建立測試表單 <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section id="step-18" class="step-section final-step" data-step-section data-section="本機授權與成果驗證" data-final="true" aria-labelledby="step-18-title">
+        <div class="step-kicker"><span class="step-number">18</span><span class="chapter-name">本機授權與成果驗證</span></div>
+        <h2 id="step-18-title">建立並驗證測試表單</h2>
+        <h3>你要做什麼</h3>
+        <p class="step-lede">使用剛取得的 token.json 建立一份不含真實學生資料的測試表單，接著用瀏覽器開啟回傳的表單連結，確認成果真的存在。</p>
+        <div class="image-grid single-image">
+          <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms 測試表單建立完成截圖">
+            <img src="assets/oauth-guide/step-18-form-created.webp" alt="Google Forms 測試表單建立完成後的瀏覽器截圖，顯示測試表單標題與可供驗證的表單頁面">
+            <span class="zoom-hint">點擊放大 <span aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+        <div class="code-card">
+          <div class="code-card-head"><div><p class="card-label">create_test_form.py</p><p class="code-caption">使用現有 token 建立無個資的測試表單</p></div><button class="copy-button" type="button" data-copy-target="create-form-code">複製程式片段</button></div>
+          <pre><code id="create-form-code">from pathlib import Path
+
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+
+TOKEN_PATH = Path("token.json")
+SCOPES = [
+    "https://www.googleapis.com/auth/forms.body",
+    "https://www.googleapis.com/auth/drive.file",
+]
+
+credentials = Credentials.from_authorized_user_file(
+    str(TOKEN_PATH), SCOPES
+)
+forms_service = build("forms", "v1", credentials=credentials)
+result = forms_service.forms().create(
+    body={"info": {"title": "教師 OAuth 測試表單"}}
+).execute()
+print("測試表單已建立，請使用回傳的表單連結在瀏覽器驗證。")
+print(result.get("responderUri", "表單連結尚未回傳。"))</code></pre>
+          <p class="copy-status" aria-live="polite" aria-hidden="true"></p>
+        </div>
+        <ol class="numbered-list final-checklist">
+          <li>將片段存成 <code>create_test_form.py</code>，在同一專案資料夾執行。</li>
+          <li>確認終端機回傳測試表單連結，不要把連結或識別值貼到公開地方。</li>
+          <li>用瀏覽器開啟連結，檢查表單標題與畫面可正常載入。</li>
+          <li>測試完成後，保留檔案於安全位置；若要分享專案，先移除 credentials.json 與 token.json。</li>
+        </ol>
+        <div class="warning-card"><p class="card-label">若建立失敗</p><p>依序檢查 token.json 檔案位置、Forms API 是否啟用、scopes 是否一致，以及目前登入帳號是否在測試使用者清單。必要時刪除本機 token.json 後重新授權。</p></div>
+        <div class="success-card final-complete" data-success="true" data-completion="true" role="status"><p class="card-label">完成判斷</p><p>測試表單已建立，瀏覽器可以開啟並驗證內容。你已完成從 Google Cloud、Auth Platform、OAuth 用戶端到本機 Forms API 的完整安全練習。</p></div>
+        <div class="completion-banner" aria-label="手冊完成訊息"><span class="completion-icon" aria-hidden="true">✓</span><div><p class="completion-title">恭喜，你完成了第一條 OAuth × Forms 路徑。</p><p>下一次只要檢查專案、API、測試使用者與本機兩個 JSON，就能快速定位問題。</p></div></div>
+      </section>
+
+      <div class="bottom-navigation" aria-label="步驟導覽">
+        <button class="outline-button previous-button" type="button" data-nav-prev>← 上一步</button>
+        <span class="bottom-nav-caption">使用 rail、選單或鍵盤移動；進度會自動記住。</span>
+      </div>
+    </main>
+  </div>
+
+  <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" hidden>
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel" role="document">
+      <div class="modal-toolbar"><p id="modalTitle">截圖放大檢視</p><button class="modal-close" type="button" data-modal-close aria-label="關閉圖片放大檢視">×</button></div>
+      <div id="modalImage" class="modal-image-slot" role="img" aria-label="截圖放大檢視"></div>
+      <p class="modal-hint">按 Escape 或點擊背景關閉</p>
+    </div>
+  </div>
+
+  <noscript><div class="noscript-message">本手冊的所有步驟與圖片仍可直接向下閱讀；若要使用步驟切換、進度記錄、圖片放大與複製按鈕，請開啟瀏覽器 JavaScript。</div></noscript>
+</body>
+</html>
