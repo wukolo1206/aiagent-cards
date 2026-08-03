@@ -526,6 +526,35 @@ progress::-moz-progress-bar {
   font-size: 1rem;
 }
 
+.resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+}
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.62rem 0.85rem;
+  border: 1px solid rgba(22, 36, 63, 0.22);
+  border-radius: 0.65rem;
+  color: var(--navy);
+  background: rgba(255, 253, 248, 0.78);
+  box-shadow: 0 5px 16px rgba(22, 36, 63, 0.08);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.resource-link:hover {
+  color: var(--navy);
+  background: var(--yellow);
+  transform: translateY(-2px);
+}
+
 .image-grid {
   display: grid;
   gap: 0.9rem;
@@ -567,8 +596,9 @@ progress::-moz-progress-bar {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center top;
   background: var(--paper-deep);
   transition: transform 260ms ease;
 }
