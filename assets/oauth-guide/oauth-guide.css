@@ -526,6 +526,30 @@ progress::-moz-progress-bar {
   font-size: 1rem;
 }
 
+.action-path {
+  margin: 1.15rem 0 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(30, 141, 134, 0.2);
+  border-left: 4px solid var(--teal);
+  border-radius: 0.7rem;
+  background: rgba(30, 141, 134, 0.07);
+}
+
+.action-path-label {
+  margin: 0 0 0.25rem;
+  color: var(--teal-dark);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.action-path p:last-child {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
 .resource-links {
   display: flex;
   flex-wrap: wrap;
@@ -1163,6 +1187,10 @@ progress::-moz-progress-bar {
 
   .step-lede {
     font-size: 0.9rem;
+  }
+
+  .action-path p:last-child {
+    font-size: 0.84rem;
   }
 
   .image-grid.two-images,

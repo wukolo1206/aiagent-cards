@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="給研習教師的 Google OAuth 與 Google Forms API 本機操作手冊。">
   <title>Google OAuth × Google Forms｜教師操作手冊</title>
-  <link rel="stylesheet" href="assets/oauth-guide/oauth-guide.css?v=2ca8d8e">
+  <link rel="stylesheet" href="assets/oauth-guide/oauth-guide.css?v=2.56.0">
   <script src="assets/oauth-guide/oauth-guide.js" defer></script>
 </head>
 <body>
@@ -47,7 +47,7 @@
       <option value="step-13">13 · 建立 OAuth 桌面版用戶端</option>
       <option value="step-14">14 · 下載用戶端 JSON</option>
       <option value="step-15">15 · 加入測試使用者</option>
-      <option value="step-16">16 · 啟用 Google Forms API</option>
+      <option value="step-16">16 · 最後確認 Forms API 與 scopes</option>
       <option value="step-17">17 · 執行本機授權並取得 token.json</option>
       <option value="step-18">18 · 建立並驗證測試表單</option>
     </select>
@@ -89,7 +89,7 @@
           <button class="rail-step" type="button" data-step-target="step-13"><span>13</span> 桌面版用戶端</button>
           <button class="rail-step" type="button" data-step-target="step-14"><span>14</span> 下載 JSON</button>
           <button class="rail-step" type="button" data-step-target="step-15"><span>15</span> 測試使用者</button>
-          <button class="rail-step" type="button" data-step-target="step-16"><span>16</span> 再確認 Forms API</button>
+          <button class="rail-step" type="button" data-step-target="step-16"><span>16</span> 最後確認 Forms API</button>
         </div>
         <div class="rail-group">
           <p class="rail-chapter">05 <span>本機授權與成果驗證</span></p>
@@ -115,6 +115,7 @@
         <div>
           <p class="note-title">先記住這個安全邊界</p>
           <p>本手冊只帶你完成設定與測試，不會替你執行 OAuth，也不會上傳任何資料。所有程式片段使用範例名稱與必要 scopes；實際操作時，請只在自己的專案資料夾保管檔案。</p>
+          <p><strong>每一步都照四件事檢查：</strong>操作路徑 → 要按或填什麼 → 看到什麼才算成功 → 再按下方「下一步」。</p>
         </div>
       </div>
 
@@ -123,6 +124,7 @@
         <h2 id="step-01-title">外掛、MCP 與 API 的差別</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">先把三個常被混在一起的名詞拆開：外掛是產品功能，MCP 是工具連接方式，API 則是服務提供的程式介面。本手冊要做的是讓本機程式透過 Google API 工作。</p>
+        <div class="action-path" aria-label="步驟 1 操作路徑"><p class="action-path-label">操作路徑</p><p>先不用開 Google Cloud：先確認本手冊的路線是「本機 Python → OAuth → Google Forms API」；外掛與 MCP 是另一種工具連接方式。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：外掛、MCP 與 API 的關係示意截圖">
             <img src="assets/oauth-guide/step-01-connector-mcp.webp" alt="外掛、MCP 與 API 三者關係的教學示意截圖，呈現工具、連接器與雲端服務之間的資料流向">
@@ -155,6 +157,7 @@
         <h2 id="step-02-title">credentials.json 與 token.json 的角色</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">把「程式是誰」與「使用者已授權什麼」分開理解。credentials.json 是用戶端設定；token.json 是完成授權後可重用的權杖檔案，兩者都要視為敏感檔案。</p>
+        <div class="action-path" aria-label="步驟 2 操作路徑"><p class="action-path-label">操作路徑</p><p>在自己的專案資料夾先辨認兩個檔案：下載的用戶端 JSON → <code>credentials.json</code>；完成瀏覽器授權後才會產生 <code>token.json</code>。不要先手動建立或改名成 <code>token.json</code>。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：credentials.json 與 token.json 的檔案角色截圖">
             <img src="assets/oauth-guide/step-02-credentials-file.webp" alt="本機專案資料夾中的 credentials.json 與 token.json 檔案角色教學截圖，顯示兩個檔案分別負責用戶端設定與授權權杖">
@@ -175,6 +178,7 @@
         <h2 id="step-03-title">建立或選取 Google Cloud 專案</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">開啟 Google Cloud Console，先在上方專案選單確認工作範圍。專案是 API、OAuth 設定與用戶端憑證的共同容器。</p>
+        <div class="action-path" aria-label="步驟 3 操作路徑"><p class="action-path-label">操作路徑</p><p>Google Cloud Console → 上方專案選擇器 →「新增專案」或選取既有專案 → 建立／選取後回到主畫面。</p></div>
         <div class="resource-links" aria-label="Google Cloud 官方入口">
           <a class="resource-link" href="https://console.cloud.google.com/" target="_blank" rel="noopener">↗ 直接開啟 Google Cloud Console（不用搜尋）</a>
         </div>
@@ -199,6 +203,7 @@
         <h2 id="step-04-title">沒有空間時，重複使用舊專案</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">如果建立新專案時遇到配額或空間限制，不必反覆點擊建立。先找一個你有權限管理、用途相近的舊專案，再確認它沒有放著不認得的測試設定。</p>
+        <div class="action-path" aria-label="步驟 4 操作路徑"><p class="action-path-label">操作路徑</p><p>專案選擇器 →「全部」或「最近專案」→ 找到沒有重要資源的舊專案 → 點選它，讓上方專案名稱切換完成。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：重複使用舊 Google Cloud 專案的選擇頁面截圖">
             <img src="assets/oauth-guide/step-04-reuse-project.webp" alt="Google Cloud 專案選擇器中的舊專案清單截圖，示範在無法建立新專案時選取既有專案">
@@ -220,6 +225,7 @@
         <h2 id="step-05-title">啟用 Google Forms API</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">在目前專案中打開 API Library，搜尋 Google Forms API，進入服務詳細頁後按「啟用 API」。若畫面已顯示「停用 API」或狀態「已啟用」，代表這一步已完成；API 是專案級設定，若在錯的專案啟用，程式仍然會找不到它。</p>
+        <div class="action-path" aria-label="步驟 5 操作路徑"><p class="action-path-label">操作路徑</p><p>「API 和服務」→「程式庫」→ 搜尋 <strong>Google Forms API</strong> → 開啟官方服務 → 按「啟用 API」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms API 啟用頁面截圖">
             <img src="assets/oauth-guide/step-05-api-services.webp" alt="Google Cloud Google Forms API 服務詳細頁截圖，顯示 forms.googleapis.com 與已啟用狀態">
@@ -241,6 +247,7 @@
         <h2 id="step-06-title">確認憑證頁</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">進入「API 和服務」→「憑證」，把這裡當成之後檢查用戶端的總入口。現在先確認頁面能開啟，不急著建立用戶端。</p>
+        <div class="action-path" aria-label="步驟 6 操作路徑"><p class="action-path-label">操作路徑</p><p>左側「API 和服務」→「憑證」→ 確認看到「建立憑證」與 OAuth 用戶端區塊；這一步先不要亂刪現有憑證。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Cloud 憑證頁面截圖">
             <img src="assets/oauth-guide/step-06-credentials-page.webp" alt="Google Cloud API 和服務中的憑證頁面截圖，顯示建立憑證與 OAuth 用戶端清單入口">
@@ -262,6 +269,7 @@
         <h2 id="step-07-title">進入 Google Auth Platform</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">Google 目前把 OAuth 同意畫面、品牌、受眾與用戶端整理在 Google Auth Platform。從 Cloud Console 的品牌或 OAuth 總覽入口進入即可。</p>
+        <div class="action-path" aria-label="步驟 7 操作路徑"><p class="action-path-label">操作路徑</p><p>Google Auth Platform → 左側「總覽」→ 若看到「尚未設定 Google 驗證平台」，按「開始」進入設定流程。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：進入 Google Auth Platform 的入口截圖">
             <img src="assets/oauth-guide/step-07-auth-platform-start.webp" alt="Google Cloud Console 進入 Google Auth Platform 的入口截圖，顯示品牌與 OAuth 設定導覽">
@@ -282,6 +290,7 @@
         <h2 id="step-08-title">建立品牌資料</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">品牌資料會出現在授權畫面，讓教師知道是哪個應用程式正在請求權限。名稱要清楚、可辨識，不要放帳號、專案編號或私人資訊。</p>
+        <div class="action-path" aria-label="步驟 8 操作路徑"><p class="action-path-label">操作路徑</p><p>專案設定 →「應用程式資訊」→ 填「應用程式名稱」與「使用者支援電子郵件」→ 按「下一步」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 品牌資料表單截圖">
             <img src="assets/oauth-guide/step-08-branding.webp" alt="Google Auth Platform 品牌資料表單截圖，顯示應用程式名稱、使用者支援電子郵件與應用程式標誌欄位">
@@ -304,6 +313,7 @@
         <h2 id="step-09-title">選擇外部測試對象</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">本機教學工具通常先使用「外部」測試，讓你可以用自己的 Google 帳號試跑 OAuth。外部不等於公開給所有人；測試階段仍由測試使用者名單控管。</p>
+        <div class="action-path" aria-label="步驟 9 操作路徑"><p class="action-path-label">操作路徑</p><p>「目標對象」→ 選「外部」→ 按「下一步」。若是學校 Workspace 且管理員規定只能校內使用，才依政策選「內部」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 外部測試選項截圖">
             <img src="assets/oauth-guide/step-09-audience.webp" alt="Google Auth Platform 受眾設定頁面截圖，顯示內部與外部測試對象選項">
@@ -325,6 +335,7 @@
         <h2 id="step-10-title">填寫聯絡資訊與同意事項</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">完成品牌資料的聯絡欄位與必要同意項目。這些資料是讓使用者知道如何聯絡開發者，也是 Google 顯示授權資訊的必要條件。</p>
+        <div class="action-path" aria-label="步驟 10 操作路徑"><p class="action-path-label">操作路徑</p><p>「聯絡資訊」→ 填入可收信的電子郵件地址 →「下一步」→「完成」→ 勾選 Google API 服務使用者資料政策 →「繼續」。</p></div>
         <div class="image-grid two-images">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Auth Platform 聯絡資訊欄位截圖">
             <img src="assets/oauth-guide/step-10-contact.webp" alt="Google Auth Platform 聯絡資訊設定截圖，顯示使用者支援電子郵件與開發者聯絡資料欄位">
@@ -350,6 +361,7 @@
         <h2 id="step-11-title">修正應用程式名稱錯誤</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">若儲存品牌資料時出現名稱不符合規則的錯誤，先縮短並改成描述用途的名稱，再重新儲存。這是品牌驗證規則，不是 Python 或 API 錯誤。</p>
+        <div class="action-path" aria-label="步驟 11 操作路徑"><p class="action-path-label">操作路徑</p><p>看到紅色錯誤 → 關閉提示 → 回到「應用程式資訊」→ 把名稱改成「教師 Forms 測試工具」這類用途名稱 → 重新按「下一步」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：應用程式名稱錯誤提示截圖">
             <img src="assets/oauth-guide/step-11-name-error.webp" alt="Google Auth Platform 應用程式名稱錯誤提示截圖，示範不符合命名規則時的紅色錯誤訊息">
@@ -376,6 +388,7 @@
         <h2 id="step-12-title">確認 OAuth 總覽</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">回到 Google Auth Platform 的 OAuth 總覽，確認品牌、受眾與資料存取權已經有狀態。這個總覽是建立用戶端前的檢查站。</p>
+        <div class="action-path" aria-label="步驟 12 操作路徑"><p class="action-path-label">操作路徑</p><p>左側「總覽」→ 逐一查看「品牌」「目標對象」「資料存取權」→ 確認沒有待完成提示 → 再進入「用戶端」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：OAuth 總覽頁面截圖">
             <img src="assets/oauth-guide/step-12-oauth-overview.webp" alt="Google Auth Platform OAuth 總覽頁面截圖，顯示品牌、受眾、資料存取權與用戶端狀態">
@@ -398,6 +411,7 @@
         <h2 id="step-13-title">建立 OAuth 桌面版用戶端</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">本機 Python 會在你的電腦上開啟瀏覽器完成授權，因此用戶端類型要選「桌面應用程式」。不要選 Web application，也不要自行填入不存在的 callback 網域。</p>
+        <div class="action-path" aria-label="步驟 13 操作路徑"><p class="action-path-label">操作路徑</p><p>左側「用戶端」→「建立用戶端」→ 應用程式類型選「電腦版應用程式」→ 輸入名稱 →「建立」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：建立桌面版 OAuth 用戶端的選單截圖">
             <img src="assets/oauth-guide/step-13-desktop-client.webp" alt="Google Auth Platform 建立 OAuth 用戶端的類型選單截圖，顯示桌面應用程式選項與建立按鈕">
@@ -420,6 +434,7 @@
         <h2 id="step-14-title">下載用戶端 JSON</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">從桌面版用戶端的操作選單下載 JSON，<strong>下載後立刻把檔案改名為 credentials.json</strong>，放到稍後執行 Python 的專案資料夾根目錄。</p>
+        <div class="action-path" aria-label="步驟 14 操作路徑"><p class="action-path-label">操作路徑</p><p>建立完成畫面左下角「下載 JSON」→ 將下載檔保存到安全位置 → 立刻改名為 <code>credentials.json</code> → 放入與 Python 程式相同的專案資料夾。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：下載桌面版用戶端 JSON 的截圖">
             <img src="assets/oauth-guide/step-14-download-client.webp" alt="Google Auth Platform 用戶端清單的下載 JSON 操作截圖，顯示桌面版用戶端的下載按鈕">
@@ -427,9 +442,11 @@
           </button>
         </div>
         <ul class="checklist">
-          <li>從剛建立的桌面版用戶端選擇下載 JSON。</li>
+          <li><strong>請在建立完成畫面立刻按左下角「下載 JSON」：</strong>關閉視窗後，這組用戶端密碼通常無法再從原畫面查看或下載。</li>
           <li><strong>下載後立即改名：</strong>將檔案命名為 <code>credentials.json</code>，不要保留 Google 自動產生的長檔名。</li>
+          <li><strong>不要命名成 <code>token.json</code>：</strong><code>credentials.json</code> 是應用程式設定；<code>token.json</code> 要等使用者授權後才由程式產生。</li>
           <li>確認它與 <code>authorize.py</code>、<code>create_test_form.py</code> 在同一個資料夾。</li>
+          <li>如果安全位置已經有同名 <code>credentials.json</code>，先另存舊檔或改用清楚的新資料夾，避免覆蓋舊設定。</li>
           <li>把檔案加入版本控制忽略清單，不上傳到公開儲存庫。</li>
         </ul>
         <div class="warning-card"><p class="card-label">檔案位置</p><p>本機授權找不到檔案時，第一個檢查點就是執行位置：請在專案資料夾中執行程式，並確認檔名大小寫與副檔名正確。</p></div>
@@ -457,6 +474,7 @@
         <h2 id="step-15-title">加入測試使用者</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">在 OAuth 受眾的測試使用者區塊加入你自己要用來登入的 Google 帳號。這個步驟只設定誰可以試跑，不會把帳號資料交給本機程式。</p>
+        <div class="action-path" aria-label="步驟 15 操作路徑"><p class="action-path-label">操作路徑</p><p>左側「目標對象」→「測試使用者」→「新增使用者」→ 輸入要授權的 Gmail 帳號 →「儲存」。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：加入 OAuth 測試使用者的截圖">
             <img src="assets/oauth-guide/step-15-test-user.webp" alt="Google Auth Platform 測試使用者清單與新增欄位截圖，顯示加入測試帳號的操作入口">
@@ -464,21 +482,26 @@
           </button>
         </div>
         <ol class="numbered-list">
-          <li>回到「受眾」或測試使用者設定。</li>
-          <li>按「新增使用者」，輸入你自己實際要登入的帳號。</li>
+          <li>回到左側「目標對象」，開啟「測試使用者」。</li>
+          <li>按「新增使用者」，輸入你自己實際要登入的 Google 帳號。</li>
           <li>儲存後確認帳號出現在清單中。</li>
           <li>若有多位研習教師測試，每一位都要由專案管理者加入。</li>
         </ol>
-        <div class="warning-card"><p class="card-label">測試使用者未加入</p><p>授權時若出現測試人員限制，先停止操作，回到這裡確認登入帳號拼寫與目前 Cloud 專案，不要用不明帳號繞過提示。</p></div>
+        <div class="warning-card"><p class="card-label">測試使用者未加入</p><p>授權時若出現測試人員限制，先停止操作，回到這裡確認登入帳號拼寫與目前 Cloud 專案。教學截圖不要公開測試使用者的電子郵件地址。</p></div>
         <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>你預計用來授權的帳號已列在測試使用者清單中，且狀態仍為測試模式。</p></div>
         <div class="step-actions"><button class="next-button" type="button" data-next="step-16">下一步：確認 Forms API 與 scopes <span aria-hidden="true">→</span></button></div>
       </section>
 
       <section id="step-16" class="step-section" data-step-section data-section="OAuth 用戶端與 API" aria-labelledby="step-16-title">
         <div class="step-kicker"><span class="step-number">16</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
-        <h2 id="step-16-title">啟用 Google Forms API</h2>
+        <h2 id="step-16-title">最後確認 Google Forms API 與 scopes</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">在建立用戶端後再做一次 API 與 scopes 的對照確認，避免「OAuth 可以登入，但建立表單失敗」。Google Forms API 必須啟用，程式也必須請求對應範圍。</p>
+        <div class="action-path" aria-label="步驟 16 操作路徑"><p class="action-path-label">操作路徑</p><p>「API 和服務」→「已啟用的 API 和服務」→ 開啟「Google Forms API」→ 確認狀態為「已啟用」；scopes 則由 Python 程式提出，不是在這個頁面輸入。</p></div>
+        <div class="resource-links" aria-label="Google Forms API 官方文件">
+          <a class="resource-link" href="https://developers.google.com/workspace/forms/api/quickstart/python" target="_blank" rel="noopener">↗ Google 官方 Python Quickstart</a>
+          <a class="resource-link" href="https://developers.google.com/workspace/forms/api/guides/create-form-quiz" target="_blank" rel="noopener">↗ Google 官方建立表單說明</a>
+        </div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms API 最終確認截圖">
             <img src="assets/oauth-guide/step-16-forms-api.webp" alt="Google Cloud Google Forms API 詳細資訊頁面截圖，顯示 API 已啟用以及服務使用狀態">
@@ -490,10 +513,9 @@
             <p class="list-label">本次程式會用到的範例 scopes</p>
             <ul class="checklist">
               <li><code>https://www.googleapis.com/auth/forms.body</code></li>
-              <li><code>https://www.googleapis.com/auth/drive.file</code></li>
             </ul>
           </div>
-          <div class="info-card"><p class="card-label">最小權限提醒</p><p>只請求測試流程需要的範圍；若日後增加功能，再重新評估 scopes，不要一次開滿所有雲端權限。</p></div>
+          <div class="info-card"><p class="card-label">最小權限提醒</p><p>這個範例只建立與編輯表單內容，所以先用 <code>forms.body</code>；若日後真的要操作 Drive 檔案，再另外評估 <code>drive.file</code>。</p></div>
         </div>
         <div class="warning-card"><p class="card-label">Forms API / Scopes</p><p>若出現 API disabled，回 API Library 啟用服務；若出現 insufficient permission，檢查程式 scopes 並刪除舊 token 後重新授權。</p></div>
         <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>Forms API 顯示已啟用，程式片段也只列出本次建立測試表單需要的 scopes。</p></div>
@@ -505,6 +527,7 @@
         <h2 id="step-17-title">執行本機授權並取得 token.json</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">把 credentials.json 放在專案資料夾，建立 authorize.py，再從同一個資料夾執行。程式只會開啟瀏覽器讓你登入與同意；本手冊不會替你執行 OAuth。</p>
+        <div class="action-path" aria-label="步驟 17 操作路徑"><p class="action-path-label">操作路徑</p><p>專案資料夾放好 <code>credentials.json</code> → 安裝套件 → 執行 <code>python authorize.py</code> → 瀏覽器選擇已加入測試使用者的帳號 → 同意權限 → 回終端機確認產生 <code>token.json</code>。</p></div>
         <div class="image-grid two-images">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：本機 OAuth 帳號登入頁面截圖">
             <img src="assets/oauth-guide/step-17-account.webp" alt="本機授權流程開啟瀏覽器後的 Google 帳號登入頁面截圖，顯示由使用者自行選擇授權帳號">
@@ -526,7 +549,6 @@ CREDENTIALS_PATH = Path("credentials.json")
 TOKEN_PATH = Path("token.json")
 SCOPES = [
     "https://www.googleapis.com/auth/forms.body",
-    "https://www.googleapis.com/auth/drive.file",
 ]
 
 client_config = json.loads(CREDENTIALS_PATH.read_text(encoding="utf-8"))
@@ -552,6 +574,7 @@ print("授權完成：token.json 已寫入目前專案資料夾。")</code></pre
         <h2 id="step-18-title">建立並驗證測試表單</h2>
         <h3>你要做什麼</h3>
         <p class="step-lede">使用剛取得的 token.json 建立一份不含真實學生資料的測試表單，接著用瀏覽器開啟回傳的表單連結，確認成果真的存在。</p>
+        <div class="action-path" aria-label="步驟 18 操作路徑"><p class="action-path-label">操作路徑</p><p>讀取現有 <code>token.json</code> → 呼叫 <code>forms.create</code> 建立空白表單 → 呼叫 <code>batchUpdate</code> 加入一題選擇題 → 開啟回傳的編輯網址檢查結果。</p></div>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：Google Forms 測試表單建立完成截圖">
             <img src="assets/oauth-guide/step-18-form-created.webp" alt="Google Forms 測試表單建立完成後的瀏覽器截圖，顯示測試表單標題與可供驗證的表單頁面">
@@ -561,31 +584,55 @@ print("授權完成：token.json 已寫入目前專案資料夾。")</code></pre
         <div class="code-card">
           <div class="code-card-head"><div><p class="card-label">create_test_form.py</p><p class="code-caption">使用現有 token 建立無個資的測試表單</p></div><button class="copy-button" type="button" data-copy-target="create-form-code">複製程式片段</button></div>
           <pre><code id="create-form-code">from pathlib import Path
+import sys
 
+from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 
-TOKEN_PATH = Path("token.json")
-SCOPES = [
-    "https://www.googleapis.com/auth/forms.body",
-    "https://www.googleapis.com/auth/drive.file",
-]
+sys.stdout.reconfigure(encoding="utf-8")
 
-credentials = Credentials.from_authorized_user_file(
-    str(TOKEN_PATH), SCOPES
-)
-forms_service = build("forms", "v1", credentials=credentials)
-result = forms_service.forms().create(
-    body={"info": {"title": "教師 OAuth 測試表單"}}
+FOLDER = Path(__file__).resolve().parent
+TOKEN_FILE = FOLDER / "token.json"
+SCOPES = ["https://www.googleapis.com/auth/forms.body"]
+
+credentials = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
+if credentials.expired and credentials.refresh_token:
+    credentials.refresh(Request())
+    TOKEN_FILE.write_text(credentials.to_json(), encoding="utf-8")
+
+forms_service = build("forms", "v1", credentials=credentials, cache_discovery=False)
+form = forms_service.forms().create(
+    body={"info": {"title": "OAuth 測試表單｜研習自動建立工具"}}
 ).execute()
-print("測試表單已建立，請使用回傳的表單連結在瀏覽器驗證。")
-print(result.get("responderUri", "表單連結尚未回傳。"))</code></pre>
+form_id = form["formId"]
+
+forms_service.forms().batchUpdate(
+    formId=form_id,
+    body={"requests": [{"createItem": {
+        "item": {
+            "title": "這是一份由 Python OAuth 自動建立的測試表單。",
+            "questionItem": {"question": {
+                "required": True,
+                "choiceQuestion": {
+                    "type": "RADIO",
+                    "options": [{"value": "已完成"}, {"value": "需要協助"}],
+                    "shuffle": False,
+                },
+            }},
+        },
+        "location": {"index": 0},
+    }}]}
+).execute()
+
+print("測試表單建立成功，已加入 1 題選擇題。")
+print(f"表單編輯網址：https://docs.google.com/forms/d/{form_id}/edit")</code></pre>
           <p class="copy-status" aria-live="polite" aria-hidden="true"></p>
         </div>
         <ol class="numbered-list final-checklist">
           <li>將片段存成 <code>create_test_form.py</code>，在同一專案資料夾執行。</li>
-          <li>確認終端機回傳測試表單連結，不要把連結或識別值貼到公開地方。</li>
-          <li>用瀏覽器開啟連結，檢查表單標題與畫面可正常載入。</li>
+          <li>確認終端機顯示「測試表單建立成功，已加入 1 題選擇題」。</li>
+          <li>用瀏覽器開啟表單編輯網址，檢查標題與選擇題畫面可正常載入。</li>
           <li>測試完成後，保留檔案於安全位置；若要分享專案，先移除 credentials.json 與 token.json。</li>
         </ol>
         <div class="warning-card"><p class="card-label">若建立失敗</p><p>依序檢查 token.json 檔案位置、Forms API 是否啟用、scopes 是否一致，以及目前登入帳號是否在測試使用者清單。必要時刪除本機 token.json 後重新授權。</p></div>
