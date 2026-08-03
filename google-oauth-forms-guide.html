@@ -419,7 +419,7 @@
         <div class="step-kicker"><span class="step-number">14</span><span class="chapter-name">OAuth 用戶端與 API</span></div>
         <h2 id="step-14-title">下載用戶端 JSON</h2>
         <h3>你要做什麼</h3>
-        <p class="step-lede">從桌面版用戶端的操作選單下載 JSON，接著把檔案改名為 credentials.json，放到稍後執行 Python 的專案資料夾根目錄。</p>
+        <p class="step-lede">從桌面版用戶端的操作選單下載 JSON，<strong>下載後立刻把檔案改名為 credentials.json</strong>，放到稍後執行 Python 的專案資料夾根目錄。</p>
         <div class="image-grid single-image">
           <button class="image-trigger" type="button" data-image-modal aria-label="放大查看：下載桌面版用戶端 JSON 的截圖">
             <img src="assets/oauth-guide/step-14-download-client.webp" alt="Google Auth Platform 用戶端清單的下載 JSON 操作截圖，顯示桌面版用戶端的下載按鈕">
@@ -428,11 +428,26 @@
         </div>
         <ul class="checklist">
           <li>從剛建立的桌面版用戶端選擇下載 JSON。</li>
-          <li>將下載檔案放到你的專案資料夾，並命名為 <code>credentials.json</code>。</li>
+          <li><strong>下載後立即改名：</strong>將檔案命名為 <code>credentials.json</code>，不要保留 Google 自動產生的長檔名。</li>
           <li>確認它與 <code>authorize.py</code>、<code>create_test_form.py</code> 在同一個資料夾。</li>
           <li>把檔案加入版本控制忽略清單，不上傳到公開儲存庫。</li>
         </ul>
         <div class="warning-card"><p class="card-label">檔案位置</p><p>本機授權找不到檔案時，第一個檢查點就是執行位置：請在專案資料夾中執行程式，並確認檔名大小寫與副檔名正確。</p></div>
+        <div class="code-card">
+          <div class="code-card-head"><div><p class="card-label">給 AI 的 Python 協助提示詞</p><p class="code-caption">改名並放好 credentials.json 後，直接複製這段</p></div><button class="copy-button" type="button" data-copy-target="python-helper-prompt">複製提示詞</button></div>
+          <pre><code id="python-helper-prompt">我正在依照「Google OAuth × Google Forms 教師操作手冊」建立本機 Python 工具。
+
+我已經把 Google Cloud 下載的 OAuth 用戶端 JSON 改名為 credentials.json，並放在目前專案資料夾。請遵守以下安全規則：
+1. 絕對不要讀取、顯示、複製、上傳 credentials.json 或 token.json 的內容，也不要要求我把內容貼到聊天裡。
+2. 請使用檔案路徑與必要的 Google API scopes，不要把任何秘密值寫死在程式碼中。
+3. 請協助我建立 authorize.py：使用 credentials.json 啟動本機 OAuth，使用 run_local_server(port=0)，完成後將授權結果保存為 token.json。
+4. 請協助我建立 create_test_form.py：讀取既有 token.json，建立一份不含真實學生資料的 Google Forms 測試表單，並加入一題簡單選擇題。
+5. 若 token.json 尚未存在、過期或 scopes 不一致，請清楚說明原因與安全的處理方式。
+6. 請先列出要新增的檔案、套件安裝方式、執行順序與完整程式碼；確認後再建立或執行檔案。
+
+請以初學者看得懂的繁體中文說明，並在每一步標示「預期看到的成功結果」。</code></pre>
+          <p class="copy-status" aria-live="polite" aria-hidden="true"></p>
+        </div>
         <div class="success-card" data-success="true" role="note"><p class="card-label">成功判斷</p><p>專案資料夾中有 credentials.json，且你沒有在教材、聊天或公開儲存庫中分享它的內容。</p></div>
         <div class="step-actions"><button class="next-button" type="button" data-next="step-15">下一步：加入測試使用者 <span aria-hidden="true">→</span></button></div>
       </section>
