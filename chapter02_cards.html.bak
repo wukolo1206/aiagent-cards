@@ -242,19 +242,6 @@
       box-shadow: 8px 8px 0 rgba(32, 49, 74, .16);
     }
 
-    .software-shot-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .software-shot-card--compact {
-      min-height: 0;
-      padding: 10px;
-      gap: 8px;
-    }
-
     .software-shot {
       display: block;
       width: 100%;
@@ -263,10 +250,6 @@
       border: 1px solid rgba(32, 49, 74, .18);
       border-radius: 5px;
       background: #f0f1f3;
-    }
-
-    .software-shot--compact {
-      height: clamp(150px, 18vw, 205px);
     }
 
     .software-shot-label {
@@ -286,20 +269,6 @@
       font-size: 13px;
       line-height: 1.45;
       font-weight: 800;
-    }
-
-    .software-shot-card--compact .software-shot-label {
-      padding: 4px 7px;
-      font-size: 10px;
-    }
-
-    .software-shot-card--compact .software-shot-caption {
-      font-size: 11px;
-      line-height: 1.35;
-    }
-
-    .software-shot-card--compact .source-link {
-      font-size: 10px;
     }
 
     .source-link {
@@ -496,8 +465,7 @@
       .tile-grid,
       .tile-grid.two,
       .interface-map,
-      .preset-row,
-      .software-shot-grid {
+      .preset-row {
         grid-template-columns: 1fr;
       }
       .pane.settings { grid-column: auto; }
@@ -543,7 +511,6 @@
         <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
         <option value="chapter08_cards.html">第八單元：雲端Google簡報與圖表</option>
         <option value="chapter09_cards.html">第九單元：Custom Skill 技能包</option>
-        <option value="chapter09_1_cards.html">第九之一單元：實作篇 —— 行政公文整理技能包</option>
         <option value="chapter10_cards.html">第十單元：MCP 雲端工具串接</option>
       </select>
       </div>
@@ -570,7 +537,7 @@
             <div>
               <p class="eyebrow">本章目標</p>
               <h2>從會聽懂，到會安全操作</h2>
-              <p class="lead">第二章將抽象的 Agent 概念，落實到數位備課特助的工作台畫面、按鈕、資料夾與核准流程。</p>
+              <p class="lead">第二章將抽象的 Agent 概念，落實到 Codex 與 Antigravity / Codex 的工作台畫面、按鈕、資料夾與核准流程。</p>
             </div>
             <div class="visual">
               <div class="board">
@@ -591,22 +558,14 @@
             <div>
               <p class="eyebrow">介面總覽</p>
               <h2>先看懂三大核心介面區</h2>
-              <p class="lead">左側看檔案，中間下指令，左下角調整安全與專案設定；不同 Agent 的工作台也有相似核心。</p>
+              <p class="lead">左側看檔案，中間下指令，左下角調整安全與專案設定。</p>
             </div>
             <div class="visual">
-              <div class="software-shot-grid">
-                <div class="software-shot-card software-shot-card--compact">
-                  <span class="software-shot-label">官方 Antigravity 2.0 UI 截圖</span>
-                  <img class="software-shot software-shot--compact" src="assets/antigravity-2-home.png" alt="官方 Antigravity 2.0 工作台介面">
-                  <p class="software-shot-caption">可看到 Project、提示輸入框、模型選擇，以及 Local 工作模式。</p>
-                  <a class="source-link" href="https://antigravity.google/docs/overview" target="_blank" rel="noreferrer">來源：Google Antigravity 官方 Overview</a>
-                </div>
-                <div class="software-shot-card software-shot-card--compact">
-                  <span class="software-shot-label">官方 Codex UI 截圖</span>
-                  <img class="software-shot software-shot--compact" src="assets/codex-app-official.webp" alt="OpenAI Codex 官方工作台介面">
-                  <p class="software-shot-caption">Codex 以專案選擇、提示輸入框與送出按鈕啟動工作。</p>
-                  <a class="source-link" href="https://openai.com/codex/" target="_blank" rel="noreferrer">來源：OpenAI Codex 官方頁面</a>
-                </div>
+              <div class="software-shot-card">
+                <span class="software-shot-label">官方 Antigravity 2.0 UI 截圖</span>
+                <img class="software-shot" src="assets/antigravity-2-home.png" alt="官方 Antigravity 2.0 工作台介面">
+                <p class="software-shot-caption">實際畫面可看到 Project、提示輸入框、模型選擇，以及 Local 工作模式。</p>
+                <a class="source-link" href="https://antigravity.google/docs/overview" target="_blank" rel="noreferrer">來源：Google Antigravity 官方 Overview</a>
               </div>
             </div>
           </div>
@@ -616,7 +575,7 @@
           <div class="card-inner">
             <div>
               <p class="eyebrow">左側邊欄</p>
-              <h2>專案檔案樹，就是數位備課特助看得見的工作台</h2>
+              <h2>專案檔案樹，就是 Agent 看得見的工作桌</h2>
               <p class="lead">資料夾開對，AI 才知道今天要處理哪些 Word、Excel、文字檔。</p>
             </div>
             <div class="visual">
@@ -707,7 +666,7 @@
           <div class="card-inner">
             <div>
               <p class="eyebrow">安全把控</p>
-              <h2>特助執行，老師最後核准</h2>
+              <h2>二廚放鹽，主廚嘗味</h2>
               <p class="lead">當 AI 準備執行程式或修改檔案時，Antigravity / Codex 會停下來請你核准。</p>
             </div>
             <div class="visual">
@@ -753,13 +712,13 @@
           <div class="card-inner">
             <div>
               <p class="eyebrow">Artifact Review Policy</p>
-              <h2>文件交付前，要不要每份必審？</h2>
+              <h2>文件出菜前，要不要每盤必審？</h2>
               <p class="lead">Always Ask 適合研習與初學者；Always Proceed 適合熟悉流程後追求效率。</p>
             </div>
             <div class="visual">
               <div class="board">
                 <div class="tile-grid two">
-                  <div class="tile green">Always Ask<br>每份必審</div>
+                  <div class="tile green">Always Ask<br>每盤必審</div>
                   <div class="tile orange">Always Proceed<br>信任直出</div>
                 </div>
                 <div class="arrow-line">品質把關 vs 速度效率</div>
@@ -794,7 +753,7 @@
             <div>
               <p class="eyebrow">Memory Settings</p>
               <h2>記憶分兩層：全域偏好與專案規則</h2>
-              <p class="lead">全域記憶像特助的共用筆記；AGENTS.md 像每個專案自己的 SOP。</p>
+              <p class="lead">全域記憶像主廚隨身筆記；AGENTS.md 像每個專案自己的 SOP。</p>
             </div>
             <div class="visual">
               <div class="board">
