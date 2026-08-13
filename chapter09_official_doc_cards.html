@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Skill 單元實戰應用：行政公文自動整理與語意重命名 AI Agent 技能包｜網頁圖卡</title>
+<style>
+    :root {
+      --ink: #20314a;
+      --muted: #667085;
+      --paper: #fbf7ef;
+      --cream: #fffdf7;
+      --line: #ded4c4;
+      --blue: #245b83;
+      --green: #2f7d65;
+      --orange: #d07835;
+      --red: #b5534b;
+      --shadow: 0 18px 45px rgba(34, 43, 56, .16);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(36, 91, 131, .06) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+    }
+
+    .deck-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .topbar,
+    .toolbar {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .brand-subtitle {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress {
+      min-width: 92px;
+      text-align: right;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .stage {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .card-slide {
+      width: min(1120px, 100%);
+      aspect-ratio: 16 / 9;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+    }
+
+    .card-slide.is-active {
+      display: grid;
+    }
+
+    .card-slide::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(32, 49, 74, .12);
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: clamp(24px, 3.8vw, 48px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: clamp(16px, 3vw, 42px);
+      align-items: center;
+    }
+
+    .card-inner > div {
+      min-width: 0;
+    }
+
+    .card-inner.single {
+      grid-template-columns: 1fr;
+      place-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--orange);
+      font-size: clamp(13px, 1.35vw, 16px);
+      font-weight: 900;
+    }
+
+    h1, h2 {
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: 0;
+      font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: clamp(24px, 3.6vw, 38px);
+    }
+
+    h2 {
+      font-size: clamp(20px, 2.8vw, 30px);
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      max-width: 760px;
+      color: #35465c;
+      font-size: clamp(14px, 1.6vw, 18px);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .body-text {
+      margin: 14px 0 0;
+      color: #40526a;
+      font-size: clamp(13px, 1.3vw, 16px);
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .visual {
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+    }
+
+    .board, .split-board, .diagram-card, .flow-board {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: 6px 6px 0 rgba(32, 49, 74, .16);
+    }
+
+    .board {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .split-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .split-panel {
+      padding: 18px;
+      min-height: 280px;
+      display: grid;
+      align-content: center;
+      gap: 10px;
+    }
+
+    .split-panel:first-child {
+      background: #fdf3e7;
+      border-right: 2px solid var(--ink);
+    }
+
+    .split-panel:last-child {
+      background: #eaf4ee;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .panel-big {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 50px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--blue);
+    }
+
+    .panel-caption {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .diagram-card {
+      padding: 20px;
+      min-height: 290px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .tile {
+      padding: 12px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f7f0de;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .tile.green { background: #dceee5; }
+    .tile.orange { background: #f5dfc9; }
+    .tile.red { background: #f1d6d1; }
+    .tile.blue { background: #dbe8f2; }
+
+    .flow-board {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .flow-step {
+      min-height: 120px;
+      padding: 10px;
+      display: grid;
+      align-content: center;
+      gap: 6px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #eef5f7;
+      text-align: center;
+    }
+
+    .flow-step strong {
+      font-size: clamp(14px, 1.5vw, 18px);
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav-button, .print-button {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: #f1d48d;
+      font-weight: 900;
+      padding: 6px 16px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform .1s, box-shadow .1s;
+    }
+
+    .nav-button:active, .print-button:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--ink);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    code {
+      background: rgba(36, 91, 131, .1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+      color: var(--blue);
+    }
+</style>
+</head>
+<body>
+<div class="deck-shell">
+<header class="topbar">
+<div class="brand">
+<div class="brand-mark">SK</div>
+<div>
+<h3 class="brand-title">Custom Skill 實戰案例：行政公文自動整理技能包</h3>
+<p class="brand-subtitle">AI Agent 專題課程應用單元</p>
+</div>
+</div>
+<div class="progress" id="progress">1 / 10</div>
+</header>
+<main class="stage">
+<div class="cards">
+
+<!-- Slide 1 -->
+<section class="card-slide is-active">
+<div class="card-inner">
+<div>
+<p class="eyebrow">Custom Skill 實戰應用</p>
+<h1>行政公文自動整理與語意重命名 AI Agent 技能包</h1>
+<p class="lead">將複雜、重複的公文檔名解析、日期標記、附件關聯、Excel 試算表與 Markdown 索引，封裝為可重用的 Custom Skill 技能包！</p>
+</div>
+<div class="visual">
+<div class="board" style="padding: 24px; text-align: center;">
+<div style="font-size: 48px; margin-bottom: 12px;">📁 ➔ 🤖 ➔ 📊</div>
+<div style="font-weight: 900; font-size: 20px; color: var(--blue);">說一句話：「整理公文」</div>
+<div style="color: var(--muted); font-size: 14px; margin-top: 6px;">自動完成：檔名重命名 + 附件關聯 + 日期標記 + Excel與MD更新</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 2 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">真實行政痛點</p>
+<h2>學校/機構公文整理的四大魔王困境</h2>
+<p class="lead">傳統公文下載後，檔名無意義、附件失聯，整理耗費大量重複體力。</p>
+</div>
+<div class="visual">
+<div class="tile-grid">
+<div class="tile red">❌ 檔名亂碼難辨識<br/><small style="font-weight: 500;">如 115E0004465.pdf 根本不知何事</small></div>
+<div class="tile red">❌ 附件與主文失聯<br/><small style="font-weight: 500;">1574799_附件1 找不到發文函</small></div>
+<div class="tile red">❌ 日期與會議未標<br/><small style="font-weight: 500;">開會時間隱藏在說明第二段</small></div>
+<div class="tile red">❌ 手動登錄極耗時<br/><small style="font-weight: 500;">後續幾十份公文重複貼Excel</small></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 3 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">Skill 解法思維</p>
+<h2>什麼是 Custom Skill？為何超越寫死指令？</h2>
+<p class="lead">Skill 就像給 AI Agent 裝上專業 SOP 技能包，讓 AI 能根據情境自動觸發並精準執行。</p>
+</div>
+<div class="visual">
+<div class="split-board">
+<div class="split-panel">
+<p class="panel-title">傳統做法 (Hardcode)</p>
+<p class="panel-caption">寫死單次 Python 程式，每次換資料夾或換公文就得重新改程式碼或手動執行。</p>
+</div>
+<div class="split-panel">
+<p class="panel-title">Custom Skill 模式</p>
+<p class="panel-big">SOP 固化</p>
+<p class="panel-caption">封裝成 SKILL.md，只要使用者說「整理公文」，AI 自動調用工具完成全套 SOP！</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 4 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">Skill 結構剖析</p>
+<h2>official-doc-organizer / SKILL.md 核心架構</h2>
+<p class="lead">包含 Frontmatter 元資料（觸發時機）與 4 步驟標準作業程序 (SOP)。</p>
+</div>
+<div class="visual">
+<div class="board" style="font-family: monospace; font-size: 13px; text-align: left; background: #20314a; color: #fbf7ef;">
+<div style="color: #f1d48d;">---</div>
+<div><span style="color: #6bb4f8;">name:</span> official-doc-organizer</div>
+<div><span style="color: #6bb4f8;">description:</span> Use this skill whenever user wants to organize official PDFs...</div>
+<div><span style="color: #6bb4f8;">triggers:</span> ["整理公文", "公文標日期", "產生公文清單"]</div>
+<div style="color: #f1d48d;">---</div>
+<div style="margin-top: 8px; color: #8ec07c;"># 核心流程 (SOP)</div>
+<div>1. 掃描與解析 PDF 內文 (日期/字號/主旨/會議)</div>
+<div>2. 語意化重新命名 [YYMMDD]_[公文/附件]_[標題].pdf</div>
+<div>3. 自動更新格式化 Excel 試算表</div>
+<div>4. 自動生成/更新 Markdown 索引超連結</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 5 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">SOP 工作流程</p>
+<h2>Skill 的四大自動化階段</h2>
+<p class="lead">從混亂的原始檔案，到乾淨語意化的檔名與雙系統清單更新。</p>
+</div>
+<div class="visual">
+<div class="flow-board">
+<div class="flow-steps">
+<div class="flow-step">
+<strong>1. 掃描解析</strong>
+<span>提取日期/字號/主旨</span>
+</div>
+<div class="flow-step">
+<strong>2. 語意命名</strong>
+<span>YYMMDD_公文/附件</span>
+</div>
+<div class="flow-step">
+<strong>3. Excel 同步</strong>
+<span>深藍表頭與資訊格</span>
+</div>
+<div class="flow-step">
+<strong>4. MD 索引</strong>
+<span>雙向超連結建立</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 6 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">實戰成果展示</p>
+<h2>公文與附件 PDF 語意化重命名前後比對</h2>
+<p class="lead">一看檔名就知道這份公文是哪一天發文、做什麼事、對應哪個附件！</p>
+</div>
+<div class="visual">
+<div class="split-board">
+<div class="split-panel">
+<p class="panel-title" style="color: var(--red);">重命名前 (原始檔名)</p>
+<div style="font-size: 13px; color: #666; text-align: left;">
+📄 115E0004465.pdf<br/>
+📎 1574799_附件1.pdf<br/>
+📎 1574799_附件2.pdf
+</div>
+</div>
+<div class="split-panel">
+<p class="panel-title" style="color: var(--green);">重命名後 (Skill 成果)</p>
+<div style="font-size: 13px; color: var(--ink); font-weight: 800; text-align: left;">
+📄 1150811_公文_115學年度智慧學習輔導小組會議.pdf<br/>
+📎 1150811_附件1_智慧學習輔導小組運作計畫.pdf<br/>
+📎 1150811_附件2_115學年度智慧學習輔導小組名單(國小組).pdf
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 7 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">格式化清單同步</p>
+<h2>自動生成 `公文整理清單.xlsx`</h2>
+<p class="lead">符合專業 Excel 設計規範，深藍表頭、字型對齊、自動調整欄寬與換行。</p>
+</div>
+<div class="visual">
+<div class="board" style="padding: 12px; font-size: 12px; text-align: left;">
+<div style="background: #1F4E78; color: #fff; padding: 8px; font-weight: bold; border-radius: 4px;">
+【Excel 欄位】項次 ｜ 發文日期 ｜ 發文字號 ｜ 發文機關 ｜ 主旨摘要 ｜ 會議時間地點 ｜ 本校人員 ｜ 假別 ｜ 附件
+</div>
+<div style="background: #f9f9f9; border: 1px solid #ddd; margin-top: 6px; padding: 8px; border-radius: 4px; color: #333;">
+1 ｜ 115/08/11 ｜ 新北教研資字第1151574799號 ｜ 同意貴校人員出席115學年度智慧學習輔導小組會議 ｜ 每月第1週週三13-17時 ｜ 謝炳睿主任、吳國榮老師 ｜ 公（差）假
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 8 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">Obsidian 對接</p>
+<h2>自動更新 `115碧華公文_公文索引.md`</h2>
+<p class="lead">點擊 Markdown 中的超連結，即可直接開啟電腦中對應的 PDF 檔案。</p>
+</div>
+<div class="visual">
+<div class="board preset-table" style="text-align: left; padding: 16px;">
+<div style="font-weight: 800; font-size: 15px; color: var(--blue);">📝 Markdown 超連結連動：</div>
+<div style="margin-top: 8px; font-size: 13px; color: #40526a; line-height: 1.6;">
+• <strong>總覽表格</strong>：同步包含標題、日期與改名後的 PDF 超連結。<br/>
+• <strong>卡片詳細說明</strong>：收錄碧華國小參與人員（謝炳睿主任、吳國榮老師）、減授課 43 節等權益。<br/>
+• <strong>點擊即開檔</strong>：使用 <code>file:///</code> 協定直接連接實體 PDF 檔案。
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 9 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">未來擴展性</p>
+<h2>「之後會有很多公文」如何一鍵處理？</h2>
+<p class="lead">有了封裝好的 Skill，未來不管進來幾十份公文，AI 幾秒鐘批次處理完畢！</p>
+</div>
+<div class="visual">
+<div class="tile-grid">
+<div class="tile green">1. 丟入 PDF<br/><small style="font-weight: 500;">將新下載的公文 PDF 存入資料夾</small></div>
+<div class="tile green">2. 說：「整理公文」<br/><small style="font-weight: 500;">觸發 official-doc-organizer Skill</small></div>
+<div class="tile blue">3. 批次自動重命名<br/><small style="font-weight: 500;">程式自動比對日期與主題標籤</small></div>
+<div class="tile blue">4. 清單雙向更新<br/><small style="font-weight: 500;">Excel 與 Markdown 索引同步追加</small></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Slide 10 -->
+<section class="card-slide">
+<div class="card-inner">
+<div>
+<p class="eyebrow">課程研習反思</p>
+<h2>將行政專業封裝成 AI Agent 專屬技能</h2>
+<p class="lead">AI 不只是對答工具，更是能幫老師/行政人員扛下重複勞動的超級助理！</p>
+</div>
+<div class="visual">
+<div class="board" style="text-align: left; padding: 20px;">
+<p style="font-weight: 800; font-size: 16px; margin-top: 0; color: var(--ink);">💡 教學反思與結語：</p>
+<p style="color: #40526a; font-size: 14px; line-height: 1.6;">
+1. <strong>經驗資產化</strong>：把過往繁瑣的公文整理經驗寫成 Skill SOP，變成本地 AI Agent 的永久記憶。<br/><br/>
+2. <strong>解放大腦空間</strong>：告別檔名亂碼與搜尋困擾，讓老師將精力集中在智慧教學與課程發展上！
+</p>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+</main>
+<nav aria-label="圖卡控制列" class="toolbar">
+<button class="nav-button" id="prev" type="button">‹ 上一張</button>
+<button class="nav-button" id="next" type="button">下一張 ›</button>
+<button class="print-button" id="print" type="button">列印圖卡</button>
+<span class="hint">按鍵盤 ◄ ► 鍵可切換圖卡</span>
+</nav>
+</div>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.card-slide'));
+    var progress = document.getElementById('progress');
+    var current = 0;
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle('is-active', i === current);
+      });
+      progress.textContent = String(current + 1) + ' / ' + String(slides.length);
+    }
+
+    document.getElementById('prev').addEventListener('click', function () {
+      showSlide(current - 1);
+    });
+
+    document.getElementById('next').addEventListener('click', function () {
+      showSlide(current + 1);
+    });
+
+    document.getElementById('print').addEventListener('click', function () {
+      window.print();
+    });
+
+    window.addEventListener('keydown', function (event) {
+      if (event.key === 'ArrowLeft') {
+        showSlide(current - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        showSlide(current + 1);
+      }
+    });
+  }());
+</script>
+</body>
+</html>
