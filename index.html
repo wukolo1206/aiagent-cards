@@ -646,6 +646,9 @@
         <button class="tab-btn" onclick="switchTab('tab-seven')">
           <span class="tab-badge" style="color: #f87171;">實戰七</span> MCP 雲端工具串接
         </button>
+        <button class="tab-btn" onclick="switchTab('tab-nine')">
+          <span class="tab-badge" style="color: #4ade80;">實戰八</span> 讓特助記得你
+        </button>
       </nav>
     </div>
 
@@ -1471,6 +1474,58 @@
         </div>
       </div>
     </div>
+
+    <!-- ==========================================
+         TAB: NINE (實戰八：讓特助記得你——收工與交接簿)
+         ========================================== -->
+    <div id="tab-nine" class="tab-content">
+      <div class="content-header">
+        <div class="content-header-info">
+          <h2>🟢 實戰八：讓特助記得你 —— 主管交代手冊與收工交接簿</h2>
+          <p>體驗焦點：寫一份隨身的「主管交代手冊」➔ 做完工作說「收工」讓特助寫交接簿 ➔ 關掉 Antigravity 再打開，親眼看到特助接得上昨天的進度！</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;"><a href="cards/chapter11_cards.html" target="_blank" class="action-btn" style="text-decoration: none; padding: 0.4rem 0.9rem; font-size: 0.82rem; background: rgba(36, 91, 131, 0.4); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; gap: 0.35rem;">🎴 開啟圖卡講義</a> <span class="difficulty-badge easy">難易度：極易</span></div>
+      </div>
+
+      <div class="grid-container">
+        <!-- Left Column -->
+        <div class="glass-card">
+          <div class="card-title">
+            <span>📘 步驟 1：建立主管交代手冊（隨身帶）</span>
+            <span class="tab-badge">全域規則</span>
+          </div>
+          <div class="desc-box">
+            特助會先問您五個問題，再照 <strong>範本/主管交代手冊_範本.md</strong> 寫好，存到您的全域規則位置。寫檔前請點 <strong>Approve</strong> 蓋章批示。完成後<strong>開一個新對話</strong>問「我是誰？」驗證手冊生效。
+          </div>
+          <div class="code-container prompt-content" id="prompt-nine-manual-content">請幫我建立我的「主管交代手冊」。先問我五個問題：我的稱呼、任教年級與科目、我希望你用什麼語氣、我最常請你做的三件事、我不希望你做的事。問完依範本寫好，存到我的全域規則位置，完成後把內容給我看。</div>
+
+          <button class="action-btn" id="btn-copy-nine-manual" onclick="copyContent('prompt-nine-manual-content', '實戰八 手冊 Prompt', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            複製 手冊 Prompt
+          </button>
+        </div>
+
+        <!-- Right Column -->
+        <div class="glass-card accent-card">
+          <div class="card-title">
+            <span>🔁 步驟 2：收工 ➔ 關掉 ➔ 重開 ➔ 接得上</span>
+          </div>
+          <div class="desc-box">
+            先請特助做一件小事（例如整理 cards 裡的名冊），再說 <strong>「收工」</strong>，特助會寫好 <strong>handoff.md</strong> 交接簿。關掉 Antigravity 重新打開、載入同一個資料夾，貼上下方 Prompt，看特助能不能接著做！
+          </div>
+          <div class="code-container prompt-content" id="prompt-nine-close-content">收工。</div>
+          <button class="action-btn" id="btn-copy-nine-close" onclick="copyContent('prompt-nine-close-content', '實戰八 收工', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            複製「收工」
+          </button>
+          <div class="code-container prompt-content" id="prompt-nine-resume-content">讀取交接簿，繼續上次的工作。</div>
+          <button class="action-btn" id="btn-copy-nine-resume" onclick="copyContent('prompt-nine-resume-content', '實戰八 開工', this)">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h10m-3-3l3 3-3 3"/></svg>
+            複製「讀取交接簿」
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Clipboard Copy Toast System -->
@@ -1504,7 +1559,8 @@
         'tab-five': 5,
         'tab-eight': 6,
         'tab-six': 7,
-        'tab-seven': 8
+        'tab-seven': 8,
+        'tab-nine': 9
       };
       buttons[indexMap[tabId]].classList.add('active');
     }
