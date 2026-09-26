@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>第八單元：實戰五 —— 雲端 Google 簡報與試算表圖表自動化生成｜網頁圖卡</title>
+  <title>第十二單元：實戰九 —— 新專案一鍵初始化｜網頁圖卡</title>
   <style>
     :root {
       --ink: #20314a;
@@ -65,7 +65,7 @@
       place-items: center;
       border: 2px solid var(--ink);
       border-radius: var(--radius);
-      background: #10b981;
+      background: #a855f7;
       color: #fff;
       font-weight: 900;
       box-shadow: 4px 4px 0 var(--ink);
@@ -469,10 +469,10 @@
 <main class="deck-shell">
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">08</div>
+      <div class="brand-mark">12</div>
       <div>
         <p class="brand-title">AI Agent 研習圖卡 (Codex / Antigravity 通用版)</p>
-        <p class="brand-subtitle">第八單元實戰五｜雲端大聯動 —— 雲端 Google 簡報與試算表圖表自動化生成</p>
+        <p class="brand-subtitle">第十二單元實戰九｜新專案一鍵初始化</p>
       </div>
     </div>
     <div>
@@ -485,12 +485,11 @@
         <option value="chapter05_cards.html">第五單元：類似題生成體驗</option>
         <option value="chapter06_cards.html">第六單元：GitHub 發布體驗</option>
         <option value="chapter07_cards.html">第七單元：Google表單自動化出題</option>
-        <option selected value="chapter08_cards.html">第八單元：雲端Google簡報與圖表</option>
+        <option value="chapter08_cards.html">第八單元：雲端Google簡報與圖表</option>
         <option value="chapter09_cards.html">第九單元：Custom Skill 技能包</option>
-        <option value="chapter09_1_cards.html">第九之一單元：實作篇 —— 行政公文整理技能包</option>
         <option value="chapter10_cards.html">第十單元：MCP 雲端工具串接</option>
         <option value="chapter11_cards.html">第十一單元：讓特助記得你</option>
-        <option value="chapter12_cards.html">第十二單元：新專案一鍵初始化</option>
+        <option selected value="chapter12_cards.html">第十二單元：新專案一鍵初始化</option>
       </select>
     </div>
   </header>
@@ -501,10 +500,10 @@
       <section class="card-slide">
         <div class="card-inner single">
           <div>
-            <p class="eyebrow">實戰五・雲端聯動</p>
-            <h1>Google 簡報與試算表圖表自動化生成</h1>
-            <p class="lead">在本單元中，我們將學習如何驅動 Google Slides API 與 Google Forms API，一鍵在雲端繪製簡報，並建立班級成績統計與視覺化分析圖表！</p>
-            <p class="progress" id="progress">1 / 10</p>
+            <p class="eyebrow">實戰九・開辦新辦公桌</p>
+            <h1>新專案一鍵初始化</h1>
+            <p class="lead">學完實戰八，您知道每個專案都該有說明便條和交接簿。但每次開新專案都要從頭寫？本單元教您裝一個技能，之後只要說一句「初始化專案」，特助就把整張辦公桌設好。</p>
+            <p class="progress" id="progress">1 / 9</p>
           </div>
         </div>
       </section>
@@ -514,91 +513,73 @@
         <div class="card-inner">
           <div>
             <p class="eyebrow">行政痛點</p>
-            <h2>繁瑣的授課簡報與手動輸入座號名冊？</h2>
-            <p class="lead">每次開學都要手動輸入全班座號姓名到 Google 表單？學生輸入座號時常有錯字漏打，導致後續匯入 Excel 對齊極度頭痛？</p>
+            <h2>每開一個新專案，就要重寫一次字條？</h2>
+            <p class="lead">字條的好處大家都懂，但手寫太麻煩，最後就沒寫了。把「開辦新辦公桌」的步驟寫成 SOP 交給特助，就不用每次自己來。</p>
           </div>
           <div class="visual">
             <div class="board preset-table">
               <div class="preset-row">
-                <div class="preset-name">傳統做法</div>
-                <div class="preset-desc">手動新增簡報，一頁頁調整文字配色；手動建表單，一筆筆貼上 20 位學生名單，耗時且容易打錯。</div>
+                <div class="preset-name">自己寫</div>
+                <div class="preset-desc">每次都要記得建哪些檔案、寫哪些標題，漏一個特助就少一份記憶。</div>
               </div>
               <div class="preset-row safe">
-                <div class="preset-name">API 自動化</div>
-                <div class="preset-desc">命令數位備課特助，一秒自動在雲端產生美觀簡報，並自動拉出 DROP_DOWN 下拉選單匯入完整座號名冊。</div>
+                <div class="preset-name">交給技能</div>
+                <div class="preset-desc">說「初始化專案」，回答四個問題，字條、紀錄簿、資料夾一次到位，而且每個專案格式都一樣。</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 2.5: API & Keys Analogy -->
+      <!-- Slide 3: Global Skill -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">觀念解密</p>
-            <h2>什麼是 API？認識「金鑰三兄弟」</h2>
-            <p class="lead">瞭解 API 的「服務窗口」白話比喻，以及 credentials.json 與 token.json 的授權分工關係。</p>
+            <p class="eyebrow">原理解密</p>
+            <h2>把 SOP 放進特助的隨身公事包</h2>
+            <p class="lead">實戰六的技能裝在懶人包資料夾裡，只有那張辦公桌能用。這次裝在「全域技能位置」，走到哪張新辦公桌都能拿出來。</p>
           </div>
           <div class="visual">
-            <div class="split-board">
-              <div class="split-panel">
-                <p class="panel-title">🔌 API 服務窗口比喻</p>
-                <p class="panel-caption">
-                  • <b>網頁介面 (UI)</b>：服務操作區（人類看畫面）<br>
-                  • <b>Google 伺服器</b>：雲端服務區（儲存簡報與表單）<br>
-                  • <b>API 窗口</b>：服務傳遞窗口（傳遞 JSON 資料）
-                </p>
-              </div>
-              <div class="split-panel">
-                <p class="panel-title">🔑 授權「金鑰三兄弟」</p>
-                <p class="panel-caption">
-                  1. <b>credentials.json</b>：軟體身份證（證明程式合規）<br>
-                  2. <b>瀏覽器授權</b>：主人（您）親自簽名同意<br>
-                  3. <b>token.json</b>：正式感應鑰匙（不需重複登入）
-                </p>
-              </div>
+            <div class="board" style="padding: 10px;">
+              <table class="compare-table">
+                <thead>
+                  <tr><th style="white-space: nowrap;"></th><th>實戰六的技能</th><th>實戰九的技能</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td style="white-space: nowrap;">裝在哪</td><td>專案裡 <code>.agents/skills/</code></td><td>全域 <code>~/.agents/skills/</code></td></tr>
+                  <tr><td style="white-space: nowrap;">哪裡能用</td><td>只有這個資料夾</td><td><strong>任何資料夾</strong></td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 3: GCP Setup -->
+      <!-- Slide 4: What gets built -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">準備工作</p>
-            <h2>GCP 安全對接通行證 credentials.json</h2>
-            <p class="lead">要讓本地程式與雲端 API 通訊，我們需要到 Google Cloud Platform (GCP) 申請免費金鑰。</p>
+            <p class="eyebrow">成果預覽</p>
+            <h2>特助會幫您建好這些</h2>
+            <p class="lead">資料夾裡已經有同名檔案時，特助絕不覆蓋，只補上缺少的。</p>
           </div>
           <div class="visual">
-            <div class="board">
-              <p class="body-text"><strong>1. 開啟 GCP 服務：</strong>在 GCP 控制台啟用 Drive, Slides, Forms, Sheets API。</p>
-              <p class="body-text"><strong>2. 配置 OAuth 同意畫面：</strong>設定外部應用，新增您個人的測試 Google Email。</p>
-              <p class="body-text"><strong>3. 下載金鑰 JSON：</strong>建立電腦版應用程式憑證，存為 <code>credentials.json</code> 並放在指定目錄。</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 4: Authentication Flow -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">初次授權</p>
-            <h2>首次登入拉起瀏覽器與產生 token.json</h2>
-            <p class="lead">第一次執行程式時，會自動開啟瀏覽器要求您登入 Google 帳號進行安全性授權同意。</p>
-          </div>
-          <div class="visual">
-            <div class="diagram-card" style="padding: 16px; gap: 10px;">
-              <div class="diagram-box" style="padding: 8px;">
-                <div class="diagram-box-title" style="margin-bottom: 2px;">1. 瀏覽器安全核准</div>
-                <div class="diagram-box-desc">點擊「進階 ➔ 前往（不安全）」，勾選所有要授予的 API 權限。</div>
+            <div class="board preset-table">
+              <div class="preset-row">
+                <div class="preset-name">說明便條</div>
+                <div class="preset-desc"><code>.agents/AGENTS.md</code>：專案是什麼、給誰用、檔案放哪、不能動的地方、收工要做什麼。</div>
               </div>
-              <div class="diagram-arrow" style="margin: -4px 0;">↓ 同意確認</div>
-              <div class="diagram-box" style="padding: 8px;">
-                <div class="diagram-box-title" style="margin-bottom: 2px;">2. 本地產生 token.json</div>
-                <div class="diagram-box-desc">完成後，本地目錄自動產生 <code>token.json</code>，以後執行便不需再登入！</div>
+              <div class="preset-row">
+                <div class="preset-name">交接簿</div>
+                <div class="preset-desc"><code>handoff.md</code>：做到哪、下一步、注意事項。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">三本紀錄簿</div>
+                <div class="preset-desc"><code>CHANGELOG</code> 版本紀錄、<code>PITFALLS</code> 踩坑紀錄、<code>DECISIONS</code> 決策紀錄。</div>
+              </div>
+              <div class="preset-row safe">
+                <div class="preset-name">兩個資料夾</div>
+                <div class="preset-desc"><code>素材/</code> 放老師給的原始檔；<code>產出/</code> 放特助做好的成品。</div>
               </div>
             </div>
           </div>
@@ -609,15 +590,14 @@
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">實作一</p>
-            <h2>一鍵建立雲端 Google 簡報</h2>
-            <p class="lead">複製指令給 Antigravity / Codex，大腦自動編寫 Python 程式並調用 Slides API 於雲端完成多頁簡報。</p>
+            <p class="eyebrow">實作一・只做一次</p>
+            <h2>貼網址，讓特助自己安裝技能</h2>
+            <p class="lead">從主控台「實戰九」分頁複製 Prompt 貼給特助。寫檔前會跳出核准框，請點 Approve。</p>
           </div>
           <div class="visual">
             <div class="board">
-              <p class="body-text"><strong>- API 連線：</strong>使用 <code>build('slides', 'v1')</code> 建立服務實體。</p>
-              <p class="body-text"><strong>- 批量指令：</strong>發送 <code>batchUpdate</code> 請求，一併新增投影片與卡片文字。</p>
-              <p class="body-text"><strong>- 成果輸出：</strong>程式執行完畢後，在控制台直接提供簡報的<b>線上編輯網址</b>！</p>
+              <p class="body-text"><strong>💬 老師輸入：</strong></p>
+              <p class="body-text" style="background: #f4f6f8; padding: 12px; border-radius: 6px; word-break: break-all;">請幫我直接下載 GitHub 上的「新專案初始化」技能：https://raw.githubusercontent.com/wukolo1206/antigravity-starter-kit/main/.agents/skills/project-init/SKILL.md 並安裝到我的全域技能位置，存成 ~/.agents/skills/project-init/SKILL.md，讓我在任何資料夾都能使用。完成後回報。</p>
             </div>
           </div>
         </div>
@@ -627,103 +607,85 @@
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">實作二</p>
-            <h2>一鍵生成班級下拉選單登錄表單</h2>
-            <p class="lead">利用 Forms API 自動建表單，設計 DROP_DOWN 匯入 18 位學生的座號名冊，並將表單進行分頁。</p>
+            <p class="eyebrow">實作二・本單元高潮</p>
+            <h2>空資料夾 → 一句話 → 辦公桌設好</h2>
+            <p class="lead">新建一個空資料夾（例：「我的第一個專案」），用 Antigravity 打開。</p>
           </div>
           <div class="visual">
-            <div class="split-board">
-              <div class="split-panel">
-                <p class="panel-title">分頁與選單</p>
-                <p class="panel-big">DROP_DOWN 學生清單</p>
-                <p class="panel-caption">將座號與虛擬名字匯入下拉選單。在 API 使用 <code>pageBreakItem</code> 把表單拆成三頁（基本資料、國語、數學），填答更流暢！</p>
+            <div class="diagram-card" style="padding: 16px; gap: 8px;">
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">1. 說「初始化專案。」</div>
+                <div class="diagram-box-desc">特助認出這是「新專案初始化」技能的工作。</div>
               </div>
-              <div class="split-panel">
-                <p class="panel-title">成果回報</p>
-                <p class="panel-big">表單後台與填答連結</p>
-                <p class="panel-caption">執行成功後，數位備課特助主動回報表單名稱、後台編輯網址以及提供給學生填寫的前台網址，行政效率提升 90%！</p>
+              <div class="diagram-arrow" style="margin: -4px 0;">↓ 特助一次問四個問題</div>
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">2. 回答四個問題</div>
+                <div class="diagram-box-desc">專案名稱、要做什麼、給誰用、有沒有不能動的東西。</div>
+              </div>
+              <div class="diagram-arrow" style="margin: -4px 0;">↓ 核准（Approve）寫入</div>
+              <div class="diagram-box" style="padding: 8px;">
+                <div class="diagram-box-title" style="margin-bottom: 2px;">3. 看成果表格</div>
+                <div class="diagram-box-desc">特助列出建好的檔案與用途，提醒您把原始檔放進「素材」。</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 7: Safety & Human-in-the-loop -->
+      <!-- Slide 7: Verify + Backup -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">安全機制</p>
-            <h2>人機協同核准與 token 本地安全機制</h2>
-            <p class="lead">Google API 串接極為嚴格，程式採用了一次驗證、本地存儲、且必須經老師點擊核准的安全設計。</p>
+            <p class="eyebrow">驗證與備案</p>
+            <h2>確認生效；裝不了也有範本</h2>
+            <p class="lead">開一個新對話問「這個專案是做什麼的？」，特助答得出來就成功了。</p>
           </div>
           <div class="visual">
             <div class="board preset-table">
-              <div class="preset-row">
-                <div class="preset-name">token.json 留在本機</div>
-                <div class="preset-desc">產生出來的通行憑證僅存放在您的本機上，不需要把 Google 密碼或 API Key 洩漏給外部網站。</div>
-              </div>
               <div class="preset-row safe">
-                <div class="preset-name">核准按鈕防線</div>
-                <div class="preset-desc">數位備課特助在背景寫的 Python 程式碼，必須經過您親自確認並點擊「核准（Approve）」後才會在電腦執行。</div>
+                <div class="preset-name">驗證</div>
+                <div class="preset-desc">請特助做一件小事，再說「收工」，交接簿和版本紀錄會自動更新。</div>
+              </div>
+              <div class="preset-row">
+                <div class="preset-name">備案</div>
+                <div class="preset-desc">複製懶人包的 <code>範本/新專案範本</code> 資料夾、改名，再請特助「依照 .agents/AGENTS.md 裡的【】提示問我問題，把說明便條和交接簿填好」。</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 8: Why Chatbots Fail -->
+      <!-- Slide 8: Tools Comparison -->
       <section class="card-slide">
         <div class="card-inner">
           <div>
-            <p class="eyebrow">降維打擊</p>
-            <h2>為什麼網頁版聊天室無法幫您建雲端簡報？</h2>
-            <p class="lead">一般網頁版 ChatGPT 或 Gemini 缺乏本機命令執行權限與 API 通訊套件，無法在您的電腦啟動 OAuth 同意網頁。</p>
+            <p class="eyebrow">附錄・三種 AI 工具對照</p>
+            <h2>技能觀念相通，全域位置不同</h2>
+            <p class="lead">同一份 SKILL.md，放到各工具的全域技能位置就能用。</p>
           </div>
           <div class="visual">
-            <div class="board preset-table">
-              <div class="preset-row">
-                <div class="preset-name">傳統網頁 Chatbox</div>
-                <div class="preset-desc">只能給您簡報的大綱文字。您必須自己開啟 Slides 網頁，一字一字複製貼上，點擊幾十次排版。</div>
-              </div>
-              <div class="preset-row safe">
-                <div class="preset-name">本地端 Agent</div>
-                <div class="preset-desc">大腦直接與本機系統對話，利用本機 <code>credentials.json</code> 完成授權，自主執行代碼打通 API，省下 95% 時間！</div>
-              </div>
+            <div class="board" style="padding: 10px;">
+              <table class="compare-table">
+                <thead>
+                  <tr><th style="white-space: nowrap;">項目</th><th>Antigravity</th><th>Codex</th><th>Claude Code</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td style="white-space: nowrap;">全域技能</td><td><code>~/.agents/skills/</code></td><td><code>~/.codex/skills/</code></td><td><code>~/.claude/skills/</code></td></tr>
+                  <tr><td style="white-space: nowrap;">桌上便條</td><td><code>.agents/AGENTS.md</code></td><td><code>AGENTS.md</code></td><td><code>CLAUDE.md</code></td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 9: Pitfalls -->
-      <section class="card-slide">
-        <div class="card-inner">
-          <div>
-            <p class="eyebrow">避坑指南</p>
-            <h2>雲端自動化開發最常見的兩大巨坑</h2>
-            <p class="lead">在研習或實作時，如果遇到 API 阻礙，請參考以下除錯心法，一秒自救：</p>
-          </div>
-          <div class="visual">
-            <div class="board preset-table">
-              <div class="preset-row">
-                <div class="preset-name">1. 憑證無效 (invalid_grant)</div>
-                <div class="preset-desc">顯示權限不足。解法：刪除目錄下的 <code>token.json</code> 檔，重啟程式重新勾選所有需要的 API 權限即可。</div>
-              </div>
-              <div class="preset-row safe">
-                <div class="preset-name">2. Port 8080 佔用衝突</div>
-                <div class="preset-desc">Windows 系統 8080 常被其他服務佔用。解法：在 Python 驗證處，將 port 改為 0，讓系統自動分配隨機埠口。</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 10: Summary -->
+      <!-- Slide 9: Summary -->
       <section class="card-slide">
         <div class="card-inner single">
           <div>
             <p class="eyebrow">單元結語</p>
-            <h1>雲端自動化，智慧學校的行政革命</h1>
-            <p class="lead">本單元向老師們展示了本地 AI Agent 串接 Google Workspace REST API 的完整雲端實戰。從建立雲端簡報到一鍵產出班級名單下拉選單表單，徹底顛覆傳統手動行政，釋放備課時間！</p>
+            <h1>每個新專案，都從「初始化專案」開始</h1>
+            <p class="lead">開桌說「初始化專案」，下班說「收工」，上班說「讀取交接簿」。三句話，您的數位備課特助就能把每個專案都管得井井有條。</p>
           </div>
         </div>
       </section>
